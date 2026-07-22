@@ -230,15 +230,6 @@ LIBRARY.PORTABLE/PHOTOS/2024/06/15/P1040321.jpg
 
 ---
 
-## About the name
-
-**MyMedia Sync** — a personal ("my") media library **sync** tool that normalizes everything you own
-into a clean, dual-tier library. Simple and self-describing, and namespaced under the
-**mylibsystems** community. Technical / package name: `mymedia-sync`.
-
-Alternate names considered: **MediaVault**, **DualTier**, **LibrarySync**, **TierForge**,
-**MediaWarden**, **Curator**.
-
 ## License
 
 Released under the [MIT License](LICENSE). © 2026 MyLib Systems.
