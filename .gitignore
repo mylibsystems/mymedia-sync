@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Logs
+*.log
+*.log.*
+logs/
+
+# Editor/OS cruft
+*.swp
+*~
+Thumbs.db
