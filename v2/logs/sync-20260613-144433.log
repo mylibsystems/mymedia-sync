@@ -1,0 +1,501 @@
+[INFO] sync.sh started at Sat Jun 13 14:44:33 PDT 2026
+[STAGE 1] Camera import: /Volumes/WD-BLUE/UNSORTED/CAMERA
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2010/  label=2010  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 14:44:33 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/2010/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/2010/  finished=Sat Jun 13 14:51:54 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2011/  label=2011  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 14:51:54 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/2011/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/2011/  finished=Sat Jun 13 15:06:03 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2012/  label=2012  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 15:06:03 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/2012/
+[INFO] 1 file(s) failed during parallel phase; retrying sequentially...
+[ERROR] Import failed after retry: /Volumes/WD-BLUE/UNSORTED/CAMERA/2012/10/26/_A265700[1].ORF
+[START] Photo converting: _A265700[1].ORF → 2021-10-10
+[WARN] sips failed (code 13): Error: Cannot extract image from file. Error 13: an unknown error occurred Try 'sips --help' for help using this tool 
+[WARN] exiftool failed (code 1): Warning: File format error - /Volumes/WD-BLUE/UNSORTED/CAMERA/2012/10/26/_A265700[1].ORF Warning: No writable tags set from /Volumes/WD-BLUE/UNSORTED/CAMERA/2012/10/26/_A265700[1].ORF Error: File not found - /tmp/media-sync-55313/_A265700[1]_1.jpg 
+[WARN] DateTimeOriginal absent and not derivable for: /Volumes/WD-BLUE/UNSORTED/CAMERA/2012/10/26/_A265700[1].ORF
+[WARN] exiftool failed (code 1): Error: File not found - /tmp/media-sync-55313/_A265700[1]_1.jpg 
+[ERROR] Staged file missing or empty: /tmp/media-sync-55313/_A265700[1]_1.jpg
+[WARN] Desktop JPEG failed: _A265700[1].ORF
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/2012/  finished=Sat Jun 13 15:23:11 PDT 2026  failures=1
+[WARN] 1 file(s) failed during import from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2012/
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2013/  label=2013  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 15:23:11 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/2013/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/2013/  finished=Sat Jun 13 15:29:52 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2014/  label=2014  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 15:29:52 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/2014/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/2014/  finished=Sat Jun 13 15:32:24 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2015/  label=2015  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 15:32:24 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/2015/
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+[INFO] 1 file(s) failed during parallel phase; retrying sequentially...
+[ERROR] Import failed after retry: /Volumes/WD-BLUE/UNSORTED/CAMERA/2015/09/19/20150919_220920.mp4
+[START] Camera video converting: 20150919_220920.mp4 → 2015-09-19
+ffmpeg version 8.1.1 Copyright (c) 2000-2026 the FFmpeg developers
+  built with Apple clang version 21.0.0 (clang-2100.1.1.101)
+  configuration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.1.1 --enable-shared --cc=clang --host-cflags= --host-ldflags= --enable-gpl --enable-libaom --enable-libdav1d --enable-libharfbuzz --enable-libmp3lame --enable-libopus --enable-libsnappy --enable-libsvtav1 --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libfontconfig --enable-libfreetype --enable-frei0r --enable-libass --enable-demuxer=dash --enable-neon --enable-opencl --enable-audiotoolbox --enable-videotoolbox --disable-htmlpages --enable-libfdk-aac --enable-libzimg --enable-nonfree
+  libavutil      60. 26.101 / 60. 26.101
+  libavcodec     62. 28.101 / 62. 28.101
+  libavformat    62. 12.101 / 62. 12.101
+  libavdevice    62.  3.101 / 62.  3.101
+  libavfilter    11. 14.101 / 11. 14.101
+  libswscale      9.  5.101 /  9.  5.101
+  libswresample   6.  3.101 /  6.  3.101
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/Volumes/WD-BLUE/UNSORTED/CAMERA/2015/09/19/20150919_220920.mp4':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: isommp42
+    creation_time   : 2015-09-19T19:10:36.000000Z
+  Duration: 00:10:06.26, start: 0.000000, bitrate: 5937 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (Baseline) (avc1 / 0x31637661), yuv420p(progressive), 1280x720, 5936 kb/s, 14.84 fps, 29.67 tbr, 11250 tbn (default)
+    Metadata:
+      creation_time   : 2015-09-19T19:10:36.000000Z
+      handler_name    : VideoHandle
+    Side data:
+      Display Matrix: rotation of -180.00 degrees
+[out#0/ipod @ 0x8dcc40180] Codec AVOption b:a (set bitrate (in bits/s)) has not been used for any stream. The most likely reason is either wrong type (e.g. a video option with no video streams) or that it is a private option of some decoder which was not actually used for any stream.
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
+[libx264 @ 0x8dcc3ca80] using cpu capabilities: ARMv8 NEON DotProd
+[libx264 @ 0x8dcc3ca80] profile High, level 3.1, 4:2:0, 8-bit
+[libx264 @ 0x8dcc3ca80] 264 - core 165 r3222 b35605a - H.264/MPEG-4 AVC codec - Copyleft 2003-2025 - http://www.videolan.org/x264.html - options: cabac=1 ref=5 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=8 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=2 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=15 lookahead_threads=2 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=3 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=50 rc=crf mbtree=1 crf=12.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, ipod, to '/tmp/media-sync-80025/20150919_220920_1.m4v':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: isommp42
+    encoder         : Lavf62.12.101
+  Stream #0:0(eng): Video: h264 (avc1 / 0x31637661), yuv420p(tv, progressive), 1280x720, q=2-31, 29.67 fps, 11392 tbn (default)
+    Metadata:
+      encoder         : Lavc62.28.101 libx264
+      creation_time   : 2015-09-19T19:10:36.000000Z
+      handler_name    : VideoHandle
+    Side data:
+      CPB properties: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+frame=   18 fps=0.0 q=18.0 size=     512KiB time=00:00:00.53 bitrate=7777.6kbits/s dup=46 drop=0 speed=1.06x elapsed=0:00:00.51    frame=   63 fps= 62 q=15.0 size=    2816KiB time=00:00:02.05 bitrate=11219.4kbits/s dup=68 drop=0 speed=2.02x elapsed=0:00:01.01    frame=  104 fps= 68 q=18.0 size=    4608KiB time=00:00:03.43 bitrate=10979.3kbits/s dup=89 drop=0 speed=2.26x elapsed=0:00:01.52    frame=  149 fps= 73 q=18.0 size=    6912KiB time=00:00:04.98 bitrate=11350.2kbits/s dup=110 drop=0 speed=2.45x elapsed=0:00:02.03    frame=  191 fps= 75 q=15.0 size=    8704KiB time=00:00:06.37 bitrate=11192.3kbits/s dup=132 drop=0 speed= 2.5x elapsed=0:00:02.54    frame=  244 fps= 80 q=18.0 size=   11520KiB time=00:00:08.15 bitrate=11569.0kbits/s dup=159 drop=0 speed=2.67x elapsed=0:00:03.05    frame=  292 fps= 82 q=18.0 size=   14336KiB time=00:00:09.77 bitrate=12014.1kbits/s dup=183 drop=0 speed=2.75x elapsed=0:00:03.55    frame=  346 fps= 85 q=18.0 size=   17152KiB time=00:00:11.59 bitrate=12117.6kbits/s dup=210 drop=0 speed=2.85x elapsed=0:00:04.06    frame=  395 fps= 86 q=15.0 size=   19968KiB time=00:00:13.24 bitrate=12348.1kbits/s dup=234 drop=0 speed= 2.9x elapsed=0:00:04.57    frame=  448 fps= 88 q=18.0 size=   23040KiB time=00:00:15.03 bitrate=12554.7kbits/s dup=261 drop=0 speed=2.96x elapsed=0:00:05.08    frame=  498 fps= 89 q=18.0 size=   25856KiB time=00:00:16.71 bitrate=12668.9kbits/s dup=286 drop=0 speed=2.99x elapsed=0:00:05.59    frame=  552 fps= 90 q=18.0 size=   28672KiB time=00:00:18.53 bitrate=12669.4kbits/s dup=313 drop=0 speed=3.04x elapsed=0:00:06.10    frame=  602 fps= 91 q=18.0 size=   31488KiB time=00:00:20.22 bitrate=12754.2kbits/s dup=338 drop=0 speed=3.06x elapsed=0:00:06.60    frame=  654 fps= 92 q=18.0 size=   34560KiB time=00:00:21.97 bitrate=12882.1kbits/s dup=364 drop=0 speed=3.09x elapsed=0:00:07.11    frame=  706 fps= 93 q=18.0 size=   37376KiB time=00:00:23.73 bitrate=12902.7kbits/s dup=390 drop=0 speed=3.11x elapsed=0:00:07.62    frame=  758 fps= 93 q=18.0 size=   40192KiB time=00:00:25.48 bitrate=12920.4kbits/s dup=416 drop=0 speed=3.13x elapsed=0:00:08.13    frame=  808 fps= 94 q=18.0 size=   43008KiB time=00:00:27.16 bitrate=12968.0kbits/s dup=441 drop=0 speed=3.15x elapsed=0:00:08.63    frame=  862 fps= 94 q=18.0 size=   46080KiB time=00:00:28.98 bitrate=13021.9kbits/s dup=468 drop=0 speed=3.17x elapsed=0:00:09.14    frame=  914 fps= 95 q=18.0 size=   48896KiB time=00:00:30.74 bitrate=13029.8kbits/s dup=493 drop=0 speed=3.19x elapsed=0:00:09.64    frame=  966 fps= 95 q=18.0 size=   51712KiB time=00:00:32.49 bitrate=13036.9kbits/s dup=520 drop=0 speed= 3.2x elapsed=0:00:10.14    frame= 1016 fps= 95 q=18.0 size=   54528KiB time=00:00:34.17 bitrate=13068.9kbits/s dup=545 drop=0 speed=3.21x elapsed=0:00:10.65    frame= 1070 fps= 96 q=18.0 size=   57600KiB time=00:00:36.00 bitrate=13107.2kbits/s dup=572 drop=0 speed=3.22x elapsed=0:00:11.16    frame= 1120 fps= 96 q=18.0 size=   60416KiB time=00:00:37.68 bitrate=13133.2kbits/s dup=597 drop=0 speed=3.23x elapsed=0:00:11.67    frame= 1174 fps= 96 q=18.0 size=   63488KiB time=00:00:39.50 bitrate=13165.1kbits/s dup=624 drop=0 speed=3.24x elapsed=0:00:12.18    frame= 1224 fps= 96 q=18.0 size=   66304KiB time=00:00:41.19 bitrate=13186.4kbits/s dup=649 drop=0 speed=3.24x elapsed=0:00:12.69    frame= 1278 fps= 97 q=18.0 size=   69120KiB time=00:00:43.01 bitrate=13164.7kbits/s dup=676 drop=0 speed=3.26x elapsed=0:00:13.20    frame= 1330 fps= 97 q=18.0 size=   72192KiB time=00:00:44.76 bitrate=13211.4kbits/s dup=702 drop=0 speed=3.26x elapsed=0:00:13.71    frame= 1382 fps= 97 q=18.0 size=   74752KiB time=00:00:46.51 bitrate=13164.4kbits/s dup=728 drop=0 speed=3.27x elapsed=0:00:14.21    frame= 1440 fps= 98 q=18.0 size=   77824KiB time=00:00:48.47 bitrate=13152.7kbits/s dup=757 drop=0 speed=3.29x elapsed=0:00:14.72    frame= 1492 fps= 98 q=18.0 size=   80640KiB time=00:00:50.22 bitrate=13153.0kbits/s dup=783 drop=0 speed= 3.3x elapsed=0:00:15.23    frame= 1550 fps= 98 q=18.0 size=   83712KiB time=00:00:52.17 bitrate=13142.4kbits/s dup=811 drop=0 speed=3.31x elapsed=0:00:15.74    frame= 1601 fps= 98 q=15.0 size=   86528KiB time=00:00:53.89 bitrate=13151.3kbits/s dup=837 drop=0 speed=3.32x elapsed=0:00:16.25    frame= 1650 fps= 98 q=18.0 size=   89344KiB time=00:00:55.55 bitrate=13175.5kbits/s dup=862 drop=0 speed=3.32x elapsed=0:00:16.75    frame= 1704 fps= 99 q=18.0 size=   92160KiB time=00:00:57.37 bitrate=13159.6kbits/s dup=888 drop=0 speed=3.32x elapsed=0:00:17.26    frame= 1758 fps= 99 q=18.0 size=   94976KiB time=00:00:59.19 bitrate=13144.6kbits/s dup=916 drop=0 speed=3.33x elapsed=0:00:17.77    frame= 1814 fps= 99 q=18.0 size=   98048KiB time=00:01:01.07 bitrate=13150.4kbits/s dup=944 drop=0 speed=3.34x elapsed=0:00:18.28    frame= 1870 fps= 99 q=18.0 size=  100864KiB time=00:01:02.96 bitrate=13122.5kbits/s dup=972 drop=0 speed=3.35x elapsed=0:00:18.79    frame= 1922 fps=100 q=18.0 size=  103680KiB time=00:01:04.71 bitrate=13123.6kbits/s dup=998 drop=0 speed=3.35x elapsed=0:00:19.30    [vf#0:0 @ 0x8dd0f8000] More than 1000 frames duplicated
+frame= 1980 fps=100 q=18.0 size=  106752KiB time=00:01:06.67 bitrate=13116.2kbits/s dup=1027 drop=0 speed=3.37x elapsed=0:00:19.80    frame= 2034 fps=100 q=18.0 size=  109568KiB time=00:01:08.49 bitrate=13104.5kbits/s dup=1053 drop=0 speed=3.37x elapsed=0:00:20.30    frame= 2086 fps=100 q=15.0 size=  112384KiB time=00:01:10.24 bitrate=13105.9kbits/s dup=1079 drop=0 speed=3.37x elapsed=0:00:20.81    frame= 2137 fps=100 q=18.0 size=  114944KiB time=00:01:11.96 bitrate=13084.2kbits/s dup=1105 drop=0 speed=3.37x elapsed=0:00:21.32    frame= 2195 fps=101 q=18.0 size=  117760KiB time=00:01:13.92 bitrate=13050.2kbits/s dup=1134 drop=0 speed=3.38x elapsed=0:00:21.83    frame= 2249 fps=101 q=18.0 size=  120832KiB time=00:01:15.74 bitrate=13068.9kbits/s dup=1161 drop=0 speed=3.39x elapsed=0:00:22.34    frame= 2307 fps=101 q=18.0 size=  123904KiB time=00:01:17.69 bitrate=13063.9kbits/s dup=1190 drop=0 speed= 3.4x elapsed=0:00:22.85    frame= 2359 fps=101 q=18.0 size=  126464KiB time=00:01:19.44 bitrate=13039.7kbits/s dup=1216 drop=0 speed= 3.4x elapsed=0:00:23.35    frame= 2415 fps=101 q=18.0 size=  129536KiB time=00:01:21.33 bitrate=13046.4kbits/s dup=1244 drop=0 speed=3.41x elapsed=0:00:23.86    frame= 2471 fps=101 q=18.0 size=  132352KiB time=00:01:23.22 bitrate=13027.7kbits/s dup=1272 drop=0 speed=3.41x elapsed=0:00:24.37    frame= 2527 fps=102 q=18.0 size=  135424KiB time=00:01:25.11 bitrate=13034.5kbits/s dup=1300 drop=0 speed=3.42x elapsed=0:00:24.88    frame= 2583 fps=102 q=18.0 size=  138240KiB time=00:01:27.00 bitrate=13016.8kbits/s dup=1328 drop=0 speed=3.43x elapsed=0:00:25.39    frame= 2637 fps=102 q=18.0 size=  141056KiB time=00:01:28.82 bitrate=13009.8kbits/s dup=1354 drop=0 speed=3.43x elapsed=0:00:25.90    frame= 2693 fps=102 q=18.0 size=  144128KiB time=00:01:30.70 bitrate=13016.5kbits/s dup=1383 drop=0 speed=3.43x elapsed=0:00:26.41    frame= 2747 fps=102 q=18.0 size=  146944KiB time=00:01:32.52 bitrate=13009.7kbits/s dup=1410 drop=0 speed=3.44x elapsed=0:00:26.91    frame= 2802 fps=102 q=15.0 size=  149760KiB time=00:01:34.38 bitrate=12998.6kbits/s dup=1437 drop=0 speed=3.44x elapsed=0:00:27.42    frame= 2855 fps=102 q=18.0 size=  152576KiB time=00:01:36.16 bitrate=12997.0kbits/s dup=1464 drop=0 speed=3.44x elapsed=0:00:27.93    frame= 2912 fps=102 q=15.0 size=  155392KiB time=00:01:38.08 bitrate=12977.6kbits/s dup=1492 drop=0 speed=3.45x elapsed=0:00:28.43    frame= 2967 fps=102 q=18.0 size=  158464KiB time=00:01:39.94 bitrate=12988.7kbits/s dup=1520 drop=0 speed=3.45x elapsed=0:00:28.95    frame= 3025 fps=103 q=18.0 size=  161536KiB time=00:01:41.89 bitrate=12986.4kbits/s dup=1549 drop=0 speed=3.46x elapsed=0:00:29.46    frame= 3079 fps=103 q=18.0 size=  164352KiB time=00:01:43.71 bitrate=12980.9kbits/s dup=1576 drop=0 speed=3.46x elapsed=0:00:29.96    frame= 3135 fps=103 q=18.0 size=  167168KiB time=00:01:45.60 bitrate=12967.4kbits/s dup=1603 drop=0 speed=3.47x elapsed=0:00:30.46    frame= 3190 fps=103 q=15.0 size=  169984KiB time=00:01:47.46 bitrate=12958.3kbits/s dup=1631 drop=0 speed=3.47x elapsed=0:00:30.97    frame= 3249 fps=103 q=18.0 size=  173056KiB time=00:01:49.44 bitrate=12952.8kbits/s dup=1661 drop=0 speed=3.48x elapsed=0:00:31.48    frame= 3297 fps=103 q=18.0 size=  175616KiB time=00:01:51.06 bitrate=12952.9kbits/s dup=1685 drop=0 speed=3.47x elapsed=0:00:31.98    frame= 3357 fps=103 q=18.0 size=  178688KiB time=00:01:53.08 bitrate=12943.8kbits/s dup=1715 drop=0 speed=3.48x elapsed=0:00:32.49    frame= 3407 fps=103 q=18.0 size=  181248KiB time=00:01:54.77 bitrate=12936.4kbits/s dup=1740 drop=0 speed=3.48x elapsed=0:00:33.00    frame= 3465 fps=103 q=18.0 size=  184320KiB time=00:01:56.73 bitrate=12935.4kbits/s dup=1769 drop=0 speed=3.48x elapsed=0:00:33.51    frame= 3518 fps=103 q=15.0 size=  187136KiB time=00:01:58.51 bitrate=12935.0kbits/s dup=1793 drop=0 speed=3.48x elapsed=0:00:34.02    frame= 3518 fps=102 q=15.0 size=  187136KiB time=00:01:58.51 bitrate=12935.0kbits/s dup=1793 drop=0 speed=3.43x elapsed=0:00:34.52    frame= 3565 fps=102 q=18.0 size=  189696KiB time=00:02:00.10 bitrate=12939.0kbits/s dup=1819 drop=0 speed=3.43x elapsed=0:00:35.03    frame= 3612 fps=102 q=15.0 size=  192256KiB time=00:02:01.68 bitrate=12942.9kbits/s dup=1842 drop=0 speed=3.42x elapsed=0:00:35.53    frame= 3668 fps=102 q=15.0 size=  195328KiB time=00:02:03.57 bitrate=12948.8kbits/s dup=1870 drop=0 speed=3.43x elapsed=0:00:36.04    frame= 3720 fps=102 q=15.0 size=  198144KiB time=00:02:05.32 bitrate=12951.8kbits/s dup=1896 drop=0 speed=3.43x elapsed=0:00:36.54    frame= 3775 fps=102 q=18.0 size=  201216KiB time=00:02:07.17 bitrate=12960.9kbits/s dup=1925 drop=0 speed=3.43x elapsed=0:00:37.05    frame= 3829 fps=102 q=18.0 size=  204032KiB time=00:02:09.00 bitrate=12956.8kbits/s dup=1951 drop=0 speed=3.43x elapsed=0:00:37.56    frame= 3881 fps=102 q=18.0 size=  206848KiB time=00:02:10.75 bitrate=12959.6kbits/s dup=1977 drop=0 speed=3.43x elapsed=0:00:38.07    frame= 3936 fps=102 q=15.0 size=  209664KiB time=00:02:12.60 bitrate=12952.3kbits/s dup=2004 drop=0 speed=3.44x elapsed=0:00:38.58    frame= 3991 fps=102 q=18.0 size=  212736KiB time=00:02:14.46 bitrate=12960.9kbits/s dup=2031 drop=0 speed=3.44x elapsed=0:00:39.08    frame= 4041 fps=102 q=18.0 size=  215552KiB time=00:02:16.14 bitrate=12969.9kbits/s dup=2057 drop=0 speed=3.44x elapsed=0:00:39.59    frame= 4093 fps=102 q=18.0 size=  218368KiB time=00:02:17.89 bitrate=12972.3kbits/s dup=2083 drop=0 speed=3.44x elapsed=0:00:40.10    frame= 4147 fps=102 q=18.0 size=  221184KiB time=00:02:19.71 bitrate=12968.4kbits/s dup=2110 drop=0 speed=3.44x elapsed=0:00:40.60    frame= 4197 fps=102 q=18.0 size=  224000KiB time=00:02:21.40 bitrate=12977.0kbits/s dup=2135 drop=0 speed=3.44x elapsed=0:00:41.10    frame= 4248 fps=102 q=15.0 size=  226816KiB time=00:02:23.12 bitrate=12982.3kbits/s dup=2160 drop=0 speed=3.44x elapsed=0:00:41.61    frame= 4302 fps=102 q=15.0 size=  229632KiB time=00:02:24.94 bitrate=12978.4kbits/s dup=2187 drop=0 speed=3.44x elapsed=0:00:42.12    frame= 4357 fps=102 q=18.0 size=  232704KiB time=00:02:26.79 bitrate=12986.0kbits/s dup=2215 drop=0 speed=3.44x elapsed=0:00:42.63    frame= 4409 fps=102 q=18.0 size=  235520KiB time=00:02:28.55 bitrate=12988.0kbits/s dup=2241 drop=0 speed=3.44x elapsed=0:00:43.13    frame= 4463 fps=102 q=18.0 size=  238336KiB time=00:02:30.37 bitrate=12984.2kbits/s dup=2268 drop=0 speed=3.45x elapsed=0:00:43.64    frame= 4519 fps=102 q=18.0 size=  241408KiB time=00:02:32.25 bitrate=12988.5kbits/s dup=2296 drop=0 speed=3.45x elapsed=0:00:44.15    frame= 4571 fps=102 q=18.0 size=  244224KiB time=00:02:34.01 bitrate=12990.5kbits/s dup=2322 drop=0 speed=3.45x elapsed=0:00:44.66    frame= 4623 fps=102 q=15.0 size=  247040KiB time=00:02:35.79 bitrate=12989.6kbits/s dup=2348 drop=0 speed=3.45x elapsed=0:00:45.17    frame= 4677 fps=102 q=18.0 size=  250112KiB time=00:02:37.58 bitrate=13002.0kbits/s dup=2375 drop=0 speed=3.45x elapsed=0:00:45.68    frame= 4733 fps=102 q=18.0 size=  253184KiB time=00:02:39.47 bitrate=13006.0kbits/s dup=2403 drop=0 speed=3.45x elapsed=0:00:46.19    frame= 4785 fps=102 q=18.0 size=  256000KiB time=00:02:41.22 bitrate=13007.6kbits/s dup=2429 drop=0 speed=3.45x elapsed=0:00:46.70    frame= 4837 fps=102 q=18.0 size=  258560KiB time=00:02:42.97 bitrate=12996.4kbits/s dup=2455 drop=0 speed=3.45x elapsed=0:00:47.20    frame= 4892 fps=103 q=15.0 size=  261632KiB time=00:02:44.83 bitrate=13002.9kbits/s dup=2482 drop=0 speed=3.46x elapsed=0:00:47.70    frame= 4947 fps=103 q=18.0 size=  264704KiB time=00:02:46.68 bitrate=13009.3kbits/s dup=2510 drop=0 speed=3.46x elapsed=0:00:48.21    frame= 5000 fps=103 q=15.0 size=  267520KiB time=00:02:48.47 bitrate=13008.2kbits/s dup=2536 drop=0 speed=3.46x elapsed=0:00:48.71    frame= 5053 fps=103 q=18.0 size=  270336KiB time=00:02:50.25 bitrate=13007.2kbits/s dup=2563 drop=0 speed=3.46x elapsed=0:00:49.22    frame= 5107 fps=103 q=18.0 size=  273152KiB time=00:02:52.07 bitrate=13003.7kbits/s dup=2590 drop=0 speed=3.46x elapsed=0:00:49.72    frame= 5161 fps=103 q=18.0 size=  276224KiB time=00:02:53.89 bitrate=13012.3kbits/s dup=2617 drop=0 speed=3.46x elapsed=0:00:50.23    frame= 5217 fps=103 q=18.0 size=  279296KiB time=00:02:55.78 bitrate=13015.7kbits/s dup=2645 drop=0 speed=3.46x elapsed=0:00:50.74    frame= 5269 fps=103 q=18.0 size=  282112KiB time=00:02:57.53 bitrate=13017.2kbits/s dup=2671 drop=0 speed=3.46x elapsed=0:00:51.25    frame= 5325 fps=103 q=18.0 size=  285184KiB time=00:02:59.42 bitrate=13020.5kbits/s dup=2699 drop=0 speed=3.47x elapsed=0:00:51.76    frame= 5379 fps=103 q=18.0 size=  288000KiB time=00:03:01.24 bitrate=13017.0kbits/s dup=2726 drop=0 speed=3.47x elapsed=0:00:52.26    frame= 5435 fps=103 q=18.0 size=  291072KiB time=00:03:03.13 bitrate=13020.3kbits/s dup=2754 drop=0 speed=3.47x elapsed=0:00:52.77    frame= 5487 fps=103 q=18.0 size=  293888KiB time=00:03:04.88 bitrate=13021.6kbits/s dup=2780 drop=0 speed=3.47x elapsed=0:00:53.28    frame= 5542 fps=103 q=15.0 size=  296704KiB time=00:03:06.74 bitrate=13015.8kbits/s dup=2807 drop=0 speed=3.47x elapsed=0:00:53.78    frame= 5595 fps=103 q=18.0 size=  299520KiB time=00:03:08.52 bitrate=13014.9kbits/s dup=2834 drop=0 speed=3.47x elapsed=0:00:54.29    frame= 5649 fps=103 q=18.0 size=  302592KiB time=00:03:10.34 bitrate=13022.6kbits/s dup=2861 drop=0 speed=3.47x elapsed=0:00:54.80    frame= 5701 fps=103 q=18.0 size=  305408KiB time=00:03:12.10 bitrate=13023.9kbits/s dup=2887 drop=0 speed=3.47x elapsed=0:00:55.31    frame= 5757 fps=103 q=18.0 size=  308480KiB time=00:03:13.98 bitrate=13026.9kbits/s dup=2915 drop=0 speed=3.48x elapsed=0:00:55.82    frame= 5809 fps=103 q=18.0 size=  311296KiB time=00:03:15.74 bitrate=13028.1kbits/s dup=2941 drop=0 speed=3.47x elapsed=0:00:56.33    frame= 5863 fps=103 q=18.0 size=  314112KiB time=00:03:17.56 bitrate=13024.8kbits/s dup=2968 drop=0 speed=3.48x elapsed=0:00:56.83    frame= 5913 fps=103 q=18.0 size=  316928KiB time=00:03:19.24 bitrate=13030.4kbits/s dup=2993 drop=0 speed=3.47x elapsed=0:00:57.34    frame= 5968 fps=103 q=15.0 size=  319744KiB time=00:03:21.10 bitrate=13025.0kbits/s dup=3020 drop=0 speed=3.48x elapsed=0:00:57.85    frame= 6023 fps=103 q=18.0 size=  322816KiB time=00:03:22.95 bitrate=13030.0kbits/s dup=3048 drop=0 speed=3.48x elapsed=0:00:58.36    frame= 6077 fps=103 q=18.0 size=  325632KiB time=00:03:24.77 bitrate=13026.9kbits/s dup=3075 drop=0 speed=3.48x elapsed=0:00:58.87    frame= 6133 fps=103 q=18.0 size=  328704KiB time=00:03:26.66 bitrate=13029.6kbits/s dup=3102 drop=0 speed=3.48x elapsed=0:00:59.38    frame= 6185 fps=103 q=15.0 size=  331520KiB time=00:03:28.41 bitrate=13030.7kbits/s dup=3128 drop=0 speed=3.48x elapsed=0:00:59.89    frame= 6230 fps=103 q=18.0 size=  333824KiB time=00:03:29.93 bitrate=13026.5kbits/s dup=3151 drop=0 speed=3.48x elapsed=0:01:00.40    frame= 6288 fps=103 q=18.0 size=  336896KiB time=00:03:31.88 bitrate=13025.1kbits/s dup=3180 drop=0 speed=3.48x elapsed=0:01:00.91    frame= 6342 fps=103 q=18.0 size=  339712KiB time=00:03:33.70 bitrate=13022.1kbits/s dup=3207 drop=0 speed=3.48x elapsed=0:01:01.42    frame= 6396 fps=103 q=18.0 size=  342528KiB time=00:03:35.52 bitrate=13019.1kbits/s dup=3234 drop=0 speed=3.48x elapsed=0:01:01.93    frame= 6449 fps=103 q=15.0 size=  345344KiB time=00:03:37.31 bitrate=13018.3kbits/s dup=3260 drop=0 speed=3.48x elapsed=0:01:02.44    frame= 6502 fps=103 q=18.0 size=  348416KiB time=00:03:39.10 bitrate=13027.0kbits/s dup=3287 drop=0 speed=3.48x elapsed=0:01:02.95    frame= 6558 fps=103 q=18.0 size=  351232KiB time=00:03:40.98 bitrate=13020.1kbits/s dup=3315 drop=0 speed=3.48x elapsed=0:01:03.45    frame= 6610 fps=103 q=18.0 size=  354048KiB time=00:03:42.74 bitrate=13021.2kbits/s dup=3341 drop=0 speed=3.48x elapsed=0:01:03.96    frame= 6665 fps=103 q=15.0 size=  356864KiB time=00:03:44.59 bitrate=13016.4kbits/s dup=3368 drop=0 speed=3.48x elapsed=0:01:04.46    frame= 6719 fps=103 q=15.0 size=  359936KiB time=00:03:46.41 bitrate=13022.9kbits/s dup=3395 drop=0 speed=3.48x elapsed=0:01:04.96    frame= 6774 fps=103 q=18.0 size=  362752KiB time=00:03:48.26 bitrate=13018.2kbits/s dup=3423 drop=0 speed=3.49x elapsed=0:01:05.47    frame= 6821 fps=103 q=15.0 size=  365312KiB time=00:03:49.85 bitrate=13019.7kbits/s dup=3446 drop=0 speed=3.48x elapsed=0:01:05.97    frame= 6877 fps=103 q=15.0 size=  368384KiB time=00:03:51.74 bitrate=13022.3kbits/s dup=3474 drop=0 speed=3.49x elapsed=0:01:06.48    frame= 6931 fps=103 q=15.0 size=  371200KiB time=00:03:53.56 bitrate=13019.6kbits/s dup=3501 drop=0 speed=3.49x elapsed=0:01:06.98    frame= 6986 fps=103 q=18.0 size=  374272KiB time=00:03:55.41 bitrate=13023.9kbits/s dup=3529 drop=0 speed=3.49x elapsed=0:01:07.49    frame= 7041 fps=104 q=15.0 size=  377088KiB time=00:03:57.26 bitrate=13019.4kbits/s dup=3556 drop=0 speed=3.49x elapsed=0:01:08.00    frame= 7096 fps=104 q=18.0 size=  380160KiB time=00:03:59.12 bitrate=13023.7kbits/s dup=3584 drop=0 speed=3.49x elapsed=0:01:08.51    frame= 7154 fps=104 q=18.0 size=  382976KiB time=00:04:01.07 bitrate=13013.8kbits/s dup=3613 drop=0 speed=3.49x elapsed=0:01:09.02    frame= 7211 fps=104 q=15.0 size=  385792KiB time=00:04:03.00 bitrate=13005.8kbits/s dup=3641 drop=0 speed=3.49x elapsed=0:01:09.53    frame= 7265 fps=104 q=15.0 size=  388608KiB time=00:04:04.82 bitrate=13003.3kbits/s dup=3668 drop=0 speed= 3.5x elapsed=0:01:10.03    frame= 7310 fps=104 q=18.0 size=  391424KiB time=00:04:06.33 bitrate=13016.9kbits/s dup=3691 drop=0 speed=3.49x elapsed=0:01:10.54    frame= 7376 fps=104 q=18.0 size=  394496KiB time=00:04:08.56 bitrate=13001.6kbits/s dup=3724 drop=0 speed= 3.5x elapsed=0:01:11.05    frame= 7439 fps=104 q=15.0 size=  397312KiB time=00:04:10.68 bitrate=12983.5kbits/s dup=3755 drop=0 speed= 3.5x elapsed=0:01:11.56    frame= 7502 fps=104 q=18.0 size=  400128KiB time=00:04:12.80 bitrate=12965.7kbits/s dup=3787 drop=0 speed=3.51x elapsed=0:01:12.06    frame= 7563 fps=104 q=15.0 size=  402944KiB time=00:04:14.86 bitrate=12951.6kbits/s dup=3817 drop=0 speed=3.51x elapsed=0:01:12.56    frame= 7626 fps=104 q=18.0 size=  406016KiB time=00:04:16.98 bitrate=12942.5kbits/s dup=3849 drop=0 speed=3.52x elapsed=0:01:13.07    frame= 7690 fps=105 q=18.0 size=  409088KiB time=00:04:19.14 bitrate=12931.9kbits/s dup=3881 drop=0 speed=3.52x elapsed=0:01:13.58    frame= 7752 fps=105 q=18.0 size=  411904KiB time=00:04:21.23 bitrate=12916.7kbits/s dup=3912 drop=0 speed=3.53x elapsed=0:01:14.08    frame= 7811 fps=105 q=15.0 size=  414720KiB time=00:04:23.22 bitrate=12906.8kbits/s dup=3941 drop=0 speed=3.53x elapsed=0:01:14.59    frame= 7870 fps=105 q=18.0 size=  417536KiB time=00:04:25.21 bitrate=12897.0kbits/s dup=3971 drop=0 speed=3.53x elapsed=0:01:15.10    frame= 7928 fps=105 q=18.0 size=  420352KiB time=00:04:27.16 bitrate=12889.0kbits/s dup=4000 drop=0 speed=3.53x elapsed=0:01:15.61    frame= 7988 fps=105 q=18.0 size=  423424KiB time=00:04:29.19 bitrate=12885.6kbits/s dup=4030 drop=0 speed=3.54x elapsed=0:01:16.11    frame= 8046 fps=105 q=18.0 size=  426240KiB time=00:04:31.14 bitrate=12877.8kbits/s dup=4059 drop=0 speed=3.54x elapsed=0:01:16.62    frame= 8104 fps=105 q=18.0 size=  429056KiB time=00:04:33.10 bitrate=12870.1kbits/s dup=4088 drop=0 speed=3.54x elapsed=0:01:17.13    frame= 8162 fps=105 q=18.0 size=  432128KiB time=00:04:35.05 bitrate=12870.1kbits/s dup=4117 drop=0 speed=3.54x elapsed=0:01:17.63    frame= 8216 fps=105 q=18.0 size=  434944KiB time=00:04:36.87 bitrate=12868.8kbits/s dup=4144 drop=0 speed=3.54x elapsed=0:01:18.14    frame= 8274 fps=105 q=18.0 size=  437760KiB time=00:04:38.83 bitrate=12861.3kbits/s dup=4173 drop=0 speed=3.54x elapsed=0:01:18.65    frame= 8333 fps=105 q=15.0 size=  440576KiB time=00:04:40.82 bitrate=12852.3kbits/s dup=4202 drop=0 speed=3.55x elapsed=0:01:19.16    frame= 8392 fps=105 q=18.0 size=  443648KiB time=00:04:42.80 bitrate=12851.0kbits/s dup=4232 drop=0 speed=3.55x elapsed=0:01:19.67    frame= 8451 fps=105 q=15.0 size=  446464KiB time=00:04:44.79 bitrate=12842.2kbits/s dup=4261 drop=0 speed=3.55x elapsed=0:01:20.18    frame= 8511 fps=105 q=15.0 size=  449536KiB time=00:04:46.82 bitrate=12839.4kbits/s dup=4291 drop=0 speed=3.55x elapsed=0:01:20.68    frame= 8570 fps=106 q=18.0 size=  452352KiB time=00:04:48.80 bitrate=12830.9kbits/s dup=4321 drop=0 speed=3.56x elapsed=0:01:21.19    frame= 8629 fps=106 q=15.0 size=  455168KiB time=00:04:50.79 bitrate=12822.4kbits/s dup=4350 drop=0 speed=3.56x elapsed=0:01:21.69    frame= 8688 fps=106 q=18.0 size=  458240KiB time=00:04:52.78 bitrate=12821.3kbits/s dup=4380 drop=0 speed=3.56x elapsed=0:01:22.19    frame= 8744 fps=106 q=18.0 size=  461056KiB time=00:04:54.67 bitrate=12817.4kbits/s dup=4408 drop=0 speed=3.56x elapsed=0:01:22.70    frame= 8800 fps=106 q=18.0 size=  463872KiB time=00:04:56.56 bitrate=12813.7kbits/s dup=4436 drop=0 speed=3.56x elapsed=0:01:23.21    frame= 8856 fps=106 q=18.0 size=  466944KiB time=00:04:58.44 bitrate=12816.9kbits/s dup=4464 drop=0 speed=3.57x elapsed=0:01:23.71    frame= 8914 fps=106 q=18.0 size=  469760KiB time=00:05:00.40 bitrate=12810.3kbits/s dup=4493 drop=0 speed=3.57x elapsed=0:01:24.22    frame= 8972 fps=106 q=18.0 size=  472832KiB time=00:05:02.35 bitrate=12810.7kbits/s dup=4522 drop=0 speed=3.57x elapsed=0:01:24.73    frame= 9030 fps=106 q=18.0 size=  475648KiB time=00:05:04.31 bitrate=12804.2kbits/s dup=4551 drop=0 speed=3.57x elapsed=0:01:25.24    frame= 9090 fps=106 q=18.0 size=  478464KiB time=00:05:06.33 bitrate=12795.0kbits/s dup=4580 drop=0 speed=3.57x elapsed=0:01:25.74    frame= 9146 fps=106 q=18.0 size=  481280KiB time=00:05:08.22 bitrate=12791.5kbits/s dup=4609 drop=0 speed=3.57x elapsed=0:01:26.25    frame= 9203 fps=106 q=15.0 size=  484352KiB time=00:05:10.14 bitrate=12793.4kbits/s dup=4637 drop=0 speed=3.57x elapsed=0:01:26.76    frame= 9249 fps=106 q=15.0 size=  486912KiB time=00:05:11.69 bitrate=12797.0kbits/s dup=4660 drop=0 speed=3.57x elapsed=0:01:27.27    frame= 9304 fps=106 q=18.0 size=  489984KiB time=00:05:13.55 bitrate=12801.6kbits/s dup=4688 drop=0 speed=3.57x elapsed=0:01:27.78    frame= 9361 fps=106 q=15.0 size=  492544KiB time=00:05:15.47 bitrate=12790.1kbits/s dup=4716 drop=0 speed=3.57x elapsed=0:01:28.29    frame= 9416 fps=106 q=18.0 size=  495616KiB time=00:05:17.32 bitrate=12794.7kbits/s dup=4744 drop=0 speed=3.57x elapsed=0:01:28.80    frame= 9471 fps=106 q=15.0 size=  498432KiB time=00:05:19.17 bitrate=12792.7kbits/s dup=4771 drop=0 speed=3.57x elapsed=0:01:29.30    frame= 9524 fps=106 q=18.0 size=  501248KiB time=00:05:20.96 bitrate=12793.3kbits/s dup=4798 drop=0 speed=3.57x elapsed=0:01:29.81    frame= 9580 fps=106 q=18.0 size=  504320KiB time=00:05:22.85 bitrate=12796.5kbits/s dup=4825 drop=0 speed=3.57x elapsed=0:01:30.32    frame= 9634 fps=106 q=18.0 size=  507136KiB time=00:05:24.67 bitrate=12795.8kbits/s dup=4853 drop=0 speed=3.57x elapsed=0:01:30.82    frame= 9692 fps=106 q=18.0 size=  510208KiB time=00:05:26.62 bitrate=12796.2kbits/s dup=4882 drop=0 speed=3.58x elapsed=0:01:31.33    frame= 9746 fps=106 q=18.0 size=  513024KiB time=00:05:28.44 bitrate=12795.6kbits/s dup=4909 drop=0 speed=3.58x elapsed=0:01:31.84    frame= 9802 fps=106 q=18.0 size=  516096KiB time=00:05:30.33 bitrate=12798.6kbits/s dup=4937 drop=0 speed=3.58x elapsed=0:01:32.35    frame= 9856 fps=106 q=18.0 size=  518912KiB time=00:05:32.15 bitrate=12797.9kbits/s dup=4964 drop=0 speed=3.58x elapsed=0:01:32.86    frame= 9908 fps=106 q=18.0 size=  521728KiB time=00:05:33.91 bitrate=12799.8kbits/s dup=4990 drop=0 speed=3.58x elapsed=0:01:33.37    frame= 9964 fps=106 q=18.0 size=  524800KiB time=00:05:35.79 bitrate=12802.8kbits/s dup=5018 drop=0 speed=3.58x elapsed=0:01:33.88    frame=10020 fps=106 q=18.0 size=  527872KiB time=00:05:37.68 bitrate=12805.8kbits/s dup=5046 drop=0 speed=3.58x elapsed=0:01:34.39    frame=10074 fps=106 q=18.0 size=  530688KiB time=00:05:39.50 bitrate=12805.1kbits/s dup=5073 drop=0 speed=3.58x elapsed=0:01:34.90    frame=10128 fps=106 q=18.0 size=  533504KiB time=00:05:41.32 bitrate=12804.4kbits/s dup=5100 drop=0 speed=3.58x elapsed=0:01:35.41    frame=10182 fps=106 q=18.0 size=  536320KiB time=00:05:43.14 bitrate=12803.7kbits/s dup=5127 drop=0 speed=3.58x elapsed=0:01:35.92    frame=10236 fps=106 q=18.0 size=  539136KiB time=00:05:44.96 bitrate=12803.0kbits/s dup=5154 drop=0 speed=3.58x elapsed=0:01:36.42    frame=10289 fps=106 q=15.0 size=  541952KiB time=00:05:46.75 bitrate=12803.6kbits/s dup=5180 drop=0 speed=3.58x elapsed=0:01:36.92    frame=10340 fps=106 q=15.0 size=  544512KiB time=00:05:48.47 bitrate=12800.6kbits/s dup=5205 drop=0 speed=3.58x elapsed=0:01:37.43    frame=10387 fps=106 q=18.0 size=  547072KiB time=00:05:50.05 bitrate=12802.6kbits/s dup=5229 drop=0 speed=3.57x elapsed=0:01:37.94    frame=10442 fps=106 q=15.0 size=  549888KiB time=00:05:51.91 bitrate=12800.7kbits/s dup=5256 drop=0 speed=3.57x elapsed=0:01:38.45    frame=10498 fps=106 q=15.0 size=  552960KiB time=00:05:53.79 bitrate=12803.5kbits/s dup=5284 drop=0 speed=3.58x elapsed=0:01:38.95    frame=10552 fps=106 q=15.0 size=  555776KiB time=00:05:55.61 bitrate=12802.8kbits/s dup=5311 drop=0 speed=3.58x elapsed=0:01:39.46    frame=10605 fps=106 q=18.0 size=  558592KiB time=00:05:57.40 bitrate=12803.4kbits/s dup=5338 drop=0 speed=3.57x elapsed=0:01:39.97    frame=10659 fps=106 q=18.0 size=  561408KiB time=00:05:59.22 bitrate=12802.7kbits/s dup=5365 drop=0 speed=3.57x elapsed=0:01:40.48    frame=10716 fps=106 q=15.0 size=  564480KiB time=00:06:01.14 bitrate=12804.3kbits/s dup=5393 drop=0 speed=3.58x elapsed=0:01:40.99    frame=10767 fps=106 q=18.0 size=  567296KiB time=00:06:02.86 bitrate=12807.2kbits/s dup=5419 drop=0 speed=3.58x elapsed=0:01:41.49    frame=10819 fps=106 q=18.0 size=  570112KiB time=00:06:04.61 bitrate=12808.9kbits/s dup=5445 drop=0 speed=3.57x elapsed=0:01:42.01    frame=10875 fps=106 q=18.0 size=  573184KiB time=00:06:06.50 bitrate=12811.6kbits/s dup=5473 drop=0 speed=3.57x elapsed=0:01:42.52    frame=10929 fps=106 q=18.0 size=  576000KiB time=00:06:08.32 bitrate=12810.9kbits/s dup=5500 drop=0 speed=3.58x elapsed=0:01:43.02    frame=10983 fps=106 q=18.0 size=  578816KiB time=00:06:10.14 bitrate=12810.2kbits/s dup=5527 drop=0 speed=3.58x elapsed=0:01:43.53    frame=11039 fps=106 q=18.0 size=  581888KiB time=00:06:12.03 bitrate=12812.9kbits/s dup=5554 drop=0 speed=3.58x elapsed=0:01:44.04    frame=11091 fps=106 q=18.0 size=  584704KiB time=00:06:13.78 bitrate=12814.5kbits/s dup=5581 drop=0 speed=3.58x elapsed=0:01:44.55    frame=11147 fps=106 q=18.0 size=  587520KiB time=00:06:15.67 bitrate=12811.5kbits/s dup=5609 drop=0 speed=3.58x elapsed=0:01:45.06    frame=11202 fps=106 q=15.0 size=  590592KiB time=00:06:17.52 bitrate=12815.3kbits/s dup=5636 drop=0 speed=3.58x elapsed=0:01:45.57    frame=11257 fps=106 q=18.0 size=  593408KiB time=00:06:19.38 bitrate=12813.5kbits/s dup=5664 drop=0 speed=3.58x elapsed=0:01:46.08    frame=11313 fps=106 q=18.0 size=  596480KiB time=00:06:21.26 bitrate=12816.0kbits/s dup=5691 drop=0 speed=3.58x elapsed=0:01:46.59    frame=11359 fps=106 q=18.0 size=  599040KiB time=00:06:22.82 bitrate=12818.9kbits/s dup=5715 drop=0 speed=3.57x elapsed=0:01:47.09    frame=11410 fps=106 q=15.0 size=  601856KiB time=00:06:24.53 bitrate=12821.6kbits/s dup=5740 drop=0 speed=3.57x elapsed=0:01:47.60    frame=11461 fps=106 q=18.0 size=  604672KiB time=00:06:26.25 bitrate=12824.2kbits/s dup=5766 drop=0 speed=3.57x elapsed=0:01:48.10    frame=11511 fps=106 q=18.0 size=  607488KiB time=00:06:27.94 bitrate=12828.0kbits/s dup=5791 drop=0 speed=3.57x elapsed=0:01:48.61    frame=11567 fps=106 q=18.0 size=  610304KiB time=00:06:29.83 bitrate=12825.1kbits/s dup=5819 drop=0 speed=3.57x elapsed=0:01:49.12    frame=11621 fps=106 q=18.0 size=  613376KiB time=00:06:31.65 bitrate=12829.7kbits/s dup=5846 drop=0 speed=3.57x elapsed=0:01:49.63    frame=11673 fps=106 q=18.0 size=  616192KiB time=00:06:33.40 bitrate=12831.2kbits/s dup=5872 drop=0 speed=3.57x elapsed=0:01:50.13    frame=11726 fps=106 q=15.0 size=  619008KiB time=00:06:35.19 bitrate=12831.6kbits/s dup=5898 drop=0 speed=3.57x elapsed=0:01:50.63    frame=11779 fps=106 q=18.0 size=  621824KiB time=00:06:36.97 bitrate=12831.9kbits/s dup=5925 drop=0 speed=3.57x elapsed=0:01:51.14    frame=11835 fps=106 q=18.0 size=  624896KiB time=00:06:38.86 bitrate=12834.3kbits/s dup=5953 drop=0 speed=3.57x elapsed=0:01:51.65    frame=11889 fps=106 q=18.0 size=  627968KiB time=00:06:40.68 bitrate=12838.8kbits/s dup=5980 drop=0 speed=3.57x elapsed=0:01:52.16    frame=11942 fps=106 q=15.0 size=  630784KiB time=00:06:42.47 bitrate=12839.1kbits/s dup=6006 drop=0 speed=3.57x elapsed=0:01:52.66    frame=11999 fps=106 q=18.0 size=  633600KiB time=00:06:44.39 bitrate=12835.2kbits/s dup=6035 drop=0 speed=3.57x elapsed=0:01:53.17    frame=12055 fps=106 q=18.0 size=  636416KiB time=00:06:46.28 bitrate=12832.3kbits/s dup=6063 drop=0 speed=3.57x elapsed=0:01:53.68    frame=12108 fps=106 q=15.0 size=  639232KiB time=00:06:48.06 bitrate=12832.7kbits/s dup=6089 drop=0 speed=3.57x elapsed=0:01:54.19    frame=12163 fps=106 q=18.0 size=  642304KiB time=00:06:49.92 bitrate=12836.0kbits/s dup=6117 drop=0 speed=3.57x elapsed=0:01:54.70    frame=12213 fps=106 q=18.0 size=  644864KiB time=00:06:51.60 bitrate=12834.4kbits/s dup=6142 drop=0 speed=3.57x elapsed=0:01:55.20    frame=12269 fps=106 q=18.0 size=  647936KiB time=00:06:53.49 bitrate=12836.7kbits/s dup=6170 drop=0 speed=3.57x elapsed=0:01:55.71    frame=12322 fps=106 q=15.0 size=  650752KiB time=00:06:55.28 bitrate=12837.0kbits/s dup=6196 drop=0 speed=3.57x elapsed=0:01:56.22    frame=12377 fps=106 q=18.0 size=  653824KiB time=00:06:57.13 bitrate=12840.3kbits/s dup=6224 drop=0 speed=3.57x elapsed=0:01:56.73    frame=12428 fps=106 q=15.0 size=  656640KiB time=00:06:58.85 bitrate=12842.7kbits/s dup=6249 drop=0 speed=3.57x elapsed=0:01:57.23    frame=12482 fps=106 q=15.0 size=  659456KiB time=00:07:00.67 bitrate=12841.9kbits/s dup=6276 drop=0 speed=3.57x elapsed=0:01:57.74    frame=12537 fps=106 q=18.0 size=  662528KiB time=00:07:02.52 bitrate=12845.1kbits/s dup=6303 drop=0 speed=3.57x elapsed=0:01:58.25    frame=12589 fps=106 q=18.0 size=  665344KiB time=00:07:04.28 bitrate=12846.4kbits/s dup=6330 drop=0 speed=3.57x elapsed=0:01:58.75    frame=12641 fps=106 q=18.0 size=  668160KiB time=00:07:06.03 bitrate=12847.7kbits/s dup=6356 drop=0 speed=3.57x elapsed=0:01:59.25    frame=12695 fps=106 q=18.0 size=  671232KiB time=00:07:07.85 bitrate=12851.9kbits/s dup=6383 drop=0 speed=3.57x elapsed=0:01:59.76    frame=12747 fps=106 q=18.0 size=  674048KiB time=00:07:09.60 bitrate=12853.2kbits/s dup=6409 drop=0 speed=3.57x elapsed=0:02:00.27    frame=12801 fps=106 q=18.0 size=  676864KiB time=00:07:11.42 bitrate=12852.4kbits/s dup=6436 drop=0 speed=3.57x elapsed=0:02:00.77    frame=12853 fps=106 q=18.0 size=  679680KiB time=00:07:13.17 bitrate=12853.6kbits/s dup=6462 drop=0 speed=3.57x elapsed=0:02:01.28    frame=12905 fps=106 q=18.0 size=  682496KiB time=00:07:14.93 bitrate=12854.9kbits/s dup=6488 drop=0 speed=3.57x elapsed=0:02:01.78    frame=12958 fps=106 q=15.0 size=  685568KiB time=00:07:16.71 bitrate=12859.9kbits/s dup=6514 drop=0 speed=3.57x elapsed=0:02:02.29    frame=13011 fps=106 q=18.0 size=  688384KiB time=00:07:18.50 bitrate=12860.1kbits/s dup=6541 drop=0 speed=3.57x elapsed=0:02:02.80    frame=13063 fps=106 q=18.0 size=  691200KiB time=00:07:20.25 bitrate=12861.3kbits/s dup=6567 drop=0 speed=3.57x elapsed=0:02:03.31    frame=13119 fps=106 q=18.0 size=  694272KiB time=00:07:22.14 bitrate=12863.3kbits/s dup=6595 drop=0 speed=3.57x elapsed=0:02:03.82    frame=13174 fps=106 q=15.0 size=  697088KiB time=00:07:24.00 bitrate=12861.6kbits/s dup=6622 drop=0 speed=3.57x elapsed=0:02:04.33    frame=13225 fps=106 q=18.0 size=  699648KiB time=00:07:25.71 bitrate=12859.0kbits/s dup=6648 drop=0 speed=3.57x elapsed=0:02:04.83    frame=13277 fps=106 q=18.0 size=  702464KiB time=00:07:27.47 bitrate=12860.2kbits/s dup=6674 drop=0 speed=3.57x elapsed=0:02:05.33    frame=13328 fps=106 q=15.0 size=  705280KiB time=00:07:29.19 bitrate=12862.4kbits/s dup=6699 drop=0 speed=3.57x elapsed=0:02:05.84    frame=13381 fps=106 q=18.0 size=  708352KiB time=00:07:30.97 bitrate=12867.2kbits/s dup=6726 drop=0 speed=3.57x elapsed=0:02:06.35    frame=13433 fps=106 q=18.0 size=  711168KiB time=00:07:32.73 bitrate=12868.3kbits/s dup=6752 drop=0 speed=3.57x elapsed=0:02:06.85    frame=13485 fps=106 q=18.0 size=  713984KiB time=00:07:34.48 bitrate=12869.5kbits/s dup=6778 drop=0 speed=3.57x elapsed=0:02:07.35    frame=13539 fps=106 q=18.0 size=  716800KiB time=00:07:36.30 bitrate=12868.7kbits/s dup=6805 drop=0 speed=3.57x elapsed=0:02:07.86    frame=13592 fps=106 q=15.0 size=  719616KiB time=00:07:38.08 bitrate=12868.9kbits/s dup=6831 drop=0 speed=3.57x elapsed=0:02:08.37    frame=13645 fps=106 q=18.0 size=  722688KiB time=00:07:39.87 bitrate=12873.6kbits/s dup=6858 drop=0 speed=3.57x elapsed=0:02:08.88    frame=13699 fps=106 q=18.0 size=  725760KiB time=00:07:41.69 bitrate=12877.3kbits/s dup=6885 drop=0 speed=3.57x elapsed=0:02:09.39    frame=13749 fps=106 q=18.0 size=  728320KiB time=00:07:43.38 bitrate=12875.8kbits/s dup=6910 drop=0 speed=3.57x elapsed=0:02:09.90    frame=13801 fps=106 q=18.0 size=  731392KiB time=00:07:45.13 bitrate=12881.3kbits/s dup=6936 drop=0 speed=3.57x elapsed=0:02:10.40    frame=13853 fps=106 q=18.0 size=  734208KiB time=00:07:46.88 bitrate=12882.4kbits/s dup=6962 drop=0 speed=3.57x elapsed=0:02:10.91    frame=13903 fps=106 q=18.0 size=  737024KiB time=00:07:48.57 bitrate=12885.3kbits/s dup=6987 drop=0 speed=3.57x elapsed=0:02:11.41    frame=13951 fps=106 q=18.0 size=  739584KiB time=00:07:50.19 bitrate=12885.6kbits/s dup=7011 drop=0 speed=3.56x elapsed=0:02:11.91    frame=14000 fps=106 q=15.0 size=  742400KiB time=00:07:51.84 bitrate=12889.3kbits/s dup=7035 drop=0 speed=3.56x elapsed=0:02:12.42    frame=14051 fps=106 q=18.0 size=  745216KiB time=00:07:53.56 bitrate=12891.3kbits/s dup=7061 drop=0 speed=3.56x elapsed=0:02:12.94    frame=14107 fps=106 q=18.0 size=  748544KiB time=00:07:55.44 bitrate=12897.4kbits/s dup=7089 drop=0 speed=3.56x elapsed=0:02:13.45    frame=14159 fps=106 q=18.0 size=  751360KiB time=00:07:57.20 bitrate=12898.4kbits/s dup=7115 drop=0 speed=3.56x elapsed=0:02:13.96    frame=14211 fps=106 q=18.0 size=  754176KiB time=00:07:58.95 bitrate=12899.4kbits/s dup=7141 drop=0 speed=3.56x elapsed=0:02:14.47    frame=14263 fps=106 q=18.0 size=  756992KiB time=00:08:00.70 bitrate=12900.3kbits/s dup=7167 drop=0 speed=3.56x elapsed=0:02:14.98    frame=14317 fps=106 q=18.0 size=  760064KiB time=00:08:02.52 bitrate=12903.8kbits/s dup=7194 drop=0 speed=3.56x elapsed=0:02:15.49    frame=14367 fps=106 q=18.0 size=  762880KiB time=00:08:04.21 bitrate=12906.5kbits/s dup=7218 drop=0 speed=3.56x elapsed=0:02:15.99    frame=14413 fps=106 q=15.0 size=  765184KiB time=00:08:05.76 bitrate=12904.2kbits/s dup=7241 drop=0 speed=3.56x elapsed=0:02:16.50    frame=14466 fps=106 q=18.0 size=  768000KiB time=00:08:07.55 bitrate=12904.2kbits/s dup=7268 drop=0 speed=3.56x elapsed=0:02:17.00    frame=14514 fps=106 q=18.0 size=  770560KiB time=00:08:09.16 bitrate=12904.4kbits/s dup=7292 drop=0 speed=3.56x elapsed=0:02:17.51    frame=14566 fps=106 q=18.0 size=  773376KiB time=00:08:10.92 bitrate=12905.3kbits/s dup=7318 drop=0 speed=3.56x elapsed=0:02:18.01    frame=14616 fps=106 q=18.0 size=  776192KiB time=00:08:12.60 bitrate=12908.0kbits/s dup=7343 drop=0 speed=3.56x elapsed=0:02:18.52    frame=14670 fps=106 q=18.0 size=  779008KiB time=00:08:14.42 bitrate=12907.1kbits/s dup=7370 drop=0 speed=3.56x elapsed=0:02:19.03    frame=14720 fps=105 q=18.0 size=  781824KiB time=00:08:16.11 bitrate=12909.8kbits/s dup=7395 drop=0 speed=3.56x elapsed=0:02:19.54    frame=14774 fps=105 q=18.0 size=  784640KiB time=00:08:17.93 bitrate=12908.9kbits/s dup=7422 drop=0 speed=3.56x elapsed=0:02:20.05    frame=14824 fps=105 q=18.0 size=  787456KiB time=00:08:19.61 bitrate=12911.5kbits/s dup=7447 drop=0 speed=3.55x elapsed=0:02:20.55    frame=14879 fps=105 q=15.0 size=  790528KiB time=00:08:21.47 bitrate=12914.0kbits/s dup=7474 drop=0 speed=3.55x elapsed=0:02:21.06    frame=14929 fps=105 q=15.0 size=  793088KiB time=00:08:23.15 bitrate=12912.4kbits/s dup=7499 drop=0 speed=3.55x elapsed=0:02:21.57    frame=14980 fps=105 q=18.0 size=  795904KiB time=00:08:24.87 bitrate=12914.1kbits/s dup=7525 drop=0 speed=3.55x elapsed=0:02:22.08    frame=15032 fps=105 q=18.0 size=  798976KiB time=00:08:26.62 bitrate=12919.1kbits/s dup=7551 drop=0 speed=3.55x elapsed=0:02:22.58    frame=15084 fps=105 q=18.0 size=  801792KiB time=00:08:28.38 bitrate=12920.0kbits/s dup=7577 drop=0 speed=3.55x elapsed=0:02:23.09    frame=15134 fps=105 q=18.0 size=  804608KiB time=00:08:30.06 bitrate=12922.5kbits/s dup=7601 drop=0 speed=3.55x elapsed=0:02:23.60    frame=15184 fps=105 q=18.0 size=  807168KiB time=00:08:31.75 bitrate=12920.9kbits/s dup=7627 drop=0 speed=3.55x elapsed=0:02:24.11    frame=15237 fps=105 q=15.0 size=  809984KiB time=00:08:33.53 bitrate=12920.9kbits/s dup=7653 drop=0 speed=3.55x elapsed=0:02:24.62    frame=15288 fps=105 q=18.0 size=  812800KiB time=00:08:35.25 bitrate=12922.6kbits/s dup=7679 drop=0 speed=3.55x elapsed=0:02:25.13    frame=15341 fps=105 q=15.0 size=  815872KiB time=00:08:37.04 bitrate=12926.6kbits/s dup=7705 drop=0 speed=3.55x elapsed=0:02:25.64    frame=15394 fps=105 q=18.0 size=  818688KiB time=00:08:38.83 bitrate=12926.5kbits/s dup=7733 drop=0 speed=3.55x elapsed=0:02:26.14    frame=15446 fps=105 q=18.0 size=  821504KiB time=00:08:40.58 bitrate=12927.3kbits/s dup=7758 drop=0 speed=3.55x elapsed=0:02:26.65    frame=15498 fps=105 q=18.0 size=  824576KiB time=00:08:42.33 bitrate=12932.1kbits/s dup=7784 drop=0 speed=3.55x elapsed=0:02:27.16    frame=15552 fps=105 q=18.0 size=  827392KiB time=00:08:44.15 bitrate=12931.2kbits/s dup=7811 drop=0 speed=3.55x elapsed=0:02:27.67    frame=15601 fps=105 q=15.0 size=  829952KiB time=00:08:45.80 bitrate=12930.5kbits/s dup=7835 drop=0 speed=3.55x elapsed=0:02:28.17    frame=15656 fps=105 q=18.0 size=  833024KiB time=00:08:47.66 bitrate=12932.8kbits/s dup=7863 drop=0 speed=3.55x elapsed=0:02:28.68    frame=15705 fps=105 q=15.0 size=  835840KiB time=00:08:49.31 bitrate=12936.0kbits/s dup=7887 drop=0 speed=3.55x elapsed=0:02:29.19    frame=15759 fps=105 q=15.0 size=  838656KiB time=00:08:51.13 bitrate=12935.1kbits/s dup=7914 drop=0 speed=3.55x elapsed=0:02:29.70    frame=15813 fps=105 q=15.0 size=  841728KiB time=00:08:52.95 bitrate=12938.1kbits/s dup=7941 drop=0 speed=3.55x elapsed=0:02:30.20    frame=15866 fps=105 q=18.0 size=  844544KiB time=00:08:54.74 bitrate=12938.0kbits/s dup=7968 drop=0 speed=3.55x elapsed=0:02:30.71    frame=15916 fps=105 q=18.0 size=  847360KiB time=00:08:56.42 bitrate=12940.4kbits/s dup=7993 drop=0 speed=3.55x elapsed=0:02:31.22    frame=15972 fps=105 q=18.0 size=  850432KiB time=00:08:58.31 bitrate=12941.8kbits/s dup=8021 drop=0 speed=3.55x elapsed=0:02:31.73    frame=16024 fps=105 q=18.0 size=  853248KiB time=00:09:00.06 bitrate=12942.5kbits/s dup=8047 drop=0 speed=3.55x elapsed=0:02:32.23    frame=16078 fps=105 q=18.0 size=  856064KiB time=00:09:01.88 bitrate=12941.6kbits/s dup=8074 drop=0 speed=3.55x elapsed=0:02:32.74    frame=16130 fps=105 q=18.0 size=  859136KiB time=00:09:03.64 bitrate=12946.1kbits/s dup=8100 drop=0 speed=3.55x elapsed=0:02:33.25    frame=16184 fps=105 q=18.0 size=  861952KiB time=00:09:05.46 bitrate=12945.2kbits/s dup=8127 drop=0 speed=3.55x elapsed=0:02:33.75    frame=16236 fps=105 q=18.0 size=  864768KiB time=00:09:07.21 bitrate=12945.9kbits/s dup=8153 drop=0 speed=3.55x elapsed=0:02:34.26    frame=16292 fps=105 q=18.0 size=  867840KiB time=00:09:09.10 bitrate=12947.2kbits/s dup=8181 drop=0 speed=3.55x elapsed=0:02:34.77    frame=16344 fps=105 q=18.0 size=  870656KiB time=00:09:10.85 bitrate=12947.9kbits/s dup=8207 drop=0 speed=3.55x elapsed=0:02:35.28    frame=16396 fps=105 q=18.0 size=  873472KiB time=00:09:12.60 bitrate=12948.6kbits/s dup=8233 drop=0 speed=3.55x elapsed=0:02:35.79    frame=16448 fps=105 q=18.0 size=  876544KiB time=00:09:14.35 bitrate=12953.1kbits/s dup=8259 drop=0 speed=3.55x elapsed=0:02:36.30    frame=16471 fps=105 q=15.0 size=  877568KiB time=00:09:15.13 bitrate=12950.1kbits/s dup=8268 drop=0 speed=3.54x elapsed=0:02:36.80    frame=16486 fps=105 q=18.0 size=  878592KiB time=00:09:15.64 bitrate=12953.4kbits/s dup=8278 drop=0 speed=3.53x elapsed=0:02:37.30    frame=16539 fps=105 q=15.0 size=  881408KiB time=00:09:17.42 bitrate=12953.3kbits/s dup=8304 drop=0 speed=3.53x elapsed=0:02:37.81    frame=16595 fps=105 q=15.0 size=  884480KiB time=00:09:19.31 bitrate=12954.5kbits/s dup=8332 drop=0 speed=3.53x elapsed=0:02:38.32    frame=16647 fps=105 q=15.0 size=  887296KiB time=00:09:21.06 bitrate=12955.2kbits/s dup=8358 drop=0 speed=3.53x elapsed=0:02:38.82    frame=16681 fps=105 q=15.0 size=  889088KiB time=00:09:22.21 bitrate=12954.9kbits/s dup=8373 drop=0 speed=3.53x elapsed=0:02:39.33    frame=16712 fps=105 q=18.0 size=  890880KiB time=00:09:23.25 bitrate=12956.9kbits/s dup=8391 drop=0 speed=3.52x elapsed=0:02:39.84    frame=16764 fps=105 q=18.0 size=  893696KiB time=00:09:25.01 bitrate=12957.5kbits/s dup=8417 drop=0 speed=3.52x elapsed=0:02:40.35    frame=16816 fps=105 q=18.0 size=  896512KiB time=00:09:26.76 bitrate=12958.2kbits/s dup=8443 drop=0 speed=3.52x elapsed=0:02:40.85    frame=16870 fps=105 q=18.0 size=  899584KiB time=00:09:28.58 bitrate=12961.0kbits/s dup=8470 drop=0 speed=3.52x elapsed=0:02:41.36    frame=16914 fps=104 q=18.0 size=  901888KiB time=00:09:30.06 bitrate=12960.3kbits/s dup=8492 drop=0 speed=3.52x elapsed=0:02:41.86    frame=16970 fps=105 q=18.0 size=  904960KiB time=00:09:31.95 bitrate=12961.6kbits/s dup=8520 drop=0 speed=3.52x elapsed=0:02:42.37    frame=17020 fps=104 q=18.0 size=  907776KiB time=00:09:33.64 bitrate=12963.7kbits/s dup=8545 drop=0 speed=3.52x elapsed=0:02:42.88    frame=17070 fps=104 q=18.0 size=  910592KiB time=00:09:35.32 bitrate=12965.8kbits/s dup=8570 drop=0 speed=3.52x elapsed=0:02:43.39    frame=17120 fps=104 q=18.0 size=  913152KiB time=00:09:37.01 bitrate=12964.3kbits/s dup=8595 drop=0 speed=3.52x elapsed=0:02:43.90    frame=17176 fps=104 q=18.0 size=  916480KiB time=00:09:38.89 bitrate=12969.1kbits/s dup=8623 drop=0 speed=3.52x elapsed=0:02:44.41    frame=17224 fps=104 q=18.0 size=  919040KiB time=00:09:40.51 bitrate=12969.1kbits/s dup=8647 drop=0 speed=3.52x elapsed=0:02:44.92    frame=17276 fps=104 q=18.0 size=  922112KiB time=00:09:42.26 bitrate=12973.3kbits/s dup=8673 drop=0 speed=3.52x elapsed=0:02:45.43    frame=17328 fps=104 q=18.0 size=  924928KiB time=00:09:44.02 bitrate=12973.8kbits/s dup=8699 drop=0 speed=3.52x elapsed=0:02:45.93    frame=17378 fps=104 q=18.0 size=  927744KiB time=00:09:45.70 bitrate=12975.9kbits/s dup=8724 drop=0 speed=3.52x elapsed=0:02:46.44    frame=17429 fps=104 q=15.0 size=  930560KiB time=00:09:47.42 bitrate=12977.2kbits/s dup=8749 drop=0 speed=3.52x elapsed=0:02:46.95    frame=17482 fps=104 q=18.0 size=  933632KiB time=00:09:49.21 bitrate=12980.5kbits/s dup=8776 drop=0 speed=3.52x elapsed=0:02:47.46    frame=17532 fps=104 q=18.0 size=  936448KiB time=00:09:50.89 bitrate=12982.6kbits/s dup=8801 drop=0 speed=3.52x elapsed=0:02:47.97    frame=17580 fps=104 q=18.0 size=  939264KiB time=00:09:52.51 bitrate=12986.0kbits/s dup=8825 drop=0 speed=3.52x elapsed=0:02:48.48    frame=17632 fps=104 q=18.0 size=  942080KiB time=00:09:54.26 bitrate=12986.6kbits/s dup=8851 drop=0 speed=3.52x elapsed=0:02:48.98    frame=17682 fps=104 q=18.0 size=  945152KiB time=00:09:55.95 bitrate=12992.1kbits/s dup=8876 drop=0 speed=3.52x elapsed=0:02:49.49    frame=17734 fps=104 q=18.0 size=  947968KiB time=00:09:57.70 bitrate=12992.6kbits/s dup=8902 drop=0 speed=3.52x elapsed=0:02:50.00    frame=17785 fps=104 q=15.0 size=  950784KiB time=00:09:59.42 bitrate=12993.8kbits/s dup=8927 drop=0 speed=3.52x elapsed=0:02:50.50    frame=17838 fps=104 q=18.0 size=  953856KiB time=00:10:01.21 bitrate=12997.0kbits/s dup=8954 drop=0 speed=3.52x elapsed=0:02:51.01    frame=17890 fps=104 q=18.0 size=  956672KiB time=00:10:02.96 bitrate=12997.5kbits/s dup=8980 drop=0 speed=3.52x elapsed=0:02:51.52    frame=17940 fps=104 q=18.0 size=  959488KiB time=00:10:04.65 bitrate=12999.4kbits/s dup=8991 drop=0 speed=3.51x elapsed=0:02:52.03    [ipod @ 0x8dd044500] Starting second pass: moving the moov atom to the beginning of the file
+[out#0/ipod @ 0x8dcc40180] video:962211KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.008502%
+frame=17986 fps=104 q=-1.0 Lsize=  962293KiB time=00:10:06.20 bitrate=13004.1kbits/s dup=8991 drop=0 speed=3.51x elapsed=0:02:52.75    
+[libx264 @ 0x8dcc3ca80] frame I:8868  Avg QP: 6.48  size:110185
+[libx264 @ 0x8dcc3ca80] frame P:8963  Avg QP:11.03  size:   786
+[libx264 @ 0x8dcc3ca80] frame B:155   Avg QP:10.85  size:  7360
+[libx264 @ 0x8dcc3ca80] consecutive B-frames: 98.5%  0.8%  0.3%  0.4%
+[libx264 @ 0x8dcc3ca80] mb I  I16..4: 23.3% 30.4% 46.3%
+[libx264 @ 0x8dcc3ca80] mb P  I16..4:  0.1%  0.5%  0.2%  P16..4:  0.3%  0.2%  0.1%  0.0%  0.0%    skip:98.8%
+[libx264 @ 0x8dcc3ca80] mb B  I16..4:  0.5%  2.9%  1.4%  B16..8:  4.8%  2.2%  0.8%  direct: 1.3%  skip:86.2%  L0:64.5% L1:29.7% BI: 5.8%
+[libx264 @ 0x8dcc3ca80] 8x8 transform intra:30.6% inter:16.8%
+[libx264 @ 0x8dcc3ca80] direct mvs  spatial:96.8% temporal:3.2%
+[libx264 @ 0x8dcc3ca80] coded y,uvDC,uvAC intra: 98.0% 9.0% 2.5% inter: 0.5% 0.1% 0.0%
+[libx264 @ 0x8dcc3ca80] i16 v,h,dc,p:  8%  6% 75% 11%
+[libx264 @ 0x8dcc3ca80] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu: 17% 17% 37%  5%  3%  4%  4%  5%  8%
+[libx264 @ 0x8dcc3ca80] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 15% 12% 17%  9%  9%  9%  9%  9% 11%
+[libx264 @ 0x8dcc3ca80] i8c dc,h,v,p: 87%  8%  4%  0%
+[libx264 @ 0x8dcc3ca80] Weighted P-Frames: Y:0.2% UV:0.2%
+[libx264 @ 0x8dcc3ca80] ref P L0: 53.1%  0.8% 14.4% 19.9%  8.5%  3.2%  0.2%
+[libx264 @ 0x8dcc3ca80] ref B L0: 76.3%  9.2% 11.0%  3.5%
+[libx264 @ 0x8dcc3ca80] ref B L1: 99.7%  0.3%
+[libx264 @ 0x8dcc3ca80] kb/s:13001.52
+[OK] Written: /Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS/2015-09-19/20150919_220920_1.m4v
+[WARN] No audio track matched PORTABLE_VIDEO_AUDIO_LANGS="eng ukr rus"; falling back to first audio track.
+/Users/roman.grygorovych/Projects/mylibsystems/sync/v2/convert.sh: line 601: ((: 1280,: syntax error: operand expected (error token is ",")
+ffmpeg version 8.1.1 Copyright (c) 2000-2026 the FFmpeg developers
+  built with Apple clang version 21.0.0 (clang-2100.1.1.101)
+  configuration: --prefix=/opt/homebrew/Cellar/ffmpeg/8.1.1 --enable-shared --cc=clang --host-cflags= --host-ldflags= --enable-gpl --enable-libaom --enable-libdav1d --enable-libharfbuzz --enable-libmp3lame --enable-libopus --enable-libsnappy --enable-libsvtav1 --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --enable-libfontconfig --enable-libfreetype --enable-frei0r --enable-libass --enable-demuxer=dash --enable-neon --enable-opencl --enable-audiotoolbox --enable-videotoolbox --disable-htmlpages --enable-libfdk-aac --enable-libzimg --enable-nonfree
+  libavutil      60. 26.101 / 60. 26.101
+  libavcodec     62. 28.101 / 62. 28.101
+  libavformat    62. 12.101 / 62. 12.101
+  libavdevice    62.  3.101 / 62.  3.101
+  libavfilter    11. 14.101 / 11. 14.101
+  libswscale      9.  5.101 /  9.  5.101
+  libswresample   6.  3.101 /  6.  3.101
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/Volumes/WD-BLUE/UNSORTED/CAMERA/2015/09/19/20150919_220920.mp4':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: isommp42
+    creation_time   : 2015-09-19T19:10:36.000000Z
+  Duration: 00:10:06.26, start: 0.000000, bitrate: 5937 kb/s
+  Stream #0:0[0x1](eng): Video: h264 (Baseline) (avc1 / 0x31637661), yuv420p(progressive), 1280x720, 5936 kb/s, 14.84 fps, 29.67 tbr, 11250 tbn (default)
+    Metadata:
+      creation_time   : 2015-09-19T19:10:36.000000Z
+      handler_name    : VideoHandle
+    Side data:
+      Display Matrix: rotation of -180.00 degrees
+Stream map '' matches no streams.
+To ignore this, add a trailing '?' to the map.
+Failed to set value '0:a:0' for option 'map': Invalid argument
+Error parsing options for output file /tmp/media-sync-80025/20150919_220920_1.m4v.
+Error opening output files: Invalid argument
+[WARN] ffmpeg failed (code 234) for: 20150919_220920_1.m4v
+[WARN] Portable MP4 failed: 20150919_220920.mp4
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/2015/  finished=Sat Jun 13 15:55:05 PDT 2026  failures=1
+[WARN] 1 file(s) failed during import from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2015/
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/  label=2016  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 15:55:05 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    0 image files updated
+    1 image files unchanged
+    0 image files updated
+    1 image files unchanged
+    0 image files updated
+    1 image files unchanged
+    0 image files updated
+    1 image files unchanged
+    0 image files updated
+    1 image files unchanged
+    0 image files updated
+    1 image files unchanged
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+    1 image files updated
+[INFO] 8 file(s) failed during parallel phase; retrying sequentially...
+[ERROR] Import failed after retry: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/05/08/P3530597[1].JPG
+[START] Photo converting: P3530597[1].JPG → 2021-10-10
+[WARN] DateTimeOriginal absent and not derivable for: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/05/08/P3530597[1].JPG
+[WARN] exiftool failed (code 1): Error: Not a valid JPG (looks more like a DICOM) - /tmp/media-sync-59972/P3530597[1]_1.jpg 
+[OK] Written: /Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS/2021-10-10/P3530597[1]_1.jpg
+/Users/roman.grygorovych/Projects/mylibsystems/sync/v2/convert.sh: line 762: <nil>: syntax error: operand expected (error token is "<nil>")
+[ERROR] Import failed after retry: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/10/29/P3590338[1].RW2
+[START] Photo converting: P3590338[1].RW2 → 2021-10-10
+[WARN] sips failed (code 13): Error: Cannot extract image from file. Error 13: an unknown error occurred Try 'sips --help' for help using this tool 
+[WARN] exiftool failed (code 1): Warning: File format error - /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/10/29/P3590338[1].RW2 Warning: No writable tags set from /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/10/29/P3590338[1].RW2 Error: File not found - /tmp/media-sync-60081/P3590338[1]_1.jpg 
+[WARN] DateTimeOriginal absent and not derivable for: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/10/29/P3590338[1].RW2
+[WARN] exiftool failed (code 1): Error: File not found - /tmp/media-sync-60081/P3590338[1]_1.jpg 
+[ERROR] Staged file missing or empty: /tmp/media-sync-60081/P3590338[1]_1.jpg
+[WARN] Desktop JPEG failed: P3590338[1].RW2
+[ERROR] Import failed after retry: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/07/16/P3560443[1].JPG
+[START] Photo converting: P3560443[1].JPG → 2021-10-10
+[WARN] DateTimeOriginal absent and not derivable for: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/07/16/P3560443[1].JPG
+[WARN] exiftool failed (code 1): Error: Not a valid JPG (looks more like a DICOM) - /tmp/media-sync-60215/P3560443[1]_1.jpg 
+[OK] Written: /Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS/2021-10-10/P3560443[1]_1.jpg
+/Users/roman.grygorovych/Projects/mylibsystems/sync/v2/convert.sh: line 762: <nil>: syntax error: operand expected (error token is "<nil>")
+[ERROR] Import failed after retry: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/27/P3580755[1].RW2
+[START] Photo converting: P3580755[1].RW2 → 2021-10-10
+[WARN] sips failed (code 13): Error: Cannot extract image from file. Error 13: an unknown error occurred Try 'sips --help' for help using this tool 
+[WARN] exiftool failed (code 1): Warning: File format error - /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/27/P3580755[1].RW2 Warning: No writable tags set from /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/27/P3580755[1].RW2 Error: File not found - /tmp/media-sync-60325/P3580755[1]_1.jpg 
+[WARN] DateTimeOriginal absent and not derivable for: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/27/P3580755[1].RW2
+[WARN] exiftool failed (code 1): Error: File not found - /tmp/media-sync-60325/P3580755[1]_1.jpg 
+[ERROR] Staged file missing or empty: /tmp/media-sync-60325/P3580755[1]_1.jpg
+[WARN] Desktop JPEG failed: P3580755[1].RW2
+[ERROR] Import failed after retry: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/11/P3570297[1].RW2
+[START] Photo converting: P3570297[1].RW2 → 2021-10-10
+[WARN] sips failed (code 13): Error: Cannot extract image from file. Error 13: an unknown error occurred Try 'sips --help' for help using this tool 
+[WARN] exiftool failed (code 1): Warning: File format error - /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/11/P3570297[1].RW2 Warning: No writable tags set from /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/11/P3570297[1].RW2 Error: File not found - /tmp/media-sync-60427/P3570297[1]_1.jpg 
+[WARN] DateTimeOriginal absent and not derivable for: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/11/P3570297[1].RW2
+[WARN] exiftool failed (code 1): Error: File not found - /tmp/media-sync-60427/P3570297[1]_1.jpg 
+[ERROR] Staged file missing or empty: /tmp/media-sync-60427/P3570297[1]_1.jpg
+[WARN] Desktop JPEG failed: P3570297[1].RW2
+[ERROR] Import failed after retry: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/15/P3580372[1].RW2
+[START] Photo converting: P3580372[1].RW2 → 2021-10-10
+[WARN] sips failed (code 13): Error: Cannot extract image from file. Error 13: an unknown error occurred Try 'sips --help' for help using this tool 
+[WARN] exiftool failed (code 1): Warning: File format error - /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/15/P3580372[1].RW2 Warning: No writable tags set from /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/15/P3580372[1].RW2 Error: File not found - /tmp/media-sync-60559/P3580372[1]_1.jpg 
+[WARN] DateTimeOriginal absent and not derivable for: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/15/P3580372[1].RW2
+[WARN] exiftool failed (code 1): Error: File not found - /tmp/media-sync-60559/P3580372[1]_1.jpg 
+[ERROR] Staged file missing or empty: /tmp/media-sync-60559/P3580372[1]_1.jpg
+[WARN] Desktop JPEG failed: P3580372[1].RW2
+[ERROR] Import failed after retry: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/13/P3570636[1].RW2
+[START] Photo converting: P3570636[1].RW2 → 2021-10-10
+[WARN] sips failed (code 13): Error: Cannot extract image from file. Error 13: an unknown error occurred Try 'sips --help' for help using this tool 
+[WARN] exiftool failed (code 1): Warning: File format error - /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/13/P3570636[1].RW2 Warning: No writable tags set from /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/13/P3570636[1].RW2 Error: File not found - /tmp/media-sync-60661/P3570636[1]_1.jpg 
+[WARN] DateTimeOriginal absent and not derivable for: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/13/P3570636[1].RW2
+[WARN] exiftool failed (code 1): Error: File not found - /tmp/media-sync-60661/P3570636[1]_1.jpg 
+[ERROR] Staged file missing or empty: /tmp/media-sync-60661/P3570636[1]_1.jpg
+[WARN] Desktop JPEG failed: P3570636[1].RW2
+[ERROR] Import failed after retry: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/14/P3570840[1].RW2
+[START] Photo converting: P3570840[1].RW2 → 2021-10-10
+[WARN] sips failed (code 13): Error: Cannot extract image from file. Error 13: an unknown error occurred Try 'sips --help' for help using this tool 
+[WARN] exiftool failed (code 1): Warning: File format error - /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/14/P3570840[1].RW2 Warning: No writable tags set from /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/14/P3570840[1].RW2 Error: File not found - /tmp/media-sync-60764/P3570840[1]_1.jpg 
+[WARN] DateTimeOriginal absent and not derivable for: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/08/14/P3570840[1].RW2
+[WARN] exiftool failed (code 1): Error: File not found - /tmp/media-sync-60764/P3570840[1]_1.jpg 
+[ERROR] Staged file missing or empty: /tmp/media-sync-60764/P3570840[1]_1.jpg
+[WARN] Desktop JPEG failed: P3570840[1].RW2
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/  finished=Sat Jun 13 17:56:55 PDT 2026  failures=8
+[WARN] 8 file(s) failed during import from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2016/
+[STAGE 2] Downloads — skipped
+[STAGE 3] Music — skipped
+[STAGE 4] Movies — skipped
+[STAGE 5] TV — skipped
+[STAGE 6] Photos — skipped
+[STAGE 7] Cleanup

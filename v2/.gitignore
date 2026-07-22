@@ -1,0 +1,7 @@
+# Persistent metadata cache (album-context lookups)
+.cache/
+
+# Generated run logs
+import.log
+sync.log
+backup.log

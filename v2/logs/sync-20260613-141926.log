@@ -1,0 +1,14 @@
+[INFO] sync.sh started at Sat Jun 13 14:19:26 PDT 2026
+[STAGE 1] Camera import: /Volumes/WD-BLUE/UNSORTED/CAMERA
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2009/  label=2009  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 14:19:26 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/2009/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/2009/  finished=Sat Jun 13 14:19:26 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2010/  label=2010  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 14:19:26 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/2010/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/2010/  finished=Sat Jun 13 14:19:27 PDT 2026  failures=0
+[STAGE 2] Downloads — skipped
+[STAGE 3] Music — skipped
+[STAGE 4] Movies — skipped
+[STAGE 5] TV — skipped
+[STAGE 6] Photos — skipped
+[STAGE 7] Cleanup

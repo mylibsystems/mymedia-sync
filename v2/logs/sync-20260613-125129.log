@@ -1,0 +1,361 @@
+[INFO] sync.sh started at Sat Jun 13 12:51:29 PDT 2026
+[STAGE 1] Camera import: /Volumes/WD-BLUE/UNSORTED/CAMERA
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/0002_11_30/  label=0002_11_30  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:51:29 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/0002_11_30/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/0002_11_30/  finished=Sat Jun 13 12:51:35 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/1/  label=1  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:51:35 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/1/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/1/  finished=Sat Jun 13 12:51:36 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/10/  label=10  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:51:36 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/10/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/10/  finished=Sat Jun 13 12:51:40 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/11/  label=11  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:51:40 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/11/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/11/  finished=Sat Jun 13 12:51:43 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/12/  label=12  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:51:43 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/12/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/12/  finished=Sat Jun 13 12:51:44 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/123/  label=123  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:51:44 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/123/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/123/  finished=Sat Jun 13 12:51:56 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/13/  label=13  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:51:56 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/13/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/13/  finished=Sat Jun 13 12:52:07 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/14/  label=14  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:52:07 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/14/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/14/  finished=Sat Jun 13 12:52:08 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/15/  label=15  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:52:08 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/15/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/15/  finished=Sat Jun 13 12:52:12 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/16/  label=16  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:52:12 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/16/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/16/  finished=Sat Jun 13 12:52:15 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/17/  label=17  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:52:15 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/17/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/17/  finished=Sat Jun 13 12:52:21 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/18/  label=18  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:52:21 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/18/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/18/  finished=Sat Jun 13 12:52:22 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/19/  label=19  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:52:22 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/19/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/19/  finished=Sat Jun 13 12:52:25 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2/  label=2  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:52:25 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/2/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/2/  finished=Sat Jun 13 12:52:26 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/20/  label=20  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:52:26 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/20/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/20/  finished=Sat Jun 13 12:52:28 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2008_01_01/  label=2008_01_01  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:52:28 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/2008_01_01/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/2008_01_01/  finished=Sat Jun 13 12:52:34 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2026_04_04/  label=2026_04_04  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:52:34 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/2026_04_04/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/2026_04_04/  finished=Sat Jun 13 12:52:46 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/2026_04_05/  label=2026_04_05  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:52:46 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/2026_04_05/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/2026_04_05/  finished=Sat Jun 13 12:52:51 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/21/  label=21  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:52:51 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/21/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/21/  finished=Sat Jun 13 12:52:58 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/22/  label=22  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:52:58 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/22/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/22/  finished=Sat Jun 13 12:53:02 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/23/  label=23  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:53:02 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/23/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/23/  finished=Sat Jun 13 12:53:06 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/24/  label=24  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:53:06 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/24/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/24/  finished=Sat Jun 13 12:53:12 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/25/  label=25  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:53:12 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/25/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/25/  finished=Sat Jun 13 12:53:16 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/26/  label=26  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:53:16 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/26/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/26/  finished=Sat Jun 13 12:53:20 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/27/  label=27  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:53:20 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/27/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/27/  finished=Sat Jun 13 12:53:30 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/28/  label=28  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:53:30 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/28/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/28/  finished=Sat Jun 13 12:54:02 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/29/  label=29  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:54:02 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/29/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/29/  finished=Sat Jun 13 12:54:08 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/3/  label=3  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:54:08 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/3/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/3/  finished=Sat Jun 13 12:54:09 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/30/  label=30  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:54:09 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/30/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/30/  finished=Sat Jun 13 12:54:10 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/31/  label=31  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:54:10 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/31/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/31/  finished=Sat Jun 13 12:54:13 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/32/  label=32  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:54:13 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/32/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/32/  finished=Sat Jun 13 12:54:21 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/33/  label=33  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:54:21 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/33/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/33/  finished=Sat Jun 13 12:54:27 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/34/  label=34  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:54:27 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/34/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/34/  finished=Sat Jun 13 12:54:35 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/35/  label=35  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:54:35 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/35/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/35/  finished=Sat Jun 13 12:54:39 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/389_PANA/  label=389_PANA  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:54:39 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/389_PANA/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/389_PANA/  finished=Sat Jun 13 12:54:45 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/390_PANA/  label=390_PANA  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:54:45 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/390_PANA/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/390_PANA/  finished=Sat Jun 13 12:54:57 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/4/  label=4  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:54:57 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/4/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/4/  finished=Sat Jun 13 12:54:59 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/40/  label=40  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:54:59 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/40/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/40/  finished=Sat Jun 13 12:55:01 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/400_PANA/  label=400_PANA  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:01 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/400_PANA/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/400_PANA/  finished=Sat Jun 13 12:55:08 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/41/  label=41  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:08 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/41/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/41/  finished=Sat Jun 13 12:55:09 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/42/  label=42  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:09 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/42/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/42/  finished=Sat Jun 13 12:55:11 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/43/  label=43  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:11 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/43/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/43/  finished=Sat Jun 13 12:55:12 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/44/  label=44  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:12 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/44/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/44/  finished=Sat Jun 13 12:55:14 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/45/  label=45  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:14 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/45/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/45/  finished=Sat Jun 13 12:55:14 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/46/  label=46  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:14 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/46/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/46/  finished=Sat Jun 13 12:55:23 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/47/  label=47  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:23 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/47/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/47/  finished=Sat Jun 13 12:55:27 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/48/  label=48  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:27 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/48/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/48/  finished=Sat Jun 13 12:55:31 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/49/  label=49  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:31 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/49/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/49/  finished=Sat Jun 13 12:55:34 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/5/  label=5  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:34 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/5/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/5/  finished=Sat Jun 13 12:55:37 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/50/  label=50  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:37 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/50/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/50/  finished=Sat Jun 13 12:55:42 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/51/  label=51  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:42 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/51/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/51/  finished=Sat Jun 13 12:55:44 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/52/  label=52  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:44 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/52/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/52/  finished=Sat Jun 13 12:55:46 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/53/  label=53  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:46 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/53/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/53/  finished=Sat Jun 13 12:55:52 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/54/  label=54  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:53 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/54/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/54/  finished=Sat Jun 13 12:55:57 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/55/  label=55  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:58 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/55/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/55/  finished=Sat Jun 13 12:55:59 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/56/  label=56  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:55:59 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/56/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/56/  finished=Sat Jun 13 12:56:02 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/6/  label=6  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:56:02 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/6/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/6/  finished=Sat Jun 13 12:56:05 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/61/  label=61  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:56:05 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/61/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/61/  finished=Sat Jun 13 12:56:09 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/7/  label=7  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:56:09 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/7/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/7/  finished=Sat Jun 13 12:56:15 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/8/  label=8  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:56:15 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/8/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/8/  finished=Sat Jun 13 12:56:19 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/9/  label=9  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:56:19 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/9/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/9/  finished=Sat Jun 13 12:56:23 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM/  label=DCIM  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:56:23 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM/  finished=Sat Jun 13 12:56:28 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM15/  label=DCIM15  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:56:28 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM15/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM15/  finished=Sat Jun 13 12:56:38 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM3/  label=DCIM3  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:56:38 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM3/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM3/  finished=Sat Jun 13 12:56:39 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM4/  label=DCIM4  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:56:39 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM4/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM4/  finished=Sat Jun 13 12:56:44 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM5/  label=DCIM5  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:56:44 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM5/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/DCIM5/  finished=Sat Jun 13 12:56:52 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/cim12/  label=cim12  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:56:52 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/cim12/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/cim12/  finished=Sat Jun 13 12:56:53 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim10/  label=dcim10  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:56:53 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim10/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim10/  finished=Sat Jun 13 12:56:55 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim11/  label=dcim11  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:56:55 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim11/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim11/  finished=Sat Jun 13 12:57:59 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim12/  label=dcim12  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:57:59 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim12/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim12/  finished=Sat Jun 13 12:57:59 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim13/  label=dcim13  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:57:59 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim13/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim13/  finished=Sat Jun 13 12:58:07 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim14/  label=dcim14  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:58:07 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim14/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim14/  finished=Sat Jun 13 12:58:13 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim16/  label=dcim16  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:58:13 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim16/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim16/  finished=Sat Jun 13 12:58:23 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim17/  label=dcim17  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:58:23 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim17/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim17/  finished=Sat Jun 13 12:58:39 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim18/  label=dcim18  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:58:39 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim18/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim18/  finished=Sat Jun 13 12:58:43 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim19/  label=dcim19  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:58:43 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim19/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim19/  finished=Sat Jun 13 12:58:46 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim2/  label=dcim2  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:58:46 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim2/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim2/  finished=Sat Jun 13 12:58:48 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim20/  label=dcim20  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:58:48 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim20/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim20/  finished=Sat Jun 13 12:58:50 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim21/  label=dcim21  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:58:50 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim21/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim21/  finished=Sat Jun 13 12:58:53 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim22/  label=dcim22  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:58:53 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim22/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim22/  finished=Sat Jun 13 12:58:55 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim6/  label=dcim6  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:58:56 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim6/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim6/  finished=Sat Jun 13 12:58:57 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim60/  label=dcim60  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:58:57 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim60/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim60/  finished=Sat Jun 13 12:59:11 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim7/  label=dcim7  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:59:11 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim7/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim7/  finished=Sat Jun 13 12:59:13 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim8/  label=dcim8  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:59:14 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim8/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim8/  finished=Sat Jun 13 12:59:17 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim9/  label=dcim9  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:59:17 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim9/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/dcim9/  finished=Sat Jun 13 12:59:19 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 10/  label=untitled folder 10  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:59:19 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 10/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 10/  finished=Sat Jun 13 12:59:27 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 11/  label=untitled folder 11  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:59:28 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 11/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 11/  finished=Sat Jun 13 12:59:37 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 12/  label=untitled folder 12  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:59:37 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 12/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 12/  finished=Sat Jun 13 12:59:42 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 13/  label=untitled folder 13  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:59:42 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 13/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 13/  finished=Sat Jun 13 12:59:50 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 14/  label=untitled folder 14  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 12:59:50 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 14/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 14/  finished=Sat Jun 13 13:00:00 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 15/  label=untitled folder 15  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:00:00 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 15/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 15/  finished=Sat Jun 13 13:00:35 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 16/  label=untitled folder 16  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:00:35 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 16/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 16/  finished=Sat Jun 13 13:00:41 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 17/  label=untitled folder 17  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:00:41 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 17/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 17/  finished=Sat Jun 13 13:01:01 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 18/  label=untitled folder 18  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:01:01 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 18/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 18/  finished=Sat Jun 13 13:01:13 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 19/  label=untitled folder 19  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:01:13 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 19/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 19/  finished=Sat Jun 13 13:01:18 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 2/  label=untitled folder 2  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:01:18 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 2/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 2/  finished=Sat Jun 13 13:01:25 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 20/  label=untitled folder 20  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:01:25 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 20/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 20/  finished=Sat Jun 13 13:01:29 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 21/  label=untitled folder 21  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:01:29 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 21/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 21/  finished=Sat Jun 13 13:01:32 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 22/  label=untitled folder 22  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:01:32 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 22/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 22/  finished=Sat Jun 13 13:01:39 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 23/  label=untitled folder 23  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:01:39 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 23/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 23/  finished=Sat Jun 13 13:01:40 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 24/  label=untitled folder 24  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:01:40 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 24/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 24/  finished=Sat Jun 13 13:01:48 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 25/  label=untitled folder 25  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:01:48 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 25/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 25/  finished=Sat Jun 13 13:01:49 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 26/  label=untitled folder 26  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:01:49 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 26/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 26/  finished=Sat Jun 13 13:01:52 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 27/  label=untitled folder 27  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:01:52 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 27/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 27/  finished=Sat Jun 13 13:01:53 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 28/  label=untitled folder 28  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:01:53 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 28/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 28/  finished=Sat Jun 13 13:02:03 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 29/  label=untitled folder 29  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:02:03 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 29/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 29/  finished=Sat Jun 13 13:02:03 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 3/  label=untitled folder 3  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:02:03 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 3/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 3/  finished=Sat Jun 13 13:02:04 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 30/  label=untitled folder 30  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:02:04 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 30/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 30/  finished=Sat Jun 13 13:02:04 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 31/  label=untitled folder 31  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:02:04 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 31/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 31/  finished=Sat Jun 13 13:02:27 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 32/  label=untitled folder 32  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:02:27 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 32/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 32/  finished=Sat Jun 13 13:02:27 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 4/  label=untitled folder 4  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:02:27 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 4/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 4/  finished=Sat Jun 13 13:02:35 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 5/  label=untitled folder 5  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:02:35 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 5/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 5/  finished=Sat Jun 13 13:02:39 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 6/  label=untitled folder 6  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:02:39 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 6/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 6/  finished=Sat Jun 13 13:02:43 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 7/  label=untitled folder 7  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:02:43 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 7/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 7/  finished=Sat Jun 13 13:02:48 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 8/  label=untitled folder 8  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:02:48 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 8/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 8/  finished=Sat Jun 13 13:02:49 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 9/  label=untitled folder 9  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:02:49 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 9/
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder 9/  finished=Sat Jun 13 13:02:51 PDT 2026  failures=0
+[INFO] Importing from: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder/  label=untitled folder  root=/Volumes/WD-BLUE/LIBRARY.DESKTOP/PHOTOS  started=Sat Jun 13 13:02:51 PDT 2026
+[INFO] Scanning album directories under: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder/
+    1 image files updated
+    1 image files updated
+[INFO] Import complete: /Volumes/WD-BLUE/UNSORTED/CAMERA/untitled folder/  finished=Sat Jun 13 13:03:11 PDT 2026  failures=0
+[STAGE 2] Downloads — skipped
+[STAGE 3] Music — skipped
+[STAGE 4] Movies — skipped
+[STAGE 5] TV — skipped
+[STAGE 6] Photos — skipped
+[STAGE 7] Cleanup
