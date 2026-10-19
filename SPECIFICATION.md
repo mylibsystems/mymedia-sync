@@ -219,6 +219,10 @@ Every video import produces two output files: one desktop and one portable versi
 
 Metadata is fetched from internet databases and embedded into the MP4 container using `AtomicParsley` or `ffmpeg -metadata`. Cover art (poster/thumbnail) is also embedded.
 
+**Tier parity — portable mirrors desktop.** The portable output always carries the **same embedded metadata and cover art as the desktop output**: title, year, genre, and TV tags are identical, and the same poster/cover image is embedded. The portable tier never strips, blanks, or independently re-looks-up these fields — it inherits them from the desktop pass. The only deliberate differences are:
+- the long **description** is omitted on portable (the Sony Walkman NWZ does not display it);
+- the embedded cover art is **downscaled** to fit `PORTABLE_VIDEO_WIDTH`×`PORTABLE_VIDEO_HEIGHT` (preserving aspect ratio) to keep the file small.
+
 **Lookup pipeline:**
 1. Identify content type: movie or TV episode (by directory name, existing tags, or interactive prompt)
 2. **Movies:** query **The Movie Database (TMDB)** API — fetch title, year, genre, description, poster image
@@ -238,6 +242,8 @@ Metadata is fetched from internet databases and embedded into the MP4 container 
 | TV Show name (`tvsh`) | — | Series name |
 | Season number (`tvsn`) | — | Season number |
 | Episode number (`tven`) | — | Episode number |
+
+> **Portable tier:** every field above is embedded identically to the desktop file, **except** `desc` (Description), which is omitted on the portable copy, and `covr` (Cover art), which is downscaled to the portable video dimensions. All other fields — including **Title** — are always present and match the desktop output.
 
 ### Video Organization (Both Tiers)
 

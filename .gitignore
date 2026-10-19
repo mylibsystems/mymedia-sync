@@ -9,6 +9,19 @@
 *.log.*
 logs/
 
+# Runtime media tree + cache (created when MEDIA_PATH defaults to the repo dir)
+/UNSORTED/
+/LIBRARY.DESKTOP/
+/LIBRARY.PORTABLE/
+/LIBRARY.*/
+/.cache/
+
+# Locally built ffmpeg with libfdk_aac — NONFREE / UNREDISTRIBUTABLE, never commit
+/.ffmpeg/
+
+# Local API keys / secrets
+config.local.sh
+
 # Editor/OS cruft
 *.swp
 *~

@@ -50,6 +50,9 @@ MyMedia Sync does both, deterministically, for two device tiers at once:
 
 - **Metadata-first.** Folder layout is derived from authoritative tags, not messy source folder names.
 - **Two tiers, one pass.** Every file yields a desktop/hi-fi copy and a portable copy in a single run.
+- **Tier parity.** The portable copy inherits the **same embedded metadata and cover art** as its desktop
+  counterpart (title, year, genre, TV tags, artwork); only the long description is dropped and the cover
+  art is downscaled for the device.
 - **Preserve-first metadata.** Existing embedded tags and cover art are kept verbatim; the internet is
   consulted only to *fill in what's missing* and to *flag* suspicious mismatches — never to overwrite.
 - **Idempotent & safe.** Every step checks for an existing output before acting; sources are removed
@@ -187,8 +190,10 @@ pip install eyeD3
 
 ## Setup
 
-Set your source and library paths plus API keys (`TMDB_API_KEY`, `LASTFM_API_KEY`) at the top of
-`v2/config.sh`. MusicBrainz and AcoustID are used without a key (rate-limited to ~1 req/s).
+Set your source and library paths in `config.sh`. Put API keys (`TMDB_API_KEY`, `LASTFM_API_KEY`,
+`ACOUSTID_API_KEY`) in a git-ignored `config.local.sh` (or export them). By default a successful import
+**moves** files: sources in `UNSORTED` are removed after verified conversion (or when the output already
+exists); set `DELETE_AFTER_IMPORT=0` to keep them.
 
 ## Usage
 
