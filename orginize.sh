@@ -279,6 +279,11 @@ source_is_removable() {
 
 remove_source_if_enabled() {
     local src="$1"
+    # Already moved into the camera library: nothing left in UNSORTED to remove,
+    # and the library copy must never be deleted.
+    [[ -n "$_ARCHIVED_PATH" && "$src" == "$_ARCHIVED_PATH" ]] && return 0
+    # Already moved out of UNSORTED into the camera library: nothing to remove.
+    [[ -e "$src" ]] || return 0
     if [[ "${DELETE_AFTER_IMPORT:-1}" != "1" ]]; then
         debug_log "Source preserved (DELETE_AFTER_IMPORT=0): $src"
         return 0
@@ -330,9 +335,22 @@ resolve_portable_source() {
 # Runs for every CAMERA_SOURCE file on every pass, independent of the conversion
 # skip logic, so a re-run backfills any originals missed earlier. Idempotent
 # (size-checked), retries transient SMB copy errors, and never aborts the worker.
+# Map a path under MEDIA_PATH (SMB view) to the same location on the router's
+# NFS export, which sees UNSORTED and the libraries as ONE filesystem.
+nfs_path() {
+    local p="$1" nfs="${ROUTER_NFS_ROOT:-/mnt/router-nfs}" m="${MEDIA_PATH%/}"
+    [[ -n "$m" && "$p" == "$m"/* && -d "$nfs" ]] || return 1
+    printf '%s' "${nfs%/}/${p#"$m"/}"
+}
+
+# Set to the archived path when the original was MOVED (renamed) into the camera
+# library, so later steps read it from there and never try to delete it.
+_ARCHIVED_PATH=""
+
 archive_camera_original() {
     local src="$1"
     _ARCHIVE_OK=1
+    _ARCHIVED_PATH=""
     [[ "$src" == "${CAMERA_SOURCE%/}/"* ]] || return 0
     local dir="${DESKTOP_CAMERA_ROOT}/${DATE_YEAR}/${DATE_MONTH}/${DATE_DAY}"
     local name base ext cand i=0 partial attempt
@@ -348,11 +366,33 @@ archive_camera_original() {
     while :; do
         if (( i == 0 )); then cand="${dir}/${name}"; else cand="${dir}/${base}_${i}${ext:+.$ext}"; fi
         if [[ -e "$cand" ]]; then
-            cmp -s "$src" "$cand" && return 0
+            cmp -s "$src" "$cand" && { _ARCHIVED_PATH="$cand"; return 0; }
             (( i++ )); continue
         fi
         break
     done
+
+    # Fast path: same filesystem on the NFS side → a real move (rename). Same file
+    # name, no data copied, no extra space. mv -n never overwrites.
+    local nsrc ndir ncand attempt_mv
+    if nsrc="$(nfs_path "$src")" && ndir="$(nfs_path "$dir")" && [[ -f "$nsrc" ]] \
+       && mkdir -p "$ndir" 2>/dev/null \
+       && [[ "$(stat -c %d "$nsrc" 2>/dev/null)" == "$(stat -c %d "$ndir" 2>/dev/null)" ]]; then
+        for attempt_mv in 1 2 3; do
+            ncand="${ndir}/$(basename "$cand")"
+            if [[ ! -e "$ncand" ]] && mv -n "$nsrc" "$ncand" 2>/dev/null \
+               && [[ ! -e "$nsrc" && -f "$ncand" ]]; then
+                _ARCHIVED_PATH="${dir}/$(basename "$cand")"
+                echo "[MOVED] Camera original moved: $(basename "$cand") → ${DATE_YEAR}/${DATE_MONTH}/${DATE_DAY}" >&2
+                local w; for w in 1 2 3 4 5; do [[ -f "$_ARCHIVED_PATH" ]] && break; sleep 1; done
+                [[ -f "$_ARCHIVED_PATH" ]] || { _ARCHIVE_OK=0; _ARCHIVED_PATH=""; }
+                return 0
+            fi
+            # lost a race for the name → next free _N name
+            (( i++ )); cand="${dir}/${base}_${i}${ext:+.$ext}"
+            while [[ -e "$cand" ]]; do (( i++ )); cand="${dir}/${base}_${i}${ext:+.$ext}"; done
+        done
+    fi
 
     partial="${dir}/.${name}.partial-$$"
     for attempt in 1 2 3; do
@@ -360,12 +400,14 @@ archive_camera_original() {
         if cp "$src" "$partial" 2>/dev/null && [[ "$(file_bytes "$partial")" == "$sz" ]] \
            && cmp -s "$src" "$partial" && mv -n "$partial" "$cand" 2>/dev/null && [[ ! -e "$partial" ]]; then
             echo "[DONE] Camera original archived: $(basename "$cand") → ${DATE_YEAR}/${DATE_MONTH}/${DATE_DAY}" >&2
+            _ARCHIVED_PATH="$cand"
             return 0
         fi
         rm -f "$partial" 2>/dev/null || true
     done
     echo "[WARN] Camera archive failed after retries: $name" >&2
     _ARCHIVE_OK=0
+    _ARCHIVED_PATH=""
     return 0
 }
 
@@ -394,6 +436,11 @@ orginizeByDate() {
     # CAMERA library always holds every captured file organized by date — even on
     # a re-run where the converted outputs already exist and conversion is skipped.
     archive_camera_original "$file"
+    # Desktop is built from the archived original in the camera library (never from
+    # UNSORTED); portable is then derived from desktop. src_orig is the UNSORTED
+    # source, removed once the archived copy is verified (or already moved away).
+    local src_orig="$file"
+    [[ -n "$_ARCHIVED_PATH" ]] && file="$_ARCHIVED_PATH"
 
     # Desktop: flat YYYY-MM-DD folder (same as portable) — consistent browsing across both libraries.
     # Portable: flat YYYY-MM-DD folder — Walkman photo browser only shows
@@ -424,7 +471,10 @@ orginizeByDate() {
     # of reusing the existing file.
     if [[ "${SKIP_IF_EXISTS:-1}" == "1" ]] \
        && outputs_present "${desktop_dir}/${filename}" "${portable_dir}/${filename}"; then
-        echo "[SKIP] Already in library: ${filename} (source kept)" >&2
+        echo "[SKIP] Already in library: ${filename}" >&2
+        # Move semantics: the original was just archived byte-identically above,
+        # so the source is removed once that archived copy is verified.
+        remove_source_if_enabled "$src_orig"
         return 0
     fi
 
@@ -524,7 +574,7 @@ orginizeByDate() {
         done
     fi
 
-    remove_source_if_enabled "$file"
+    remove_source_if_enabled "$src_orig"
     if (( is_video )); then
         echo "[DONE] Camera video organized: $(basename "$file") → $desktop_rel_dir" >&2
     else
