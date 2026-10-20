@@ -13,6 +13,9 @@
 #
 # Env: SYNC_UI_REFRESH (seconds between frames, default 2)
 #      SYNC_UI_COUNT_TTL (seconds between library re-counts, default 20)
+#
+# INBOX panel: camera / photos / video / downloads progress, derived from the
+# files left in UNSORTED (each source is removed right after it is imported).
 
 set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -21,6 +24,7 @@ source "${SCRIPT_DIR}/config.sh" >/dev/null 2>&1 || true
 
 REFRESH="${SYNC_UI_REFRESH:-2}"
 COUNT_TTL="${SYNC_UI_COUNT_TTL:-20}"
+BASE_FILE="${SCRIPT_DIR}/logs/.syncui-baseline"
 FFPROBE_BIN="${SCRIPT_DIR}/.ffmpeg/bin/ffprobe"
 
 # ---- palette ---------------------------------------------------------------
@@ -58,6 +62,7 @@ if [[ "$MODE" == "wrapper" ]]; then
     _stages=( "$@" ); [[ "${_stages[0]:-}" == "all" ]] && _stages=()
     # ffmpeg's stderr progress is unbuffered, so live time= reaches the file
     # even without a pty; disable sync's own auto-tee to keep one clean log.
+    rm -f "$BASE_FILE"   # new run → fresh inbox baseline
     SYNC_AUTOTEE=0 nohup "${SCRIPT_DIR}/sync.sh" "${_stages[@]}" >"$LOG" 2>&1 &
     SYNC_PID=$!
 else
@@ -80,6 +85,17 @@ roots_for() {
     esac
 }
 CATS=(MUSIC MOVIES TV PHOTOS)
+
+# Inbox sources whose files are deleted from UNSORTED once imported.
+SRC_CATS=(CAMERA PHOTOS VIDEO DOWNLOADS)
+src_for() {
+    case "$1" in
+        CAMERA)    SDIR="$CAMERA_SOURCE";    SICON='📷'; SCOL="$C_PH" ;;
+        PHOTOS)    SDIR="$PHOTOS_SOURCE";    SICON='🖼'; SCOL="$C_PH" ;;
+        VIDEO)     SDIR="$VIDEO_SOURCE";     SICON='🎞'; SCOL="$C_MOV" ;;
+        DOWNLOADS) SDIR="$DOWNLOADS_SOURCE"; SICON='📥'; SCOL="$C_TV" ;;
+    esac
+}
 
 bar() { # done total width color
     local d=$1 t=$2 w=$3 col=$4 fill=0 i s=""
@@ -109,6 +125,8 @@ read_now() {
     esac
     cur_group=""
     [[ -n "$cur_cat" ]] && cur_group=$(sed -E "s#.*/$cur_cat/([^/]+)/.*#\1#" <<<"$cur_file")
+    # CAMERA files map to PHOTOS but live outside /PHOTOS/ → fall back to the parent folder
+    [[ -z "$cur_group" || "$cur_group" == "$cur_file" ]] && cur_group="$(basename "$(dirname "$cur_file")")"
     local dur pos
     dur=$(grep -a 'Duration:' "$LOG" 2>/dev/null | tail -1 | sed -E 's/.*Duration: ([0-9:.]+).*/\1/')
     pos=$(tr '\r' '\n' < "$LOG" 2>/dev/null | grep -aoE 'time=[0-9:.]+' | tail -1 | cut -d= -f2)
@@ -120,19 +138,20 @@ read_now() {
 
 # cached library counts + pending (computed by a background producer so slow
 # SMB scans never block the render loop)
-declare -A DONE TOT
+declare -A DONE TOT SRC_LEFT SRC_BASE
 PEND_LINES=(); _last_count_ts=0; _last_cat=""
 PEND_OFFSET=0; MANUAL_UNTIL=0
 COUNTS_READY=0; _counter_pid=""; _results_mtime=0
 RESULT_FILE="$(mktemp -t syncui.res.XXXXXX 2>/dev/null || echo /tmp/syncui.res.$$)"
 RESULT_TMP="${RESULT_FILE}.tmp"
+FRAME_FILE="$(mktemp -t syncui.frame.XXXXXX 2>/dev/null || echo /tmp/syncui.frame.$$)"
 
 # Runs in the background; discovers counts + the current category's pending queue
 # incrementally, republishing an atomic snapshot after each step so the UI fills
 # in from 0 as results arrive (fast categories first, slow SMB scans last).
 spawn_counter() {
     local ccat="$1" cgroup="$2"
-    local snap="" pend="PEND_LINES=()" c t d g gp dc pc name
+    local snap="" pend="PEND_LINES=()" c t d g gp dc pc name n
     _publish() { { printf '%s' "$snap"; printf '%s\n' "$pend"; } > "$RESULT_TMP" 2>/dev/null \
                  && mv -f "$RESULT_TMP" "$RESULT_FILE" 2>/dev/null; }
     # current category's pending queue first (most relevant, usually cheap)
@@ -149,6 +168,26 @@ spawn_counter() {
         done < <(find "$DROOT" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort)
         pend+=" )"; _publish
     fi
+    # inbox: files still waiting in each UNSORTED source folder
+    for c in "${SRC_CATS[@]}"; do
+        src_for "$c"
+        n=$(find "$SDIR" -type f ! -name '.*' ! -iname 'Thumbs.db' ! -iname 'desktop.ini' 2>/dev/null | wc -l | tr -d ' ')
+        snap+="SRC_LEFT[$c]=$n"$'\n'
+        _publish
+    done
+    # nothing is encoding right now → PENDING lists what is waiting in UNSORTED
+    if [[ -z "$ccat" ]]; then
+        pend="PEND_LINES=("
+        for c in "${SRC_CATS[@]}"; do
+            src_for "$c"
+            while IFS= read -r g; do
+                [[ -z "$g" ]] && continue
+                n=$(find "$g" -type f ! -name '.*' 2>/dev/null | wc -l | tr -d ' ')
+                (( n > 0 )) && pend+=" $(printf '%q' "$c/$(basename "$g")|$n|-")"
+            done < <(find "$SDIR" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort)
+        done
+        pend+=" )"; _publish
+    fi
     # category counts, current category first, publishing after each
     local order=(); [[ -n "$ccat" ]] && order+=("$ccat")
     for c in "${CATS[@]}"; do [[ "$c" == "$ccat" ]] || order+=("$c"); done
@@ -160,6 +199,27 @@ spawn_counter() {
         _publish
     done
 }
+# Baseline = the most files ever seen waiting in a source folder this run;
+# progress = baseline - files left.
+load_baseline() {
+    local k v
+    [[ -f "$BASE_FILE" ]] || return 0
+    while IFS== read -r k v; do
+        [[ "$k" =~ ^[A-Z]+$ && "$v" =~ ^[0-9]+$ ]] && SRC_BASE[$k]=$v
+    done < "$BASE_FILE"
+}
+update_baselines() {
+    local c l changed=0
+    for c in "${SRC_CATS[@]}"; do
+        l="${SRC_LEFT[$c]:-}"; [[ -n "$l" ]] || continue
+        if (( l > ${SRC_BASE[$c]:-0} )); then SRC_BASE[$c]=$l; changed=1; fi
+    done
+    if (( changed )); then
+        for c in "${SRC_CATS[@]}"; do printf '%s=%s\n' "$c" "${SRC_BASE[$c]:-0}"; done > "$BASE_FILE" 2>/dev/null
+    fi
+}
+load_baseline
+
 maybe_refresh_counts() {
     local now; now=$(date +%s)
     # publish finished results
@@ -167,7 +227,7 @@ maybe_refresh_counts() {
         local m; m=$(stat -c %Y "$RESULT_FILE" 2>/dev/null || echo 0)
         if (( m > _results_mtime )); then
             # shellcheck disable=SC1090
-            source "$RESULT_FILE" 2>/dev/null && { COUNTS_READY=1; _results_mtime=$m; }
+            source "$RESULT_FILE" 2>/dev/null && { COUNTS_READY=1; _results_mtime=$m; update_baselines; }
         fi
     fi
     # (re)spawn producer when idle and results are stale / category changed
@@ -183,11 +243,11 @@ maybe_refresh_counts() {
 FRAME=0
 cleanup() {
     [[ -n "$_counter_pid" ]] && kill "$_counter_pid" 2>/dev/null
-    rm -f "$RESULT_FILE" "$RESULT_TMP" 2>/dev/null
-    printf '%s[?25h%s[?1049l' "$ESC" "$ESC"
+    rm -f "$RESULT_FILE" "$RESULT_TMP" "$FRAME_FILE" 2>/dev/null
+    printf '%s[?7h%s[?25h%s[?1049l' "$ESC" "$ESC" "$ESC"
 }
 trap cleanup EXIT INT TERM
-printf '%s[?1049h%s[?25l' "$ESC" "$ESC"   # alt screen + hide cursor
+printf '%s[?1049h%s[?25l%s[?7l' "$ESC" "$ESC" "$ESC"   # alt screen, hide cursor, no auto-wrap
 
 draw() {
     # tput cols/lines are unreliable inside $() (stdout is a pipe → defaults to
@@ -200,21 +260,37 @@ draw() {
         cols=$(tput cols 2>/dev/null || echo 80); lines=$(tput lines 2>/dev/null || echo 24)
     fi
     (( cols < 40 )) && cols=40; (( lines < 16 )) && lines=16
-    local bw=$(( cols - 34 )); (( bw < 10 )) && bw=10       # library / overall bars
+    local bw=$(( cols - 38 )); (( bw < 10 )) && bw=10       # library / overall bars
     local bwn=$(( cols - 46 )); (( bwn < 10 )) && bwn=10    # NOW bar (leaves room for times)
     local sp="${SPIN:$(( FRAME % ${#SPIN} )):1}"
     local rule; rule=$(printf '─%.0s' $(seq 1 $(( cols - 2 )) ))
     local status="running"; [[ "$NOW_RUNNING" == "0" ]] && status="idle"
     [[ -n "$SYNC_PID" ]] && { kill -0 "$SYNC_PID" 2>/dev/null || status="finished"; }
 
+    local szkey="${cols}x${lines}"
+    [[ "$szkey" != "${LAST_SZ:-}" ]] && { printf '%s[2J' "$ESC"; LAST_SZ="$szkey"; }   # resized → clear once
     printf '%s[H' "$ESC"   # home
     printf '%s%s ⟳ MYMEDIA SYNC %s%s%s   %s%s %s  %s%s\n' \
         "$B" "$C_TITLE" "$RST" "$DIM" "$C_LINE" "$C_NOW" "$sp" "$status" \
         "$(date '+%H:%M:%S')" "$RST"
     printf '%s%s%s\n' "$C_LINE" "$rule" "$RST"
 
-    # NOW panel
-    if [[ -n "$cur_file" ]]; then
+    # NOW panel (compact: 2 rows instead of 4 on short terminals)
+    local compact=0; (( lines < 28 )) && compact=1
+    if (( compact )); then
+        if [[ -n "$cur_file" ]]; then
+            local icon="•" ccol="$RST" nlabel="NOW"
+            [[ -n "$cur_cat" ]] && { roots_for "$cur_cat"; icon="$ICON"; ccol="$COL"; }
+            [[ "$NOW_RUNNING" == "0" ]] && nlabel="LAST"
+            printf ' %s%s▶ %s%s %s%s %s%s %.*s%s\n' "$B" "$C_NOW" "$nlabel" "$RST" "$ccol" "$icon" "${cur_cat:-?}" "$RST$B" \
+                $(( cols - 16 )) "${cur_group:-$(basename "$cur_file")}" "$RST"
+            printf '   %s  %s%3s%%%s   %s%s / %s%s\n' \
+                "$(bar "$cur_pct" 100 "$bwn" "$C_NOW")" "$C_NOW" "$cur_pct" "$RST" \
+                "$DIM" "${cur_tpos:-–}" "${cur_tdur:-–}" "$RST"
+        else
+            printf ' %s(waiting for an item to start…)%s\n\n' "$DIM" "$RST"
+        fi
+    elif [[ -n "$cur_file" ]]; then
         local icon="•" ccol="$RST"
         [[ -n "$cur_cat" ]] && { roots_for "$cur_cat"; icon="$ICON"; ccol="$COL"; }
         local nlabel="NOW"; [[ "$NOW_RUNNING" == "0" ]] && nlabel="LAST"
@@ -230,27 +306,55 @@ draw() {
     printf '%s%s%s\n' "$C_LINE" "$rule" "$RST"
 
     # library bars
-    printf ' %sLIBRARY%s  %s(portable rebuilt ← desktop)%s\n' "$B" "$RST" "$DIM" "$RST"
+    (( compact )) || printf ' %sLIBRARY%s  %s(portable rebuilt ← desktop)%s\n' "$B" "$RST" "$DIM" "$RST"
     local c d t p inscope
     for c in "${CATS[@]}"; do
         roots_for "$c"; d="${DONE[$c]:-0}"; t="${TOT[$c]:-0}"; p=$(pct "$d" "$t")
         if (( d > 0 )) || [[ "$c" == "$cur_cat" ]]; then
-            printf '   %s%s %-7s%s %s  %s%4s/%-5s%s %s%3s%%%s\n' \
+            printf '   %s%s %-7s%s %s  %s%6s/%-6s%s %s%3s%%%s\n' \
                 "$COL" "$ICON" "$c" "$RST" "$(bar "$d" "$t" "$bw" "$COL")" \
                 "$B" "$d" "$t" "$RST" "$DIM" "$p" "$RST"
         else
-            printf '   %s%s %-7s %s  %5s   · waiting%s\n' \
+            printf '   %s%s %-7s %s  %6s    · waiting%s\n' \
                 "$DIM" "$ICON" "$c" "$(bar 0 "$t" "$bw" "$C_BARBG")" "$t" "$RST"
         fi
     done
     printf '%s%s%s\n' "$C_LINE" "$rule" "$RST"
 
+    # inbox bars (camera / photos / video / downloads)
+    local inbox_rows=0 sc sl sb sd sp2 lastev evcol
+    printf ' %sINBOX%s  %s(UNSORTED → library, source removed after each import)%s\n' "$B" "$RST" "$DIM" "$RST"
+    (( inbox_rows++ ))
+    for sc in "${SRC_CATS[@]}"; do
+        src_for "$sc"; sl="${SRC_LEFT[$sc]:-}"; sb="${SRC_BASE[$sc]:-0}"
+        if [[ -z "$sl" ]]; then
+            printf '   %s%s %-9s %s  counting…%s\n' "$DIM" "$SICON" "$sc" "$(bar 0 1 $(( bw - 2 )) "$C_BARBG")" "$RST"
+        elif (( sb == 0 )); then
+            printf '   %s%s %-9s %s  %s· empty%s\n' "$DIM" "$SICON" "$sc" "$(bar 0 1 $(( bw - 2 )) "$C_BARBG")" "" "$RST"
+        else
+            sd=$(( sb - sl )); (( sd < 0 )) && sd=0
+            printf '   %s%s %-9s%s %s  %s%6s/%-6s%s %s%3s%%%s\n' \
+                "$SCOL" "$SICON" "$sc" "$RST" "$(bar "$sd" "$sb" $(( bw - 2 )) "$SCOL")" \
+                "$B" "$sd" "$sb" "$RST" "$DIM" "$(pct "$sd" "$sb")" "$RST"
+        fi
+        (( inbox_rows++ ))
+    done
+    lastev=""
+    [[ -f "$LOG" ]] && lastev=$(tail -n 400 "$LOG" 2>/dev/null | tr '\r' '\n' | grep -aE '^\[(MOVED|DONE|SKIP|KEEP|WARN|ERROR)\]' | tail -1)
+    evcol="$DIM"; [[ "$lastev" == "[MOVED]"* || "$lastev" == "[DONE]"* ]] && evcol="$C_OK"
+    [[ "$lastev" == "[WARN]"* || "$lastev" == "[ERROR]"* ]] && evcol="$C_WARN"
+    lastev="${lastev//[[:cntrl:]]/ }"
+    printf '   %s↳ %.*s%s\n' "$evcol" $(( cols - 8 )) "${lastev:-waiting for the first imported file…}" "$RST"
+    (( inbox_rows++ ))
+    printf '%s%s%s\n' "$C_LINE" "$rule" "$RST"
+    (( inbox_rows++ ))
+
     # pending queue for the current category — fills remaining screen height,
     # auto-scrolls when it overflows (manual keys pause the auto-scroll).
     local total=${#PEND_LINES[@]}
     # rows consumed by everything except the pending item rows
-    local overhead=16
-    local avail=$(( lines - overhead )); (( avail < 3 )) && avail=3
+    local overhead=$(( 16 + inbox_rows - 3 * compact ))
+    local avail=$(( lines - overhead )); (( avail < 1 )) && avail=1
     local maxoff=$(( total - avail )); (( maxoff < 0 )) && maxoff=0
     if (( total > avail )); then
         local nowk; nowk=$(date +%s)
@@ -266,23 +370,29 @@ draw() {
 
     local phdr=""
     if (( total > avail )); then
-        printf -v phdr '   %s%d–%d of %d  ↑↓/j k · space ⇟ · g top%s' \
+        printf -v phdr '  %s·  %d–%d of %d  (↑↓ scroll)%s' \
             "$DIM" $(( PEND_OFFSET + 1 )) $(( PEND_OFFSET + avail )) "$total" "$RST"
     elif (( total > 0 )); then
-        printf -v phdr '   %s%d total%s' "$DIM" "$total" "$RST"
+        printf -v phdr '  %s·  %d to go%s' "$DIM" "$total" "$RST"
     fi
-    printf ' %s⏳ PENDING%s%s%s%s\n' "$B$C_WARN" "$RST" "$DIM" "${cur_cat:+ — $cur_cat}$RST" "$phdr"
+    printf ' %s⏳ PENDING%s %s— %s%s%s\n' "$B$C_WARN" "$RST" "$DIM" "${cur_cat:-INBOX}" "$RST" "$phdr"
 
     local shown_rows=0
     if (( total == 0 )); then
-        printf '   %s%s%s\n' "$DIM" "${cur_cat:+nothing pending}" "$RST"; shown_rows=1
+        printf '   %snothing pending%s\n' "$DIM" "$RST"; shown_rows=1
     else
-        local i line name pc dc nw=$(( cols - 13 )); (( nw < 10 )) && nw=10
+        local i line name pc dc nw=$(( cols - 24 )); (( nw < 10 )) && nw=10
         for (( i = PEND_OFFSET; i < total && shown_rows < avail; i++ )); do
             line="${PEND_LINES[$i]}"
             IFS='|' read -r name pc dc <<<"$line"
-            printf '   %s•%s %-*.*s %s%s%s/%s\n' \
-                "$C_WARN" "$RST" "$nw" "$nw" "$name" "$B" "$pc" "$RST" "$dc"
+            name="${name//[[:cntrl:]]/ }"
+            (( ${#name} > nw )) && name="${name:0:$(( nw - 1 ))}…"
+            if [[ "$dc" == "-" ]]; then
+                printf '   %s%*s%s files  %s\n' "$B" 11 "$pc" "$RST" "$name"
+            else
+                printf '   %s  %s%3s%s/%-3s  %s\n' \
+                    "$(bar "$pc" "$dc" 8 "$C_WARN")" "$B" "$pc" "$RST$DIM" "$dc$RST" "$name"
+            fi
             (( shown_rows++ ))
         done
     fi
@@ -298,7 +408,7 @@ draw() {
         fi
     done
     printf '%s[J' "$ESC"   # clear stale rows before drawing the bottom line
-    printf ' %sOVERALL%s %s  %s%s/%s%s  %s·  q quit%s' \
+    printf ' %sOVERALL%s %s  %s%6s/%-6s%s  %s·  q quit%s' \
         "$B" "$RST" "$(bar "$od" "$ot" "$bw" "$C_OK")" "$B" "$od" "$ot" "$RST" "$DIM" "$RST"
 }
 
@@ -306,7 +416,9 @@ draw() {
 while :; do
     read_now
     maybe_refresh_counts
-    draw
+    draw >"$FRAME_FILE"
+    # erase to end of line on every row so shorter frames leave no stale text
+    sed "s/\$/${ESC}[K/" "$FRAME_FILE"
     FRAME=$(( FRAME + 1 ))
     if [[ -n "$SYNC_PID" ]] && ! kill -0 "$SYNC_PID" 2>/dev/null; then
         UI_THRESHOLD="$UI_THRESHOLD"   # keep; final frame already drawn

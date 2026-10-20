@@ -60,6 +60,16 @@ PORTABLE_MOVIES_ROOT="${PORTABLE_MOVIES_ROOT:-${MEDIA_PATH}/LIBRARY.PORTABLE/MOV
 PORTABLE_TV_ROOT="${PORTABLE_TV_ROOT:-${MEDIA_PATH}/LIBRARY.PORTABLE/TV}"
 PORTABLE_PHOTOS_ROOT="${PORTABLE_PHOTOS_ROOT:-${MEDIA_PATH}/LIBRARY.PORTABLE/PHOTOS}"
 
+# True when PATH is inside the library CAMERA archive. Nothing there is ever
+# deleted or overwritten, not even a corrupt file.
+in_camera_library() {
+    local p="$1" r cam
+    [[ -n "${DESKTOP_CAMERA_ROOT:-}" ]] || return 1
+    r="$(realpath -m -- "$p" 2>/dev/null)" || r="$p"
+    cam="$(realpath -m -- "$DESKTOP_CAMERA_ROOT" 2>/dev/null)" || cam="$DESKTOP_CAMERA_ROOT"
+    [[ "$r" == "$cam" || "$r" == "$cam"/* ]]
+}
+
 # ---------------------------------------------------------------------------
 # Output tiers — which library trees to produce
 # ---------------------------------------------------------------------------

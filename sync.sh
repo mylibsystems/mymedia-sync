@@ -493,7 +493,7 @@ echo "[STAGE 7] Cleanup" | tee -a "${SYNC_LOG}"
 
 # Remove .syncing temp directories from all library roots
 for lib_root in \
-    "${DESKTOP_MUSIC_ROOT}" "${DESKTOP_MOVIES_ROOT}" "${DESKTOP_TV_ROOT}" "${DESKTOP_PHOTOS_ROOT}" "${DESKTOP_CAMERA_ROOT}" \
+    "${DESKTOP_MUSIC_ROOT}" "${DESKTOP_MOVIES_ROOT}" "${DESKTOP_TV_ROOT}" "${DESKTOP_PHOTOS_ROOT}" \
     "${PORTABLE_MUSIC_ROOT}" "${PORTABLE_MOVIES_ROOT}" "${PORTABLE_TV_ROOT}" "${PORTABLE_PHOTOS_ROOT}"; do
     if [[ -d "$lib_root" ]]; then
         find "$lib_root" -type d -name "${STAGING_SUFFIX}" -exec rm -rf {} + 2>/dev/null || true
@@ -507,7 +507,7 @@ done
 # but only from directories that would otherwise be empty.
 if [[ "${DELETE_AFTER_IMPORT:-1}" == "1" ]]; then
 for src_root in \
-    "${CAMERA_SOURCE}" "${MUSIC_SOURCE}" "${MOVIES_SOURCE}" "${TV_SOURCE}" "${PHOTOS_SOURCE}" \
+    "${CAMERA_SOURCE}" "${TV_SOURCE}" "${PHOTOS_SOURCE}" \
     "${DOWNLOADS_SOURCE}" "${VIDEO_SOURCE}"; do
     [[ -d "$src_root" ]] || continue
     # Remove noise files only inside dirs that contain nothing else

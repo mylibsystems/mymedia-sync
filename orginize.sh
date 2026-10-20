@@ -250,6 +250,33 @@ ensure_audio_cover_embedded() {
 # when identical outputs were already in the library (skip path).
 # _ARCHIVE_OK is set to 0 when a camera original could not be archived.
 _ARCHIVE_OK=1
+
+# Hard safety net: a file may only be deleted when it resolves to a path inside
+# UNSORTED_ROOT and not inside any library root. Library files are never removed.
+source_is_removable() {
+    local src="$1" real unsorted root rroot
+    [[ -n "${UNSORTED_ROOT:-}" && -f "$src" ]] || return 1
+    real="$(realpath -- "$src" 2>/dev/null)" || return 1
+    unsorted="$(realpath -- "$UNSORTED_ROOT" 2>/dev/null)" || return 1
+    [[ -n "$unsorted" && "$unsorted" != "/" && "$real" == "$unsorted"/* ]] || return 1
+    # Music and movie sources are never deleted.
+    for root in "${MUSIC_SOURCE:-}" "${MOVIES_SOURCE:-}"; do
+        [[ -n "$root" ]] || continue
+        rroot="$(realpath -- "$root" 2>/dev/null)" || continue
+        [[ "$real" == "$rroot"/* ]] && return 1
+    done
+    for root in \
+        "${DESKTOP_MUSIC_ROOT:-}" "${DESKTOP_MOVIES_ROOT:-}" "${DESKTOP_TV_ROOT:-}" \
+        "${DESKTOP_PHOTOS_ROOT:-}" "${DESKTOP_CAMERA_ROOT:-}" "${PORTABLE_MUSIC_ROOT:-}" \
+        "${PORTABLE_MOVIES_ROOT:-}" "${PORTABLE_TV_ROOT:-}" "${PORTABLE_PHOTOS_ROOT:-}" \
+        "${MEDIA_PATH:-}/LIBRARY.DESKTOP" "${MEDIA_PATH:-}/LIBRARY.PORTABLE"; do
+        [[ -n "$root" ]] || continue
+        rroot="$(realpath -- "$root" 2>/dev/null)" || continue
+        [[ "$real" == "$rroot" || "$real" == "$rroot"/* ]] && return 1
+    done
+    return 0
+}
+
 remove_source_if_enabled() {
     local src="$1"
     if [[ "${DELETE_AFTER_IMPORT:-1}" != "1" ]]; then
@@ -266,6 +293,10 @@ remove_source_if_enabled() {
     fi
     if [[ "$_ARCHIVE_OK" != "1" ]]; then
         echo "[KEEP] Source kept (camera original not archived): $(basename "$src")" >&2
+        return 0
+    fi
+    if ! source_is_removable "$src"; then
+        echo "[KEEP] Source kept (not safely inside UNSORTED): $src" >&2
         return 0
     fi
     if rm -f "$src"; then
@@ -304,19 +335,36 @@ archive_camera_original() {
     _ARCHIVE_OK=1
     [[ "$src" == "${CAMERA_SOURCE%/}/"* ]] || return 0
     local dir="${DESKTOP_CAMERA_ROOT}/${DATE_YEAR}/${DATE_MONTH}/${DATE_DAY}"
-    local dest="${dir}/$(basename "$src")"
+    local name base ext cand i=0 partial attempt
+    name="$(basename "$src")"
+    base="${name%.*}"; ext="${name##*.}"
+    [[ "$base" == "$name" ]] && ext=""
     local sz; sz="$(file_bytes "$src")"
-    [[ -f "$dest" && "$sz" != "0" && "$(file_bytes "$dest")" == "$sz" ]] && return 0
-    local attempt
+    [[ "$sz" != "0" ]] || { _ARCHIVE_OK=0; return 0; }
+
+    # Never overwrite or delete anything already in the camera library: an
+    # identical copy means "already archived"; a different file with the same
+    # name is a collision, so the original is stored under a _N name instead.
+    while :; do
+        if (( i == 0 )); then cand="${dir}/${name}"; else cand="${dir}/${base}_${i}${ext:+.$ext}"; fi
+        if [[ -e "$cand" ]]; then
+            cmp -s "$src" "$cand" && return 0
+            (( i++ )); continue
+        fi
+        break
+    done
+
+    partial="${dir}/.${name}.partial-$$"
     for attempt in 1 2 3; do
         mkdir -p "$dir" 2>/dev/null || true
-        if cp "$src" "$dest" 2>/dev/null && [[ "$(file_bytes "$dest")" == "$sz" ]]; then
-            echo "[DONE] Camera original archived: $(basename "$src") → ${DATE_YEAR}/${DATE_MONTH}/${DATE_DAY}" >&2
+        if cp "$src" "$partial" 2>/dev/null && [[ "$(file_bytes "$partial")" == "$sz" ]] \
+           && cmp -s "$src" "$partial" && mv -n "$partial" "$cand" 2>/dev/null && [[ ! -e "$partial" ]]; then
+            echo "[DONE] Camera original archived: $(basename "$cand") → ${DATE_YEAR}/${DATE_MONTH}/${DATE_DAY}" >&2
             return 0
         fi
-        rm -f "$dest" 2>/dev/null || true
+        rm -f "$partial" 2>/dev/null || true
     done
-    echo "[WARN] Camera archive failed after retries: $(basename "$src")" >&2
+    echo "[WARN] Camera archive failed after retries: $name" >&2
     _ARCHIVE_OK=0
     return 0
 }
@@ -376,8 +424,7 @@ orginizeByDate() {
     # of reusing the existing file.
     if [[ "${SKIP_IF_EXISTS:-1}" == "1" ]] \
        && outputs_present "${desktop_dir}/${filename}" "${portable_dir}/${filename}"; then
-        echo "[SKIP] Already in library: ${filename}" >&2
-        remove_source_if_enabled "$file"
+        echo "[SKIP] Already in library: ${filename} (source kept)" >&2
         return 0
     fi
 
@@ -1246,9 +1293,11 @@ orginizeDefault() {
     cp -n "$file" "${desktop_dir}/${filename}" 2>/dev/null || true
     cp -n "$file" "${portable_dir}/${filename}" 2>/dev/null || true
 
-    if [[ -f "${desktop_dir}/${filename}" && -f "${portable_dir}/${filename}" ]]; then
+    if cmp -s "$file" "${desktop_dir}/${filename}" && cmp -s "$file" "${portable_dir}/${filename}"; then
         remove_source_if_enabled "$file"
         echo "[DONE] Default copy: $filename → $label" >&2
+    else
+        echo "[KEEP] Source kept (library copy missing or different): $filename" >&2
     fi
 }
 

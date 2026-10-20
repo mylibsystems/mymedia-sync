@@ -1908,7 +1908,7 @@ embed_video_meta() {
 
         _ffmpeg "${ff[@]}"
         [[ -n "$_poster_tmp" ]] && rm -f "$_poster_tmp"
-        commit_staged "$staged" "$file"
+        commit_staged "$staged" "$file" replace
         return 0
     fi
 

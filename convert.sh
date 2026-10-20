@@ -116,6 +116,10 @@ validate_output_or_remove() {
     local f="$1"
     [[ -f "$f" ]] || return 0
     if ! media_file_valid "$f"; then
+        if in_camera_library "$f"; then
+            echo "[ERROR] Broken file in camera library — NOT removed: $f" >&2
+            return 1
+        fi
         echo "[ERROR] Broken CONVERTED output — removing so next sync retries: $f" >&2
         rm -f "$f"
         return 1
@@ -271,30 +275,21 @@ _trim_args() {
 skip_if_exists() {
     local dest="$1"
     if [[ -f "$dest" && -s "$dest" ]]; then
-        if [[ "${SKIP_IF_EXISTS:-1}" == "1" ]]; then
-            # For video/audio containers, validate the file is readable before
-            # declaring it "done". A SIGKILL during a previous run can leave a
-            # non-empty but corrupt file (e.g. moov atom never written).
-            # Re-process such files instead of silently skipping them.
-            local _sieext="${dest##*.}"
-            _sieext="$(tr '[:upper:]' '[:lower:]' <<< "$_sieext")"
-            case "$_sieext" in
-                m4v|mp4|mov|m4a|flac)
-                    if command -v ffprobe &>/dev/null; then
-                        if ! ffprobe -v error -show_entries format=duration \
-                             -of default=noprint_wrappers=1 "$dest" &>/dev/null 2>&1; then
-                            echo "[WARN] Corrupt output detected, removing for re-conversion: $(basename "$dest")" >&2
-                            rm -f "$dest"
-                            return 1
-                        fi
-                    fi
-                    ;;
-            esac
-            debug_log "Skipping existing output: $dest"
+        # Library CAMERA files are never deleted or replaced, even when corrupt.
+        if in_camera_library "$dest"; then
+            echo "[KEEP] Camera library file left untouched: $dest" >&2
             return 0
         fi
-        debug_log "Removing existing output for overwrite: $dest"
-        rm -f "$dest"
+        # Existing library files are never overwritten (SKIP_IF_EXISTS=0 is
+        # ignored). A corrupt file (e.g. a SIGKILL left a moov-less container)
+        # is the only thing that gets replaced.
+        if ! media_file_valid "$dest"; then
+            echo "[WARN] Corrupt output detected, removing for re-conversion: $(basename "$dest")" >&2
+            rm -f "$dest"
+            return 1
+        fi
+        debug_log "Skipping existing output: $dest"
+        return 0
     fi
     return 1
 }
@@ -322,16 +317,31 @@ staging_path() {
 }
 
 # Move staged file to final destination; verify non-empty.
-# In DEBUG_MODE=1 the destination is overwritten if it already exists.
+# An existing valid destination is never overwritten (an empty unique_dest
+# placeholder or a corrupt file is replaced). Pass "replace" as $3 only for
+# in-place metadata rewrites of a file this run just created.
 commit_staged() {
     local staged="$1"
     local dest="$2"
+    local mode="${3:-}"
     if [[ ! -f "$staged" || ! -s "$staged" ]]; then
         echo "[ERROR] Staged file missing or empty: $staged" >&2
         return 1
     fi
     mkdir -p "$(dirname "$dest")"
-    rm -f "$dest"    # remove placeholder (unique_dest) or allow debug overwrite
+    if in_camera_library "$dest" && [[ -s "$dest" ]]; then
+        echo "[KEEP] Camera library file never overwritten: $dest" >&2
+        rm -f "$staged" 2>/dev/null || true
+        rmdir "$(dirname "$staged")" 2>/dev/null || true
+        return 1
+    fi
+    if [[ "$mode" != "replace" && -s "$dest" ]] && media_file_valid "$dest"; then
+        echo "[KEEP] Destination already exists, not overwritten: $dest" >&2
+        rm -f "$staged" 2>/dev/null || true
+        rmdir "$(dirname "$staged")" 2>/dev/null || true
+        return 1
+    fi
+    rm -f "$dest"
     # Suppress "set owner/group: Operation not permitted" — harmless on ExFAT/NTFS
     # where POSIX ownership is unsupported. The file is moved correctly regardless.
     if mv "$staged" "$dest" 2>/dev/null || { cp "$staged" "$dest" && rm -f "$staged"; }; then
