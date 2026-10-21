@@ -259,12 +259,6 @@ source_is_removable() {
     real="$(realpath -- "$src" 2>/dev/null)" || return 1
     unsorted="$(realpath -- "$UNSORTED_ROOT" 2>/dev/null)" || return 1
     [[ -n "$unsorted" && "$unsorted" != "/" && "$real" == "$unsorted"/* ]] || return 1
-    # Music and movie sources are never deleted.
-    for root in "${MUSIC_SOURCE:-}" "${MOVIES_SOURCE:-}"; do
-        [[ -n "$root" ]] || continue
-        rroot="$(realpath -- "$root" 2>/dev/null)" || continue
-        [[ "$real" == "$rroot"/* ]] && return 1
-    done
     for root in \
         "${DESKTOP_MUSIC_ROOT:-}" "${DESKTOP_MOVIES_ROOT:-}" "${DESKTOP_TV_ROOT:-}" \
         "${DESKTOP_PHOTOS_ROOT:-}" "${DESKTOP_CAMERA_ROOT:-}" "${PORTABLE_MUSIC_ROOT:-}" \
@@ -278,7 +272,7 @@ source_is_removable() {
 }
 
 remove_source_if_enabled() {
-    local src="$1"
+    local src="$1" desktop_only="${2:-}"
     # Already moved into the camera library: nothing left in UNSORTED to remove,
     # and the library copy must never be deleted.
     [[ -n "$_ARCHIVED_PATH" && "$src" == "$_ARCHIVED_PATH" ]] && return 0
@@ -288,7 +282,12 @@ remove_source_if_enabled() {
         debug_log "Source preserved (DELETE_AFTER_IMPORT=0): $src"
         return 0
     fi
-    if [[ "${ENABLE_DESKTOP:-1}" != "1" || "${ENABLE_PORTABLE:-1}" != "1" ]]; then
+    if [[ "$desktop_only" == "desktop" ]]; then
+        if [[ "${ENABLE_DESKTOP:-1}" != "1" ]]; then
+            echo "[KEEP] Source kept (desktop tier is disabled): $(basename "$src")" >&2
+            return 0
+        fi
+    elif [[ "${ENABLE_DESKTOP:-1}" != "1" || "${ENABLE_PORTABLE:-1}" != "1" ]]; then
         echo "[KEEP] Source kept (a library tier is disabled): $(basename "$src")" >&2
         return 0
     fi
@@ -308,6 +307,19 @@ remove_source_if_enabled() {
         echo "[MOVED] Source removed after import: $(basename "$src")" >&2
     else
         echo "[WARN] Could not remove source: $src" >&2
+    fi
+}
+
+# Migration flow: source -> DESKTOP (verified) -> source removed from UNSORTED ->
+# PORTABLE derived from the desktop file. Call this right after the desktop output
+# is built; the source is kept unless that output is present and valid.
+remove_source_after_desktop() {
+    local src="$1" desktop_out="$2"
+    [[ -e "$src" ]] || return 0
+    if [[ -f "$desktop_out" && -s "$desktop_out" ]] && media_file_valid "$desktop_out"; then
+        remove_source_if_enabled "$src" desktop
+    else
+        echo "[KEEP] Source kept (desktop output not verified): $(basename "$src")" >&2
     fi
 }
 
@@ -338,8 +350,8 @@ resolve_portable_source() {
 # Map a path under MEDIA_PATH (SMB view) to the same location on the router's
 # NFS export, which sees UNSORTED and the libraries as ONE filesystem.
 nfs_path() {
-    local p="$1" nfs="${ROUTER_NFS_ROOT:-/mnt/router-nfs}" m="${MEDIA_PATH%/}"
-    [[ -n "$m" && "$p" == "$m"/* && -d "$nfs" ]] || return 1
+    local p="$1" nfs="${ROUTER_NFS_ROOT:-}" m="${MEDIA_PATH%/}"
+    [[ -n "$nfs" && -n "$m" && "$p" == "$m"/* && -d "$nfs" ]] || return 1
     printf '%s' "${nfs%/}/${p#"$m"/}"
 }
 
@@ -518,6 +530,8 @@ orginizeByDate() {
                 "$desktop_dest" 2>/dev/null || true
         fi
 
+        [[ "$_cv_ok" == "0" ]] && remove_source_after_desktop "$src_orig" "$desktop_dest"
+
         if [[ "${ENABLE_PORTABLE:-1}" == "1" ]]; then
             local _cam_port_src
             if _cam_port_src="$(resolve_portable_source "$desktop_dest" "$file")"; then
@@ -547,6 +561,7 @@ orginizeByDate() {
         if [[ "${ENABLE_DESKTOP:-1}" == "1" ]]; then
             convertToDesktopJpeg "$file" "$desktop_dest" || { echo "[WARN] Desktop JPEG failed: $(basename "$file")" >&2; return 1; }
             validate_output_or_remove "$desktop_dest" || { echo "[WARN] Desktop JPEG broken (removed): $(basename "$file")" >&2; return 1; }
+            remove_source_after_desktop "$src_orig" "$desktop_dest"
         fi
         if [[ "${ENABLE_PORTABLE:-1}" == "1" ]]; then
             # Portable JPEG is scaled from the finished desktop JPEG (full EXIF
@@ -900,16 +915,6 @@ orginizeByTags() {
         convertToFlac "$file" "$desktop_dest" || { echo "[WARN] Desktop FLAC failed: $(basename "$file")" >&2; return 1; }
         validate_output_or_remove "$desktop_dest" || { echo "[WARN] Desktop FLAC broken (removed): $(basename "$file")" >&2; return 1; }
     fi
-    if [[ "${ENABLE_PORTABLE:-1}" == "1" ]]; then
-        local _aud_port_src
-        if _aud_port_src="$(resolve_portable_source "$desktop_dest" "$file")"; then
-            convertToAac "$_aud_port_src" "$portable_dest" || { echo "[WARN] Portable AAC failed: $(basename "$file")" >&2; return 1; }
-            validate_output_or_remove "$portable_dest" || { echo "[WARN] Portable AAC broken (removed): $(basename "$file")" >&2; return 1; }
-        else
-            return 1
-        fi
-    fi
-
     # Embed metadata + cover art
     local cover_path="${desktop_dir}/cover.jpg"
     # Extract embedded cover art from source file first (v1 approach)
@@ -942,7 +947,22 @@ orginizeByTags() {
         fi
     fi
 
-    [[ -f "$desktop_dest"  ]] && embed_audio_meta "$desktop_dest"  "$cover_path"
+    [[ -f "$desktop_dest" ]] && embed_audio_meta "$desktop_dest" "$cover_path"
+
+    # Desktop FLAC is complete (tags + cover) → remove the source from UNSORTED,
+    # then derive the portable AAC from the desktop file.
+    remove_source_after_desktop "$file" "$desktop_dest"
+
+    if [[ "${ENABLE_PORTABLE:-1}" == "1" ]]; then
+        local _aud_port_src
+        if _aud_port_src="$(resolve_portable_source "$desktop_dest" "$file")"; then
+            convertToAac "$_aud_port_src" "$portable_dest" || { echo "[WARN] Portable AAC failed: $(basename "$file")" >&2; return 1; }
+            validate_output_or_remove "$portable_dest" || { echo "[WARN] Portable AAC broken (removed): $(basename "$file")" >&2; return 1; }
+        else
+            return 1
+        fi
+    fi
+
     [[ -f "$portable_dest" ]] && embed_audio_meta "$portable_dest" "$cover_path"
 
     # Copy cover to portable folder
@@ -1232,6 +1252,7 @@ orginizeByVideoMeta() {
             echo "[WARN] Desktop MP4 failed: $(basename "$file")" >&2; _vv_ok=1
         fi
     fi
+    [[ "$_vv_ok" == "0" ]] && remove_source_after_desktop "$file" "$desktop_dest"
     if [[ "${ENABLE_PORTABLE:-1}" == "1" ]]; then
         # Portable is transcoded from the finished desktop output, not the
         # original source; poster + metadata below are shared from the same

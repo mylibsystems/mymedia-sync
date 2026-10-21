@@ -507,7 +507,7 @@ done
 # but only from directories that would otherwise be empty.
 if [[ "${DELETE_AFTER_IMPORT:-1}" == "1" ]]; then
 for src_root in \
-    "${CAMERA_SOURCE}" "${TV_SOURCE}" "${PHOTOS_SOURCE}" \
+    "${CAMERA_SOURCE}" "${MUSIC_SOURCE}" "${MOVIES_SOURCE}" "${TV_SOURCE}" "${PHOTOS_SOURCE}" \
     "${DOWNLOADS_SOURCE}" "${VIDEO_SOURCE}"; do
     [[ -d "$src_root" ]] || continue
     # Remove noise files only inside dirs that contain nothing else
