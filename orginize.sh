@@ -379,7 +379,7 @@ archive_camera_original() {
         if (( i == 0 )); then cand="${dir}/${name}"; else cand="${dir}/${base}_${i}${ext:+.$ext}"; fi
         if [[ -e "$cand" ]]; then
             cmp -s "$src" "$cand" && { _ARCHIVED_PATH="$cand"; return 0; }
-            (( i++ )); continue
+            i=$(( i + 1 )); continue
         fi
         break
     done
@@ -401,8 +401,8 @@ archive_camera_original() {
                 return 0
             fi
             # lost a race for the name → next free _N name
-            (( i++ )); cand="${dir}/${base}_${i}${ext:+.$ext}"
-            while [[ -e "$cand" ]]; do (( i++ )); cand="${dir}/${base}_${i}${ext:+.$ext}"; done
+            i=$(( i + 1 )); cand="${dir}/${base}_${i}${ext:+.$ext}"
+            while [[ -e "$cand" ]]; do i=$(( i + 1 )); cand="${dir}/${base}_${i}${ext:+.$ext}"; done
         done
     fi
 
