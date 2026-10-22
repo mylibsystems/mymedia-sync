@@ -352,9 +352,15 @@ echo "[INFO] sync.sh started at $(date)" | tee -a "${SYNC_LOG}"
 # Stage 1 — Camera import (LUMIX → desktop + portable photos)
 # ---------------------------------------------------------------------------
 if stage_enabled camera; then
-    # Phase 1 — MOVE: every original in UNSORTED/CAMERA goes into the desktop camera
-    # library (verified, never overwritten) and is removed from UNSORTED.
-    echo "[STAGE 1a] Camera: move UNSORTED → LIBRARY.DESKTOP/CAMERA: ${CAMERA_SOURCE}" | tee -a "${SYNC_LOG}"
+    # Phase 1 — MOVE: every original in UNSORTED/CAMERA goes into the camera library
+    # (${MEDIA_PATH}/CAMERA, at the drive root) — verified, never overwritten — and is
+    # removed from UNSORTED. Nothing runs when the camera library is not mounted, so
+    # nothing is ever written to a stray local folder.
+    if ! camera_library_ready; then
+        echo "[ERROR] Camera library is not available: $DESKTOP_CAMERA_ROOT" | tee -a "${SYNC_LOG}"
+        echo "        Mount it (e.g. sudo systemctl restart router-smb.service) and run again. Camera stage skipped." | tee -a "${SYNC_LOG}"
+    else
+    echo "[STAGE 1a] Camera: move UNSORTED → camera library: ${CAMERA_SOURCE}" | tee -a "${SYNC_LOG}"
     if [[ -d "$CAMERA_SOURCE" ]]; then
         for cam_dir in "${CAMERA_SOURCE}"/*/; do
             [[ -d "$cam_dir" ]] || continue
@@ -377,6 +383,7 @@ if stage_enabled camera; then
     if [[ "${ENABLE_PORTABLE:-1}" == "1" ]]; then
         echo "[STAGE 1c] Camera: derive portable from desktop" | tee -a "${SYNC_LOG}"
         "${SCRIPT_DIR}/portablize.sh" photo "${DESKTOP_PHOTOS_ROOT}" "${PORTABLE_PHOTOS_ROOT}" || true
+    fi
     fi
 else
     echo "[STAGE 1] Camera — skipped" | tee -a "${SYNC_LOG}"

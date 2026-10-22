@@ -53,7 +53,21 @@ DESKTOP_MUSIC_ROOT="${DESKTOP_MUSIC_ROOT:-${MEDIA_PATH}/LIBRARY.DESKTOP/MUSIC}"
 DESKTOP_MOVIES_ROOT="${DESKTOP_MOVIES_ROOT:-${MEDIA_PATH}/LIBRARY.DESKTOP/MOVIES}"
 DESKTOP_TV_ROOT="${DESKTOP_TV_ROOT:-${MEDIA_PATH}/LIBRARY.DESKTOP/TV}"
 DESKTOP_PHOTOS_ROOT="${DESKTOP_PHOTOS_ROOT:-${MEDIA_PATH}/LIBRARY.DESKTOP/PHOTOS}"
-DESKTOP_CAMERA_ROOT="${DESKTOP_CAMERA_ROOT:-${MEDIA_PATH}/LIBRARY.DESKTOP/CAMERA}"
+# The camera library (archive of untouched camera originals) lives at the ROOT of
+# the drive, next to UNSORTED — it is its own share, not inside LIBRARY.DESKTOP.
+DESKTOP_CAMERA_ROOT="${DESKTOP_CAMERA_ROOT:-${MEDIA_PATH}/CAMERA}"
+
+# True when the camera library is really available: it is its own mount (its own
+# share) or sits on the same filesystem as UNSORTED — never a stray local folder
+# that would silently receive the archive.
+camera_library_ready() {
+    [[ -d "$DESKTOP_CAMERA_ROOT" ]] || return 1
+    mountpoint -q "$DESKTOP_CAMERA_ROOT" 2>/dev/null && return 0
+    local a b
+    a="$(stat -c %d "$DESKTOP_CAMERA_ROOT" 2>/dev/null || stat -f %d "$DESKTOP_CAMERA_ROOT" 2>/dev/null)" || return 1
+    b="$(stat -c %d "${UNSORTED_ROOT:-$MEDIA_PATH}" 2>/dev/null || stat -f %d "${UNSORTED_ROOT:-$MEDIA_PATH}" 2>/dev/null)" || return 1
+    [[ -n "$a" && "$a" == "$b" ]]
+}
 
 PORTABLE_MUSIC_ROOT="${PORTABLE_MUSIC_ROOT:-${MEDIA_PATH}/LIBRARY.PORTABLE/MUSIC}"
 PORTABLE_MOVIES_ROOT="${PORTABLE_MOVIES_ROOT:-${MEDIA_PATH}/LIBRARY.PORTABLE/MOVIES}"
@@ -384,7 +398,9 @@ require_tool() {
 }
 
 # ---------------------------------------------------------------------------
-# Create all required directories if they don't exist
+# Create all required directories if they don't exist.
+# DESKTOP_CAMERA_ROOT is deliberately NOT created here: it is its own share at the
+# drive root and must already be mounted (see camera_library_ready).
 # ---------------------------------------------------------------------------
 mkdir -p \
     "${CAMERA_SOURCE}" \
@@ -398,7 +414,6 @@ mkdir -p \
     "${DESKTOP_MOVIES_ROOT}" \
     "${DESKTOP_TV_ROOT}" \
     "${DESKTOP_PHOTOS_ROOT}" \
-    "${DESKTOP_CAMERA_ROOT}" \
     "${PORTABLE_MUSIC_ROOT}" \
     "${PORTABLE_MOVIES_ROOT}" \
     "${PORTABLE_TV_ROOT}" \

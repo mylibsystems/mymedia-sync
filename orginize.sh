@@ -366,6 +366,11 @@ archive_camera_original() {
     _ARCHIVE_OK=1
     _ARCHIVED_PATH=""
     [[ "$src" == "${CAMERA_SOURCE%/}/"* ]] || return 0
+    if ! camera_library_ready; then
+        echo "[ERROR] Camera library not available (not mounted?): ${DESKTOP_CAMERA_ROOT} — source kept: $(basename "$src")" >&2
+        _ARCHIVE_OK=0
+        return 0
+    fi
     local dir="${DESKTOP_CAMERA_ROOT}/${DATE_YEAR}/${DATE_MONTH}/${DATE_DAY}"
     local name base ext cand i=0 partial attempt
     name="$(basename "$src")"
