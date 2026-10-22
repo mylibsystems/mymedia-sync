@@ -80,6 +80,42 @@ declare -a retry_files=()  # files that failed in parallel phase; retried sequen
 _files_list="$(mktemp /tmp/import_files_XXXXXX)"
 find "$SOURCE_DIR" -maxdepth 8 -type f -print0 > "$_files_list"
 
+# Camera build phase: the source is the camera archive. Skip files whose desktop
+# (and portable, when enabled) output already exists, and publish progress for the UI.
+BUILD_PROGRESS_FILE="${BUILD_PROGRESS_FILE:-${SCRIPT_DIR}/logs/.camera-build-progress}"
+_bp_done=0; _bp_total=0
+write_build_progress() {
+    [[ "${CAMERA_PHASE:-}" == "build" ]] || return 0
+    printf '%s %s\n' "$_bp_done" "$_bp_total" > "${BUILD_PROGRESS_FILE}.tmp" 2>/dev/null \
+        && mv -f "${BUILD_PROGRESS_FILE}.tmp" "$BUILD_PROGRESS_FILE" 2>/dev/null || true
+}
+camera_build_done() {
+    local f="$1" rel d base ext out
+    rel="${f#"${DESKTOP_CAMERA_ROOT%/}"/}"
+    [[ "$rel" =~ ^([0-9]{4})/([0-9]{2})/([0-9]{2})/([^/]+)$ ]] || return 1
+    d="${BASH_REMATCH[1]}-${BASH_REMATCH[2]}-${BASH_REMATCH[3]}"
+    base="${BASH_REMATCH[4]%.*}"; ext="$(tr '[:upper:]' '[:lower:]' <<< "${BASH_REMATCH[4]##*.}")"
+    case "$ext" in
+        mp4|mov|avi|mkv|m4v|3gp|3g2|mts|m2ts|ts) out="${base}.m4v" ;;
+        *) out="${base}.jpg" ;;
+    esac
+    [[ "${ENABLE_DESKTOP:-1}"  != "1" || -s "${DESKTOP_PHOTOS_ROOT}/${d}/${out}"  ]] || return 1
+    [[ "${ENABLE_PORTABLE:-1}" != "1" || -s "${PORTABLE_PHOTOS_ROOT}/${d}/${out}" ]] || return 1
+    return 0
+}
+if [[ "${CAMERA_PHASE:-}" == "build" ]]; then
+    _all=0; _todo_list="$(mktemp /tmp/import_todo_XXXXXX)"
+    while IFS= read -r -d '' _f; do
+        [[ "$(basename "$_f")" == .* ]] && continue
+        _all=$(( _all + 1 ))
+        camera_build_done "$_f" || printf '%s\0' "$_f" >> "$_todo_list"
+    done < "$_files_list"
+    mv -f "$_todo_list" "$_files_list"
+    _bp_total=$(tr -cd '\0' < "$_files_list" | wc -c | tr -d ' ')
+    echo "[INFO] Camera build: ${_bp_total} to build, $(( _all - _bp_total )) already built (of ${_all} archived)" | tee -a "${IMPORT_LOG}" >&2
+    write_build_progress
+fi
+
 while IFS= read -r -d '' file; do
     # Skip hidden files and staging temp files
     [[ "$(basename "$file")" == .* ]] && continue
@@ -104,6 +140,7 @@ while IFS= read -r -d '' file; do
         if ! wait "${pids[0]}"; then
             retry_files+=("${pids_files[0]}")
         fi
+        _bp_done=$(( _bp_done + 1 )); write_build_progress
         drain_err_to_log "${pids_errs[0]}" "$(basename "${pids_files[0]}")"
         rm -f "${pids_errs[0]}"
         pids=("${pids[@]:1}")
@@ -119,6 +156,7 @@ for _i in "${!pids[@]}"; do
     if ! wait "${pids[$_i]}"; then
         retry_files+=("${pids_files[$_i]}")
     fi
+    _bp_done=$(( _bp_done + 1 )); write_build_progress
     drain_err_to_log "${pids_errs[$_i]}" "$(basename "${pids_files[$_i]}")"
     rm -f "${pids_errs[$_i]}"
 done

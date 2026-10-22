@@ -352,15 +352,31 @@ echo "[INFO] sync.sh started at $(date)" | tee -a "${SYNC_LOG}"
 # Stage 1 — Camera import (LUMIX → desktop + portable photos)
 # ---------------------------------------------------------------------------
 if stage_enabled camera; then
-    echo "[STAGE 1] Camera import: ${CAMERA_SOURCE}" | tee -a "${SYNC_LOG}"
+    # Phase 1 — MOVE: every original in UNSORTED/CAMERA goes into the desktop camera
+    # library (verified, never overwritten) and is removed from UNSORTED.
+    echo "[STAGE 1a] Camera: move UNSORTED → LIBRARY.DESKTOP/CAMERA: ${CAMERA_SOURCE}" | tee -a "${SYNC_LOG}"
     if [[ -d "$CAMERA_SOURCE" ]]; then
         for cam_dir in "${CAMERA_SOURCE}"/*/; do
             [[ -d "$cam_dir" ]] || continue
-            run_import_bg "$cam_dir" "$(basename "$cam_dir")" "${DESKTOP_PHOTOS_ROOT}"
+            CAMERA_PHASE=archive run_import_bg "$cam_dir" "$(basename "$cam_dir")" "${DESKTOP_PHOTOS_ROOT}"
         done
         wait_all
     else
         echo "[WARN] Camera source not mounted: $CAMERA_SOURCE" | tee -a "${SYNC_LOG}"
+    fi
+    # Phase 2 — desktop photos/videos are built from the camera library, only the
+    # files that do not have their outputs yet.
+    echo "[STAGE 1b] Camera: build desktop from the camera library: ${DESKTOP_CAMERA_ROOT}" | tee -a "${SYNC_LOG}"
+    if [[ -d "$DESKTOP_CAMERA_ROOT" ]]; then
+        CAMERA_PHASE=build ENABLE_PORTABLE=0 run_import_bg "$DESKTOP_CAMERA_ROOT" "camera" "${DESKTOP_PHOTOS_ROOT}"
+        wait_all
+    else
+        echo "[WARN] Camera library not mounted: $DESKTOP_CAMERA_ROOT" | tee -a "${SYNC_LOG}"
+    fi
+    # Phase 3 — portable is derived from the desktop output.
+    if [[ "${ENABLE_PORTABLE:-1}" == "1" ]]; then
+        echo "[STAGE 1c] Camera: derive portable from desktop" | tee -a "${SYNC_LOG}"
+        "${SCRIPT_DIR}/portablize.sh" photo "${DESKTOP_PHOTOS_ROOT}" "${PORTABLE_PHOTOS_ROOT}" || true
     fi
 else
     echo "[STAGE 1] Camera — skipped" | tee -a "${SYNC_LOG}"

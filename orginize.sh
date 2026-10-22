@@ -282,7 +282,9 @@ remove_source_if_enabled() {
         debug_log "Source preserved (DELETE_AFTER_IMPORT=0): $src"
         return 0
     fi
-    if [[ "$desktop_only" == "desktop" ]]; then
+    if [[ "$desktop_only" == "archived" ]]; then
+        :   # camera move phase: the verified archive copy is all that is required
+    elif [[ "$desktop_only" == "desktop" ]]; then
         if [[ "${ENABLE_DESKTOP:-1}" != "1" ]]; then
             echo "[KEEP] Source kept (desktop tier is disabled): $(basename "$src")" >&2
             return 0
@@ -447,11 +449,26 @@ orginizeByDate() {
     # Archive the untouched original first, before any skip/convert logic, so the
     # CAMERA library always holds every captured file organized by date — even on
     # a re-run where the converted outputs already exist and conversion is skipped.
-    archive_camera_original "$file"
-    # Desktop is built from the archived original in the camera library (never from
-    # UNSORTED); portable is then derived from desktop. src_orig is the UNSORTED
-    # source, removed once the archived copy is verified (or already moved away).
+    # CAMERA_PHASE (set by sync.sh):
+    #   archive → only MOVE the original from UNSORTED into the camera library
+    #   build   → the file already lives in the camera library: build desktop from it
+    #   (unset) → both steps for this one file
+    # Desktop is always built from the archived original in the camera library
+    # (never from UNSORTED); portable is derived from desktop. src_orig is the
+    # UNSORTED source, removed once the archived copy is verified.
     local src_orig="$file"
+    if [[ "${CAMERA_PHASE:-}" == "build" ]]; then
+        _ARCHIVE_OK=1; _ARCHIVED_PATH="$file"; src_orig=""
+    else
+        archive_camera_original "$file"
+        if [[ "${CAMERA_PHASE:-}" == "archive" ]]; then
+            if [[ "$_ARCHIVE_OK" == "1" && -n "$_ARCHIVED_PATH" ]]; then
+                remove_source_if_enabled "$src_orig" archived
+                echo "[MOVED] Camera original → archive: $(basename "$_ARCHIVED_PATH")" >&2
+            fi
+            return 0
+        fi
+    fi
     [[ -n "$_ARCHIVED_PATH" ]] && file="$_ARCHIVED_PATH"
 
     # Desktop: flat YYYY-MM-DD folder (same as portable) — consistent browsing across both libraries.
@@ -492,7 +509,13 @@ orginizeByDate() {
 
     local desktop_dest portable_dest
     desktop_dest="$(unique_dest "${desktop_dir}/${filename}")"
-    portable_dest="$(unique_dest "${portable_dir}/${filename}")"
+    # No placeholder in the portable tree when the portable tier is off (camera
+    # build phase): it is derived later from the finished desktop file.
+    if [[ "${ENABLE_PORTABLE:-1}" == "1" ]]; then
+        portable_dest="$(unique_dest "${portable_dir}/${filename}")"
+    else
+        portable_dest="${portable_dir}/${filename}"
+    fi
 
     # Sony Walkman compliance: truncate oversized components and validate
     portable_dest="$(walkman_sanitize_path "$portable_root" "$portable_dest")"
