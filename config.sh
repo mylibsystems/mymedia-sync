@@ -56,17 +56,25 @@ DESKTOP_PHOTOS_ROOT="${DESKTOP_PHOTOS_ROOT:-${MEDIA_PATH}/LIBRARY.DESKTOP/PHOTOS
 # The camera library (archive of untouched camera originals) lives at the ROOT of
 # the drive, next to UNSORTED — it is its own share, not inside LIBRARY.DESKTOP.
 DESKTOP_CAMERA_ROOT="${DESKTOP_CAMERA_ROOT:-${MEDIA_PATH}/CAMERA}"
+# Until the router exports the root CAMERA folder as its own SMB share, use the
+# router's NFS export of the SAME disk (only for the router layout).
+if [[ ! -d "$DESKTOP_CAMERA_ROOT" && "${MEDIA_PATH%/}" == "/mnt/router-smb" \
+      && -d "${ROUTER_NFS_MOUNT:-/mnt/router-nfs}/CAMERA" ]]; then
+    DESKTOP_CAMERA_ROOT="${ROUTER_NFS_MOUNT:-/mnt/router-nfs}/CAMERA"
+fi
 
-# True when the camera library is really available: it is its own mount (its own
-# share) or sits on the same filesystem as UNSORTED — never a stray local folder
-# that would silently receive the archive.
+# True when the camera library is really available: it is its own mount, sits on
+# the same filesystem as UNSORTED, or lives on a different filesystem than the plain
+# MEDIA_PATH folder (a mounted share) — never a stray local folder that would
+# silently receive the archive.
 camera_library_ready() {
     [[ -d "$DESKTOP_CAMERA_ROOT" ]] || return 1
     mountpoint -q "$DESKTOP_CAMERA_ROOT" 2>/dev/null && return 0
-    local a b
+    local a b m
     a="$(stat -c %d "$DESKTOP_CAMERA_ROOT" 2>/dev/null || stat -f %d "$DESKTOP_CAMERA_ROOT" 2>/dev/null)" || return 1
     b="$(stat -c %d "${UNSORTED_ROOT:-$MEDIA_PATH}" 2>/dev/null || stat -f %d "${UNSORTED_ROOT:-$MEDIA_PATH}" 2>/dev/null)" || return 1
-    [[ -n "$a" && "$a" == "$b" ]]
+    m="$(stat -c %d "$MEDIA_PATH" 2>/dev/null || stat -f %d "$MEDIA_PATH" 2>/dev/null)" || m=""
+    [[ -n "$a" && ( "$a" == "$b" || ( -n "$m" && "$a" != "$m" ) ) ]]
 }
 
 PORTABLE_MUSIC_ROOT="${PORTABLE_MUSIC_ROOT:-${MEDIA_PATH}/LIBRARY.PORTABLE/MUSIC}"
