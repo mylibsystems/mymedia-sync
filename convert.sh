@@ -313,7 +313,40 @@ staging_path() {
         staging_dir="$(dirname "$dest")/.media-sync-staging-$$"
     fi
     mkdir -p "$staging_dir"
+    # Remember it (this runs in a $(...) subshell, so a variable would be lost) so
+    # the owning script removes it on exit, however it exits.
+    printf '%s\n' "$staging_dir" >> "${TMPDIR:-/tmp}/.media-sync-staging-reg-$$" 2>/dev/null || true
     echo "${staging_dir}/$(basename "$dest")"
+}
+
+# Remove the staging dirs created by THIS process (name ends with its own PID).
+# Installed as an EXIT trap by orginize.sh / portablize.sh, so a failed
+# conversion or a stopped sync never leaves .media-sync-staging-* behind.
+cleanup_staging_dirs() {
+    local reg="${TMPDIR:-/tmp}/.media-sync-staging-reg-$$" d
+    [[ -f "$reg" ]] || return 0
+    while IFS= read -r d; do
+        [[ "$d" == */.media-sync-staging-$$ ]] && rm -rf -- "$d" 2>/dev/null
+    done < "$reg"
+    rm -f "$reg"
+    return 0
+}
+
+# Remove staging dirs left by jobs that are no longer running (killed/crashed).
+# sweep_stale_staging ROOT... — only dirs whose PID suffix is not a live process.
+sweep_stale_staging() {
+    local root d pid n=0
+    for root in "$@"; do
+        [[ -d "$root" ]] || continue
+        while IFS= read -r d; do
+            pid="${d##*-}"
+            [[ "$pid" =~ ^[0-9]+$ ]] || continue
+            kill -0 "$pid" 2>/dev/null && continue
+            rm -rf -- "$d" 2>/dev/null && n=$(( n + 1 ))
+        done < <(find "$root" -maxdepth 4 -type d -name '.media-sync-staging-*' 2>/dev/null)
+    done
+    (( n > 0 )) && echo "[INFO] Removed ${n} stale staging folder(s)" >&2
+    return 0
 }
 
 # Move staged file to final destination; verify non-empty.

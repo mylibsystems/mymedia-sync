@@ -89,28 +89,51 @@ write_build_progress() {
     printf '%s %s\n' "$_bp_done" "$_bp_total" > "${BUILD_PROGRESS_FILE}.tmp" 2>/dev/null \
         && mv -f "${BUILD_PROGRESS_FILE}.tmp" "$BUILD_PROGRESS_FILE" 2>/dev/null || true
 }
-camera_build_done() {
-    local f="$1" rel d base ext out
-    rel="${f#"${DESKTOP_CAMERA_ROOT%/}"/}"
-    [[ "$rel" =~ ^([0-9]{4})/([0-9]{2})/([0-9]{2})/([^/]+)$ ]] || return 1
-    d="${BASH_REMATCH[1]}-${BASH_REMATCH[2]}-${BASH_REMATCH[3]}"
-    base="${BASH_REMATCH[4]%.*}"; ext="$(tr '[:upper:]' '[:lower:]' <<< "${BASH_REMATCH[4]##*.}")"
-    case "$ext" in
-        mp4|mov|avi|mkv|m4v|3gp|3g2|mts|m2ts|ts) out="${base}.m4v" ;;
-        *) out="${base}.jpg" ;;
-    esac
-    [[ "${ENABLE_DESKTOP:-1}"  != "1" || -s "${DESKTOP_PHOTOS_ROOT}/${d}/${out}"  ]] || return 1
-    [[ "${ENABLE_PORTABLE:-1}" != "1" || -s "${PORTABLE_PHOTOS_ROOT}/${d}/${out}" ]] || return 1
-    return 0
-}
 if [[ "${CAMERA_PHASE:-}" == "build" ]]; then
-    _all=0; _todo_list="$(mktemp /tmp/import_todo_XXXXXX)"
-    while IFS= read -r -d '' _f; do
-        [[ "$(basename "$_f")" == .* ]] && continue
-        _all=$(( _all + 1 ))
-        camera_build_done "$_f" || printf '%s\0' "$_f" >> "$_todo_list"
-    done < "$_files_list"
-    mv -f "$_todo_list" "$_files_list"
+    # One set-difference instead of a check per file: list the archive, list what
+    # already exists in the desktop (and portable) library, and keep the archive
+    # files whose expected output is missing. A few listings + awk passes.
+    mkdir -p "${SCRIPT_DIR}/logs"
+    _bw="$(mktemp -d /tmp/import_build_XXXXXX)"
+    find "$SOURCE_DIR" -maxdepth 8 -type f ! -name '.*' -printf '%P\n' 2>/dev/null | LC_ALL=C sort > "$_bw/arch"
+    _all=$(wc -l < "$_bw/arch" | tr -d ' ')
+    # archive path YYYY/MM/DD/name.ext -> "expected output key<TAB>archive path"
+    awk -F/ -v OFS='\t' '
+        BEGIN { media="jpg jpeg png bmp webp heic heif avif orf rw2 cr2 nef arw dng tiff tif psd mp4 mov avi mkv m4v 3gp 3g2 mts m2ts ts"
+                vid="mp4 mov avi mkv m4v 3gp 3g2 mts m2ts ts"
+                nm=split(media, ma, " "); for (i=1;i<=nm;i++) M[ma[i]]=1
+                nv=split(vid, va, " ");   for (i=1;i<=nv;i++) V[va[i]]=1 }
+        NF==4 && $1 ~ /^[0-9][0-9][0-9][0-9]$/ && $2 ~ /^[0-9][0-9]$/ && $3 ~ /^[0-9][0-9]$/ {
+            name=$4; e=name; sub(/^.*\./, "", e); e=tolower(e)
+            if (!(e in M)) next
+            base=name; sub(/\.[^.]*$/, "", base)
+            print $1 "-" $2 "-" $3 "/" base ((e in V) ? ".m4v" : ".jpg"), $0
+        }' "$_bw/arch" > "$_bw/keys"
+    # Empty or damaged desktop outputs count as MISSING: remove them (only when the
+    # camera archive has the original to rebuild from) so they are rebuilt below.
+    if [[ "${ENABLE_DESKTOP:-1}" == "1" && -x "${SCRIPT_DIR}/brokencheck.sh" ]]; then
+        "${SCRIPT_DIR}/brokencheck.sh" "$DESKTOP_PHOTOS_ROOT" "${SCRIPT_DIR}/logs/.verified-desktop-photos" 2>/dev/null \
+            | sed "s#^${DESKTOP_PHOTOS_ROOT%/}/##" > "$_bw/broken_d"
+        _nb=0; _nk=0
+        while IFS= read -r _rel; do
+            [[ -n "$_rel" ]] || continue
+            if awk -F'\t' -v k="$_rel" '$1==k {f=1; exit} END {exit !f}' "$_bw/keys"; then
+                rm -f -- "${DESKTOP_PHOTOS_ROOT%/}/${_rel}" && _nb=$(( _nb + 1 ))
+            else
+                _nk=$(( _nk + 1 ))
+            fi
+        done < "$_bw/broken_d"
+        (( _nb + _nk > 0 )) && echo "[INFO] Damaged/empty desktop photos: ${_nb} removed to rebuild from the camera library, ${_nk} kept (no original in the library)" | tee -a "${IMPORT_LOG}" >&2
+    fi
+    : > "$_bw/have_d"; : > "$_bw/have_p"
+    [[ "${ENABLE_DESKTOP:-1}"  == "1" ]] && find "$DESKTOP_PHOTOS_ROOT"  -type f -size +0 -printf '%P\n' 2>/dev/null > "$_bw/have_d"
+    [[ "${ENABLE_PORTABLE:-1}" == "1" ]] && find "$PORTABLE_PHOTOS_ROOT" -type f -size +0 -printf '%P\n' 2>/dev/null > "$_bw/have_p"
+    awk -F'\t' -v ed="${ENABLE_DESKTOP:-1}" -v ep="${ENABLE_PORTABLE:-1}" -v bw="$_bw" '
+        BEGIN { while ((getline l < (bw "/have_d")) > 0) d[l]=1
+                while ((getline l < (bw "/have_p")) > 0) p[l]=1 }
+        { if ((ed=="1" && !($1 in d)) || (ep=="1" && !($1 in p))) print $2 }' "$_bw/keys" \
+        | while IFS= read -r _rel; do printf '%s\0' "${SOURCE_DIR%/}/${_rel}"; done > "$_files_list"
+    rm -rf "$_bw"
     _bp_total=$(tr -cd '\0' < "$_files_list" | wc -c | tr -d ' ')
     echo "[INFO] Camera build: ${_bp_total} to build, $(( _all - _bp_total )) already built (of ${_all} archived)" | tee -a "${IMPORT_LOG}" >&2
     write_build_progress

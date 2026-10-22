@@ -22,6 +22,12 @@ source "${SCRIPT_DIR}/config.sh"
 source "${SCRIPT_DIR}/metadata.sh"
 source "${SCRIPT_DIR}/convert.sh"
 
+# Single-file workers remove their own staging dir on exit (also on SIGTERM/SIGINT).
+if [[ "${1:-}" == "one" ]]; then
+    trap cleanup_staging_dirs EXIT
+    trap 'exit 143' TERM INT
+fi
+
 # ---------------------------------------------------------------------------
 # Single-file workers
 # ---------------------------------------------------------------------------
@@ -253,7 +259,33 @@ fi
 echo "[INFO] Deriving ${KIND} portables from: ${DESKTOP_ROOT}  (max ${_max_jobs} parallel)" >&2
 
 _list="$(mktemp /tmp/portablize_XXXXXX)"
-find "$DESKTOP_ROOT" "${_find_expr[@]}" -print0 > "$_list"
+if [[ "$KIND" == "photo" && "${SYNC_VERIFY:-0}" != "1" ]]; then
+    # Fast path: same relative path under the portable root, so one set-difference of
+    # two listings finds exactly the desktop files whose portable copy is missing or
+    # empty. (SYNC_VERIFY=1 walks and re-validates every file instead.)
+    _pw="$(mktemp -d /tmp/portablize_set_XXXXXX)"
+    # Empty or damaged portable photos count as MISSING: remove them (only when the
+    # desktop file to rebuild from exists) so they are rebuilt below.
+    if [[ -x "${SCRIPT_DIR}/brokencheck.sh" ]]; then
+        mkdir -p "${SCRIPT_DIR}/logs"
+        _nb=0; _nk=0
+        while IFS= read -r _bf; do
+            [[ -n "$_bf" && "$_bf" == "${PORTABLE_ROOT%/}"/* ]] || continue
+            _rel="${_bf#"${PORTABLE_ROOT%/}"/}"
+            if [[ -s "${DESKTOP_ROOT%/}/${_rel}" ]]; then rm -f -- "$_bf" && _nb=$(( _nb + 1 )); else _nk=$(( _nk + 1 )); fi
+        done < <("${SCRIPT_DIR}/brokencheck.sh" "$PORTABLE_ROOT" "${SCRIPT_DIR}/logs/.verified-portable-photos" 2>/dev/null)
+        (( _nb + _nk > 0 )) && echo "[INFO] Damaged/empty portable photos: ${_nb} removed to rebuild from desktop, ${_nk} kept (no desktop file)" >&2
+    fi
+    find "$DESKTOP_ROOT"  "${_find_expr[@]}" -printf '%P\n' 2>/dev/null | LC_ALL=C sort > "$_pw/want"
+    find "$PORTABLE_ROOT" -type f -size +0 -printf '%P\n' 2>/dev/null | LC_ALL=C sort > "$_pw/have"
+    LC_ALL=C comm -23 "$_pw/want" "$_pw/have" | while IFS= read -r _rel; do
+        printf '%s\0' "${DESKTOP_ROOT%/}/${_rel}"
+    done > "$_list"
+    echo "[INFO] Portable photos: $(tr -cd '\0' < "$_list" | wc -c | tr -d ' ') missing of $(wc -l < "$_pw/want" | tr -d ' ') desktop file(s)" >&2
+    rm -rf "$_pw"
+else
+    find "$DESKTOP_ROOT" "${_find_expr[@]}" -print0 > "$_list"
+fi
 
 _pids=()
 _total=0

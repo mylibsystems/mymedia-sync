@@ -351,7 +351,24 @@ echo "[INFO] sync.sh started at $(date)" | tee -a "${SYNC_LOG}"
 # ---------------------------------------------------------------------------
 # Stage 1 — Camera import (LUMIX → desktop + portable photos)
 # ---------------------------------------------------------------------------
+sweep_staging() {
+    local lib_root d pid n=0
+    for lib_root in \
+        "${DESKTOP_MUSIC_ROOT}" "${DESKTOP_MOVIES_ROOT}" "${DESKTOP_TV_ROOT}" "${DESKTOP_PHOTOS_ROOT}" \
+        "${PORTABLE_MUSIC_ROOT}" "${PORTABLE_MOVIES_ROOT}" "${PORTABLE_TV_ROOT}" "${PORTABLE_PHOTOS_ROOT}"; do
+        [[ -d "$lib_root" ]] || continue
+        while IFS= read -r d; do
+            pid="${d##*-}"
+            [[ "$pid" =~ ^[0-9]+$ ]] || continue
+            kill -0 "$pid" 2>/dev/null && continue          # still owned by a live job
+            rm -rf -- "$d" 2>/dev/null && n=$(( n + 1 ))
+        done < <(find "$lib_root" -maxdepth 4 -type d -name '.media-sync-staging-*' 2>/dev/null)
+    done
+    echo "[INFO] Removed ${n} stale staging folder(s)" | tee -a "${SYNC_LOG}"
+}
+
 if stage_enabled camera; then
+    sweep_staging
     # Phase 1 — MOVE: every original in UNSORTED/CAMERA goes into the camera library
     # (${MEDIA_PATH}/CAMERA, at the drive root) — verified, never overwritten — and is
     # removed from UNSORTED. Nothing runs when the camera library is not mounted, so
@@ -514,14 +531,8 @@ fi
 # ---------------------------------------------------------------------------
 echo "[STAGE 7] Cleanup" | tee -a "${SYNC_LOG}"
 
-# Remove .syncing temp directories from all library roots
-for lib_root in \
-    "${DESKTOP_MUSIC_ROOT}" "${DESKTOP_MOVIES_ROOT}" "${DESKTOP_TV_ROOT}" "${DESKTOP_PHOTOS_ROOT}" \
-    "${PORTABLE_MUSIC_ROOT}" "${PORTABLE_MOVIES_ROOT}" "${PORTABLE_TV_ROOT}" "${PORTABLE_PHOTOS_ROOT}"; do
-    if [[ -d "$lib_root" ]]; then
-        find "$lib_root" -type d -name "${STAGING_SUFFIX}" -exec rm -rf {} + 2>/dev/null || true
-    fi
-done
+# Remove staging folders left behind by jobs that are no longer running
+sweep_staging
 
 # Remove empty source directories after import (only when DELETE_AFTER_IMPORT=1).
 # A directory is considered empty if it contains only noise files

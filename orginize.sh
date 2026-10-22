@@ -11,6 +11,10 @@ source "${SCRIPT_DIR}/config.sh"
 source "${SCRIPT_DIR}/metadata.sh"
 source "${SCRIPT_DIR}/convert.sh"
 
+# Always remove this job's staging dir on exit (also on SIGTERM/SIGINT).
+trap cleanup_staging_dirs EXIT
+trap 'exit 143' TERM INT
+
 FILE_PATH="$1"
 FOLDER_LABEL="${2:-misc}"
 MEDIA_ROOT="$3"    # library root, e.g. /Volumes/WD-ELEMENTS/LIBRARY.DESKTOP/MUSIC
