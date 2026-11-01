@@ -31,15 +31,17 @@ export FFMPEG_BIN
 # LIBRARY.DESKTOP / LIBRARY.PORTABLE output trees. Override from the environment
 # or a `MEDIA_PATH=<dir>` CLI argument to point at a different drive.
 MEDIA_PATH="${MEDIA_PATH:-/mnt/router-smb}"
-UNSORTED_ROOT="${MEDIA_PATH}/UNSORTED"
+# The inbox may live on a different (faster, local) disk than the libraries: set
+# UNSORTED_ROOT (or any single *_SOURCE) in the environment to relocate it.
+UNSORTED_ROOT="${UNSORTED_ROOT:-${MEDIA_PATH}/UNSORTED}"
 
-CAMERA_SOURCE="${UNSORTED_ROOT}/CAMERA"
-DOWNLOADS_SOURCE="${UNSORTED_ROOT}/DOWNLOADS"
-MUSIC_SOURCE="${UNSORTED_ROOT}/MUSIC"
-MOVIES_SOURCE="${UNSORTED_ROOT}/MOVIES"
-TV_SOURCE="${UNSORTED_ROOT}/TV"
-PHOTOS_SOURCE="${UNSORTED_ROOT}/PHOTOS"
-VIDEO_SOURCE="${UNSORTED_ROOT}/VIDEO"
+CAMERA_SOURCE="${CAMERA_SOURCE:-${UNSORTED_ROOT}/CAMERA}"
+DOWNLOADS_SOURCE="${DOWNLOADS_SOURCE:-${UNSORTED_ROOT}/DOWNLOADS}"
+MUSIC_SOURCE="${MUSIC_SOURCE:-${UNSORTED_ROOT}/MUSIC}"
+MOVIES_SOURCE="${MOVIES_SOURCE:-${UNSORTED_ROOT}/MOVIES}"
+TV_SOURCE="${TV_SOURCE:-${UNSORTED_ROOT}/TV}"
+PHOTOS_SOURCE="${PHOTOS_SOURCE:-${UNSORTED_ROOT}/PHOTOS}"
+VIDEO_SOURCE="${VIDEO_SOURCE:-${UNSORTED_ROOT}/VIDEO}"
 
 # ---------------------------------------------------------------------------
 # Library destination roots
@@ -268,7 +270,7 @@ MAX_PARALLEL_JOBS=$(cpu_count)
 # ---------------------------------------------------------------------------
 # Logging
 # ---------------------------------------------------------------------------
-LOG_DIR="${SCRIPT_DIR}"
+LOG_DIR="${LOG_DIR:-${SCRIPT_DIR}}"
 IMPORT_LOG="${LOG_DIR}/import.log"
 BACKUP_LOG="${LOG_DIR}/backup.log"
 SYNC_LOG="${LOG_DIR}/sync.log"
