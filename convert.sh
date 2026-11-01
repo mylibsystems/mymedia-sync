@@ -324,11 +324,21 @@ staging_path() {
 # conversion or a stopped sync never leaves .media-sync-staging-* behind.
 cleanup_staging_dirs() {
     local reg="${TMPDIR:-/tmp}/.media-sync-staging-reg-$$" d
-    [[ -f "$reg" ]] || return 0
-    while IFS= read -r d; do
-        [[ "$d" == */.media-sync-staging-$$ ]] && rm -rf -- "$d" 2>/dev/null
-    done < "$reg"
-    rm -f "$reg"
+    if [[ -f "$reg" ]]; then
+        while IFS= read -r d; do
+            [[ "$d" == */.media-sync-staging-$$ ]] && rm -rf -- "$d" 2>/dev/null
+        done < "$reg"
+        rm -f "$reg"
+    fi
+    # Output slots reserved by unique_dest that were never filled (failed or stopped
+    # job) are removed, so a retry reuses the plain name instead of creating _1, _2...
+    local pre="${TMPDIR:-/tmp}/.media-sync-ph-reg-$$"
+    if [[ -f "$pre" ]]; then
+        while IFS= read -r d; do
+            [[ -f "$d" && ! -s "$d" ]] && rm -f -- "$d" 2>/dev/null
+        done < "$pre"
+        rm -f "$pre"
+    fi
     return 0
 }
 
@@ -719,7 +729,11 @@ convertToPortableMp4() {
             done
             debug_log "Portable audio streams: ${_p_sorted_idx[*]} langs: ${_p_sorted_lang[*]}"
         else
-            echo "[WARN] No audio track matched PORTABLE_VIDEO_AUDIO_LANGS=\"${PORTABLE_VIDEO_AUDIO_LANGS}\"; falling back to first audio track." >&2
+            if awk -F, 'tolower($2)!="" && tolower($2)!="und" {f=1} END{exit !f}' <<< "$_p_probe"; then
+                echo "[WARN] No audio track matched PORTABLE_VIDEO_AUDIO_LANGS=\"${PORTABLE_VIDEO_AUDIO_LANGS}\"; falling back to first audio track." >&2
+            else
+                debug_log "Audio tracks carry no language tag; using the first audio track"
+            fi
             audio_map+=("-map" "0:a:0")
         fi
     else
@@ -814,6 +828,24 @@ convertToPortableMp4() {
 # Photo conversion
 # ---------------------------------------------------------------------------
 
+# extract_raw_preview RAW OUT — write the largest valid embedded JPEG (JpgFromRaw,
+# PreviewImage or OtherImage) of a RAW file to OUT. Returns 1 when none is usable.
+extract_raw_preview() {
+    local in="$1" out="$2" tag tmp best="" bestsz=0 sz
+    tmp="$(mktemp /tmp/rawprev_XXXXXX)"
+    for tag in JpgFromRaw PreviewImage OtherImage; do
+        exiftool -b -"$tag" "$in" > "$tmp" 2>/dev/null || continue
+        sz=$(stat -c %s "$tmp" 2>/dev/null || echo 0)
+        (( sz > 30000 && sz > bestsz )) || continue
+        [[ "$(head -c 2 "$tmp" | od -An -tx1 | tr -d ' \n')" == "ffd8" ]] || continue
+        tail -c 64 "$tmp" | od -An -tx1 | tr -d ' \n' | grep -q ffd9 || continue
+        cp -f "$tmp" "${tmp}.best" && best="${tmp}.best" && bestsz=$sz
+    done
+    rm -f "$tmp"
+    [[ -n "$best" ]] || return 1
+    mv -f "$best" "$out"
+}
+
 # Convert RAW / HEIC / JPEG to full-quality JPEG (desktop)
 convertToDesktopJpeg() {
     local input="$1"
@@ -835,7 +867,20 @@ convertToDesktopJpeg() {
         png|bmp|webp|heic|heif|avif|orf|rw2|cr2|nef|arw|dng|tiff|tif|psd)
             # Convert to JPEG (sips on macOS, ImageMagick on Linux)
             debug_log "image→JPEG desktop: $input"
-            _quiet image_to_jpeg "$input" "$staged" "${DESKTOP_PHOTO_QUALITY}"
+            _quiet image_to_jpeg "$input" "$staged" "${DESKTOP_PHOTO_QUALITY}" || true
+            # A truncated/undecodable RAW still carries an embedded JPEG preview: use it
+            # (reduced size) rather than leave the photo without a desktop copy. The RAW
+            # itself stays untouched in the camera library; the file is listed in
+            # logs/camera-degraded.tsv.
+            if [[ ! -s "$staged" && "${RAW_PREVIEW_FALLBACK:-1}" == "1" ]]; then
+                case "$input_ext" in orf|rw2|cr2|nef|arw|dng)
+                    if extract_raw_preview "$input" "$staged"; then
+                        echo "[WARN] RAW could not be decoded (truncated?); desktop JPEG uses the embedded preview: $(basename "$input")" >&2
+                        printf '%s\t%s\t%s\n' "$(date +%F_%T)" "$input" "raw-undecodable: embedded preview used" \
+                            >> "${DEGRADED_LOG:-${SCRIPT_DIR:-.}/logs/camera-degraded.tsv}" 2>/dev/null || true
+                    fi ;;
+                esac
+            fi
             # Restore all EXIF from original (-m suppresses "Maker notes could not be parsed" minor warning)
             _quiet exiftool -m -overwrite_original -TagsFromFile "$input" \
                 -all:all \

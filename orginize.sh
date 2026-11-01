@@ -154,6 +154,9 @@ unique_dest() {
         result="${dir}/${base}_${i}.${ext}"
     fi
     touch "$result"   # reserve the slot before releasing the lock
+    # Remember the slot ($$ is the owning script's PID even inside $(...)): if this job
+    # fails, cleanup_staging_dirs removes the still-empty file on exit.
+    printf '%s\n' "$result" >> "${TMPDIR:-/tmp}/.media-sync-ph-reg-$$" 2>/dev/null || true
     rmdir "$lock_dir"
     echo "$result"
 }
@@ -438,6 +441,19 @@ archive_camera_original() {
 # Organization strategies
 # ---------------------------------------------------------------------------
 
+# Camera build phase: remember where each archived original ended up. The desktop
+# folder comes from the photo's EMBEDDED date, which can differ from the archive
+# folder, so the next run needs this to know the file is already built.
+CAMERA_INDEX_FILE="${CAMERA_INDEX_FILE:-${SCRIPT_DIR}/logs/.camera-built.tsv}"
+camera_index_note() {
+    [[ "${CAMERA_PHASE:-}" == "build" ]] || return 0
+    local arch="$1" out="$2" rel
+    rel="${arch#"${DESKTOP_CAMERA_ROOT%/}"/}"
+    [[ "$rel" != "$arch" ]] || return 0
+    mkdir -p "$(dirname "$CAMERA_INDEX_FILE")" 2>/dev/null || true
+    printf '%s\t%s\n' "$rel" "$out" >> "$CAMERA_INDEX_FILE" 2>/dev/null || true
+}
+
 orginizeByDate() {
     local file="$1"
 
@@ -510,6 +526,7 @@ orginizeByDate() {
     if [[ "${SKIP_IF_EXISTS:-1}" == "1" ]] \
        && outputs_present "${desktop_dir}/${filename}" "${portable_dir}/${filename}"; then
         echo "[SKIP] Already in library: ${filename}" >&2
+        camera_index_note "$file" "${desktop_rel_dir}/${filename}"
         # Move semantics: the original was just archived byte-identically above,
         # so the source is removed once that archived copy is verified.
         remove_source_if_enabled "$src_orig"
@@ -621,6 +638,7 @@ orginizeByDate() {
         done
     fi
 
+    camera_index_note "$file" "${desktop_rel_dir}/$(basename "$desktop_dest")"
     remove_source_if_enabled "$src_orig"
     if (( is_video )); then
         echo "[DONE] Camera video organized: $(basename "$file") → $desktop_rel_dir" >&2

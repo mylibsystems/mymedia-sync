@@ -276,7 +276,7 @@ if [[ "$KIND" == "photo" && "${SYNC_VERIFY:-0}" != "1" ]]; then
         done < <("${SCRIPT_DIR}/brokencheck.sh" "$PORTABLE_ROOT" "${SCRIPT_DIR}/logs/.verified-portable-photos" 2>/dev/null)
         (( _nb + _nk > 0 )) && echo "[INFO] Damaged/empty portable photos: ${_nb} removed to rebuild from desktop, ${_nk} kept (no desktop file)" >&2
     fi
-    find "$DESKTOP_ROOT"  "${_find_expr[@]}" -printf '%P\n' 2>/dev/null | LC_ALL=C sort > "$_pw/want"
+    find "$DESKTOP_ROOT"  "${_find_expr[@]}" -size +0 -printf '%P\n' 2>/dev/null | LC_ALL=C sort > "$_pw/want"
     find "$PORTABLE_ROOT" -type f -size +0 -printf '%P\n' 2>/dev/null | LC_ALL=C sort > "$_pw/have"
     LC_ALL=C comm -23 "$_pw/want" "$_pw/have" | while IFS= read -r _rel; do
         printf '%s\0' "${DESKTOP_ROOT%/}/${_rel}"
@@ -296,8 +296,10 @@ while IFS= read -r -d '' _f; do
         cover.jpg|poster.jpg) continue ;;
         *.thumb.jpg) continue ;;
     esac
-    # For photo kind, skip the per-video sidecar jpgs (named after an .m4v).
-    if [[ "$KIND" == "photo" && "$_bn" == *.jpg ]]; then
+    # Optional: skip per-video sidecar jpgs (named after an .m4v). OFF by default: in
+    # a PHOTOS library a .jpg beside a same-name video is a real photo (iPhone Live
+    # Photo), and the pipeline writes no thumbnails there.
+    if [[ "$KIND" == "photo" && "$_bn" == *.jpg && "${PORTABLIZE_SKIP_VIDEO_SIDECARS:-0}" == "1" ]]; then
         _stem="${_bn%.jpg}"
         [[ -f "$(dirname "$_f")/${_stem}.m4v" ]] && continue
     fi

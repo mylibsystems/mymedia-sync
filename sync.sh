@@ -364,11 +364,38 @@ sweep_staging() {
             rm -rf -- "$d" 2>/dev/null && n=$(( n + 1 ))
         done < <(find "$lib_root" -maxdepth 4 -type d -name '.media-sync-staging-*' 2>/dev/null)
     done
+    # registry files of jobs that no longer exist (killed workers)
+    local reg
+    for reg in "${TMPDIR:-/tmp}"/.media-sync-staging-reg-* "${TMPDIR:-/tmp}"/.media-sync-ph-reg-*; do
+        [[ -f "$reg" ]] || continue
+        pid="${reg##*-}"
+        [[ "$pid" =~ ^[0-9]+$ ]] || continue
+        [[ -d "/proc/$pid" ]] || kill -0 "$pid" 2>/dev/null || rm -f -- "$reg"
+    done
     echo "[INFO] Removed ${n} stale staging folder(s)" | tee -a "${SYNC_LOG}"
+}
+
+# Empty output files are leftovers of failed/stopped jobs. They count as MISSING:
+# remove them so the file is rebuilt under its plain name instead of "_1", "_2"...
+# Only when no worker is running (nothing can own an empty placeholder then).
+sweep_empty_outputs() {
+    if pgrep -f '[o]rginize\.sh|[p]ortablize\.sh' >/dev/null 2>&1; then
+        echo "[INFO] Empty-file sweep skipped: workers are running" | tee -a "${SYNC_LOG}"
+        return 0
+    fi
+    local root f n=0
+    for root in "${DESKTOP_PHOTOS_ROOT}" "${PORTABLE_PHOTOS_ROOT}"; do
+        [[ -d "$root" ]] || continue
+        while IFS= read -r -d '' f; do
+            rm -f -- "$f" && n=$(( n + 1 ))
+        done < <(find "$root" -type f -size 0 ! -name '.*' -print0 2>/dev/null)
+    done
+    echo "[INFO] Removed ${n} empty file(s) from the photo libraries (rebuilt below)" | tee -a "${SYNC_LOG}"
 }
 
 if stage_enabled camera; then
     sweep_staging
+    sweep_empty_outputs
     # Phase 1 — MOVE: every original in UNSORTED/CAMERA goes into the camera library
     # (${MEDIA_PATH}/CAMERA, at the drive root) — verified, never overwritten — and is
     # removed from UNSORTED. Nothing runs when the camera library is not mounted, so
@@ -533,6 +560,7 @@ echo "[STAGE 7] Cleanup" | tee -a "${SYNC_LOG}"
 
 # Remove staging folders left behind by jobs that are no longer running
 sweep_staging
+stage_enabled camera && sweep_empty_outputs
 
 # Remove empty source directories after import (only when DELETE_AFTER_IMPORT=1).
 # A directory is considered empty if it contains only noise files

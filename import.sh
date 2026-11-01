@@ -117,10 +117,14 @@ if [[ "${CAMERA_PHASE:-}" == "build" ]]; then
         _nb=0; _nk=0
         while IFS= read -r _rel; do
             [[ -n "$_rel" ]] || continue
-            if awk -F'\t' -v k="$_rel" '$1==k {f=1; exit} END {exit !f}' "$_bw/keys"; then
-                rm -f -- "${DESKTOP_PHOTOS_ROOT%/}/${_rel}" && _nb=$(( _nb + 1 ))
-            else
+            _orig="$(awk -F'\t' -v k="$_rel" '$1==k {print $2; exit}' "$_bw/keys")"
+            if [[ -z "$_orig" ]]; then
                 _nk=$(( _nk + 1 ))
+            elif [[ "$_rel" == *.jpg && "$(tr '[:upper:]' '[:lower:]' <<< "$_orig")" =~ \.jpe?g$ ]] \
+                 && ! tail -c 64 "${SOURCE_DIR%/}/${_orig}" 2>/dev/null | od -An -tx1 | tr -d ' \n' | grep -q ffd9; then
+                _nk=$(( _nk + 1 ))      # the original itself is truncated: the copy is faithful, keep it
+            else
+                rm -f -- "${DESKTOP_PHOTOS_ROOT%/}/${_rel}" && _nb=$(( _nb + 1 ))
             fi
         done < "$_bw/broken_d"
         (( _nb + _nk > 0 )) && echo "[INFO] Damaged/empty desktop photos: ${_nb} removed to rebuild from the camera library, ${_nk} kept (no original in the library)" | tee -a "${IMPORT_LOG}" >&2
@@ -128,10 +132,13 @@ if [[ "${CAMERA_PHASE:-}" == "build" ]]; then
     : > "$_bw/have_d"; : > "$_bw/have_p"
     [[ "${ENABLE_DESKTOP:-1}"  == "1" ]] && find "$DESKTOP_PHOTOS_ROOT"  -type f -size +0 -printf '%P\n' 2>/dev/null > "$_bw/have_d"
     [[ "${ENABLE_PORTABLE:-1}" == "1" ]] && find "$PORTABLE_PHOTOS_ROOT" -type f -size +0 -printf '%P\n' 2>/dev/null > "$_bw/have_p"
-    awk -F'\t' -v ed="${ENABLE_DESKTOP:-1}" -v ep="${ENABLE_PORTABLE:-1}" -v bw="$_bw" '
+    _idx="${CAMERA_INDEX_FILE:-${SCRIPT_DIR}/logs/.camera-built.tsv}"; [[ -f "$_idx" ]] || _idx=/dev/null
+    awk -F'\t' -v ed="${ENABLE_DESKTOP:-1}" -v ep="${ENABLE_PORTABLE:-1}" -v bw="$_bw" -v idxf="$_idx" '
         BEGIN { while ((getline l < (bw "/have_d")) > 0) d[l]=1
-                while ((getline l < (bw "/have_p")) > 0) p[l]=1 }
-        { if ((ed=="1" && !($1 in d)) || (ep=="1" && !($1 in p))) print $2 }' "$_bw/keys" \
+                while ((getline l < (bw "/have_p")) > 0) p[l]=1
+                while ((getline l < idxf) > 0) { n=split(l, a, "\t"); if (n>=2) ix[a[1]]=a[2] } }
+        { g=$1; arch=$2; k=(arch in ix) ? ix[arch] : g
+          if ((ed=="1" && !(k in d) && !(g in d)) || (ep=="1" && !(k in p) && !(g in p))) print arch }' "$_bw/keys" \
         | while IFS= read -r _rel; do printf '%s\0' "${SOURCE_DIR%/}/${_rel}"; done > "$_files_list"
     rm -rf "$_bw"
     _bp_total=$(tr -cd '\0' < "$_files_list" | wc -c | tr -d ' ')
@@ -210,6 +217,7 @@ if (( ${#retry_files[@]} > 0 )); then
     done
 fi
 
+_bp_done=$_bp_total; write_build_progress
 echo "[INFO] Import complete: $SOURCE_DIR  finished=$(date)  failures=${fail_count}" | tee -a "${IMPORT_LOG}" >&2
 if (( fail_count > 0 )); then
     log_warn "${fail_count} file(s) failed during import from: $SOURCE_DIR"
