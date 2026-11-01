@@ -1,0 +1,26 @@
+# MyMedia Sync settings. `make` reads this file; no command-line parameters are needed.
+
+[paths]
+# FAST LOCAL DISK holding CAMERA, UNSORTED, logs and the staging area.
+# Leave empty until the local disk is ready: the app refuses to run without it
+# (unless [safety] allow_router_inputs = true).
+local_root  = ""
+# Router share holding LIBRARY.DESKTOP and LIBRARY.PORTABLE. Nothing is ever moved or deleted there
+# except the library outputs this app builds.
+router_root = "/mnt/router-smb"
+
+[ingest]
+# Copy CAMERA and UNSORTED from the router to the local disk (copy only, checksums logged).
+enabled = true
+from_root = ""        # empty = router_root
+verify  = true
+streams = 3
+
+[run]
+workers       = 0     # 0 = automatic (CPU count)
+video_workers = 2
+retry         = 1
+deep_verify   = false # true = always re-decode every output
+
+[safety]
+allow_router_inputs = false

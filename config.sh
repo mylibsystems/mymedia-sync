@@ -5,7 +5,11 @@
 # ---------------------------------------------------------------------------
 # Script directory (base for all relative paths)
 # ---------------------------------------------------------------------------
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Sourced more than once per process (orginize.sh, convert.sh ...): load only once.
+[[ -n "${_MEDIASYNC_CONFIG_LOADED:-}" ]] && return 0
+_MEDIASYNC_CONFIG_LOADED=1
+
+SCRIPT_DIR="$(cd "${BASH_SOURCE[0]%/*}" && pwd)"
 
 # ---------------------------------------------------------------------------
 # Cross-platform compatibility layer (macOS + Linux)
@@ -265,7 +269,7 @@ METADATA_TIMEOUT=10                # seconds per HTTP request
 # ---------------------------------------------------------------------------
 # Concurrency
 # ---------------------------------------------------------------------------
-MAX_PARALLEL_JOBS=$(cpu_count)
+[[ -n "${MAX_PARALLEL_JOBS:-}" ]] || MAX_PARALLEL_JOBS=$(cpu_count)
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -412,7 +416,8 @@ require_tool() {
 # DESKTOP_CAMERA_ROOT is deliberately NOT created here: it is its own share at the
 # drive root and must already be mounted (see camera_library_ready).
 # ---------------------------------------------------------------------------
-mkdir -p \
+# (mediasync creates these once per run and sets MEDIASYNC_DIRS_READY=1 so every worker skips it)
+[[ "${MEDIASYNC_DIRS_READY:-}" == "1" ]] || mkdir -p \
     "${CAMERA_SOURCE}" \
     "${DOWNLOADS_SOURCE}" \
     "${MUSIC_SOURCE}" \

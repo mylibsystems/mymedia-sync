@@ -4,7 +4,7 @@
 #
 #     make setup      # install all dependencies on a fresh machine (mac or linux)
 #     make check      # verify every required tool is present
-#     make sync       # run the full import pipeline
+#     make            # run the whole pipeline (Python app, no parameters)
 #
 # Pass a library root to any run target with MEDIA_PATH=/path/to/drive, e.g.
 #
@@ -14,7 +14,7 @@
 # ---------------------------------------------------------------------------
 
 SHELL := /bin/bash
-.DEFAULT_GOAL := help
+.DEFAULT_GOAL := run
 
 # Directory this Makefile lives in (so `make` works from anywhere).
 ROOT := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
@@ -31,10 +31,27 @@ MODE  ?= move
 FILE  ?=
 TIER  ?= desktop
 
-.PHONY: help setup check doctor build-ffmpeg sync camera downloads music movies tv photos \
+.PHONY: run verify dry-run test legacy-sync help setup check doctor build-ffmpeg sync camera downloads music movies tv photos \
         playlist backup transfer convert clean-raw stop
 
 # ---------------------------------------------------------------------------
+run: ## Run the whole pipeline: scan/verify > ingest > backup > desktop > portable (settings.toml)
+	@python3 -m mediasync
+
+sync: run ## Alias for `run`
+
+verify: ## Same as run, but re-check every output deeply (ignores the verification cache)
+	@python3 -m mediasync --verify
+
+dry-run: ## Show the plan only; change nothing
+	@python3 -m mediasync --dry-run
+
+test: ## Run the Python test-suite (safety, UI layout, end-to-end)
+	@python3 -m unittest tests_py.test_safety tests_py.test_ui_layout tests_py.test_e2e
+
+legacy-sync: ## The old bash-only pipeline (fallback)
+	@bash "$(ROOT)/sync.sh" $(MP)
+
 help: ## Show this help
 	@echo "MyMedia Sync — pipeline orchestrator"
 	@echo ""
@@ -57,9 +74,6 @@ build-ffmpeg: ## Build local ffmpeg w/ libfdk_aac (Linux; nonfree, do NOT redist
 	@bash "$(ROOT)/build-ffmpeg.sh"
 
 # ---- Pipeline --------------------------------------------------------------
-sync: ## Run the full pipeline (all stages)
-	@bash "$(ROOT)/sync.sh" $(MP)
-
 camera: ## Import camera / SD-card photos only
 	@bash "$(ROOT)/sync.sh" camera $(MP)
 

@@ -1,5 +1,33 @@
 # MyMedia Sync
 
+## Quick start (Python app)
+
+```
+make            # runs everything, no parameters; configuration lives in settings.toml
+make dry-run    # plan only
+make verify     # deep re-check of every output
+make test
+```
+
+`make` runs `python3 -m mediasync`, a single terminal app with the phases
+**Scan/verify → Ingest → Backup → Desktop → Portable**. The UI has a fixed layout that fits the
+terminal (only the UP NEXT list scrolls): overall progress and ETA, per-phase bars, per-file
+progress for every running worker, and issues. Keys: `q` quit, `p` pause, arrows/PgUp/PgDn scroll.
+`--plain` gives plain-text output.
+
+* **Encoding is unchanged.** All ffmpeg / magick / exiftool / flac commands still run in
+  `orginize.sh`, `portablize.sh`, `convert.sh`, `metadata.sh`; Python plans, verifies and shows progress.
+* **Inputs are local.** `CAMERA` and `UNSORTED` live on a fast local disk (`[paths] local_root`);
+  logs and staging are there too. Ingest copies them from the router (copy only, checksums logged).
+  Nothing on the router is moved or deleted, except the library outputs the app rebuilds.
+* **CAMERA is protected.** Never deleted, overwritten or renamed (`mediasync/guard.py`, unit-tested).
+* **Always verified.** Every run scans all files; zero-length, corrupt, truncated or short outputs are
+  detected (JPEG structure, ffprobe duration vs. source, tail decode) and rebuilt. Collisions never
+  overwrite: both versions are kept and logged with checksums in `<local_root>/logs`.
+
+The old bash orchestration is still available as `make legacy-sync`.
+
+
 > A metadata-first pipeline that normalizes your personal media library into two
 > parallel tiers — one for desktop/hi-fi, one for portable devices.
 > Part of the **[mylibsystems](https://github.com/mylibsystems)** community.

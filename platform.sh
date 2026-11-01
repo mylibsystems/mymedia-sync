@@ -15,10 +15,10 @@
 # ---------------------------------------------------------------------------
 # OS detection
 # ---------------------------------------------------------------------------
-case "$(uname -s 2>/dev/null)" in
-    Darwin) OS_NAME="macos" ;;
-    Linux)  OS_NAME="linux" ;;
-    *)      OS_NAME="unknown" ;;
+case "$OSTYPE" in
+    darwin*) OS_NAME="macos" ;;
+    linux*)  OS_NAME="linux" ;;
+    *)       OS_NAME="unknown" ;;
 esac
 export OS_NAME
 

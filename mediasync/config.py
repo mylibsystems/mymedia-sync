@@ -142,6 +142,8 @@ class Settings:
             "BUILD_PROGRESS_FILE": str(self.logs / ".camera-build-progress"),
             "DELETE_AFTER_IMPORT": "1",
             "SYNC_AUTOTEE": "0",
+            "MEDIASYNC_DIRS_READY": "1",          # the app creates the folders once; workers skip mkdir
+            "MAX_PARALLEL_JOBS": str(self.n_workers),
             "TMPDIR": str(self.staging / "tmp"),
         })
         if extra:

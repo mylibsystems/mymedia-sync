@@ -94,6 +94,7 @@ class Pipeline:
             st.state = "running"
             os.makedirs(self.s.staging / "tmp", exist_ok=True)
             os.makedirs(self.s.logs / "engine", exist_ok=True)
+            self._make_folders()
             self._import_engine_index()
             for name in ("scan", "ingest", "backup", "desktop", "portable", "finalize"):
                 if self.stop.is_set():
@@ -111,6 +112,15 @@ class Pipeline:
             self.ctx.verifier.flush()
             st.finished = time.time()
             self._write_history()
+
+    def _make_folders(self) -> None:
+        """The folders config.sh would create (so the workers can skip that step)."""
+        for kind in ("DOWNLOADS", "MUSIC", "MOVIES", "TV", "PHOTOS", "VIDEO", "CAMERA"):
+            os.makedirs(self.s.source_dir(kind), exist_ok=True)
+        os.makedirs(self.s.camera, exist_ok=True)
+        for lib in ("MUSIC", "MOVIES", "TV", "PHOTOS"):
+            os.makedirs(self.s.desktop(lib), exist_ok=True)
+            os.makedirs(self.s.portable(lib), exist_ok=True)
 
     def _write_history(self):
         for key in ("ingest", "backup", "desktop", "portable"):
