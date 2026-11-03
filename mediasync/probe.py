@@ -155,3 +155,111 @@ def ffprobe_duration(path: str, timeout: int = 120) -> float | None:
     except (ValueError, IndexError):
         return None
     return v if v > 0 else None
+
+
+def _flac_streaminfo(path: str):
+    """(total_samples, channels, bits_per_sample) from the STREAMINFO block, or None."""
+    try:
+        with open(path, "rb") as f:
+            head = f.read(42)
+    except OSError:
+        return None
+    if len(head) < 42 or head[:4] != b"fLaC" or head[4] & 0x7F != 0:
+        return None
+    d = head[8:42]
+    total = int.from_bytes(d[10:18], "big") & ((1 << 36) - 1)
+    channels = ((d[12] >> 1) & 7) + 1
+    bps = (((d[12] & 1) << 4) | (d[13] >> 4)) + 1
+    return total, channels, bps
+
+
+def _crc8(data: bytes) -> int:
+    c = 0
+    for x in data:
+        c ^= x
+        for _ in range(8):
+            c = ((c << 1) ^ 0x07) & 0xFF if c & 0x80 else (c << 1) & 0xFF
+    return c
+
+
+def _valid_frame_header(d: bytes, i: int) -> bool:
+    try:
+        b2, b3 = d[i + 2], d[i + 3]
+        if (b2 >> 4) == 0 or (b2 & 15) == 15 or (b3 & 1) or ((b3 >> 1) & 7) == 3 or (b3 >> 4) > 10:
+            return False
+        first = d[i + 4]
+        ln = (1 if first < 0x80 else 2 if first >> 5 == 6 else 3 if first >> 4 == 14 else 4 if first >> 3 == 30
+              else 5 if first >> 2 == 62 else 6 if first >> 1 == 126 else 7)
+        hl = 4 + ln + (1 if b2 >> 4 == 6 else 2 if b2 >> 4 == 7 else 0)
+        sr = b2 & 15
+        hl += 1 if sr == 12 else 2 if sr in (13, 14) else 0
+        return _crc8(d[i:i + hl]) == d[i + hl]
+    except IndexError:
+        return False
+
+
+def _without_leading_junk(path: str, max_junk: int = 400_000) -> bytes | None:
+    """File bytes with anything between the metadata and the first valid audio frame removed."""
+    with open(path, "rb") as f:
+        d = f.read()
+    pos = 4
+    while pos + 4 <= len(d):
+        h = d[pos]
+        pos += 4 + int.from_bytes(d[pos + 1:pos + 4], "big")
+        if h & 0x80:
+            break
+    else:
+        return None
+    for i in range(pos, min(len(d) - 10, pos + max_junk)):
+        if d[i] == 0xFF and d[i + 1] in (0xF8, 0xF9) and _valid_frame_header(d, i):
+            return d[:pos] + d[i:]
+    return None
+
+
+def flac_audio_ok(path: str, timeout: int = 900) -> tuple[bool, str]:
+    """FLAC integrity that does not trip over junk bytes around a complete stream.
+
+    `flac -t` fails on a stale padding block before the first frame or a trailing tag even though every
+    sample decodes.  So: pass `flac -t`, else drop the leading junk and decode tolerantly, looking at where
+    the decoder complained.  Errors before the first sample or after the last one are junk; an error inside
+    the audio, or fewer samples than the header promises, is damage.
+    """
+    import tempfile
+    try:
+        if subprocess.run(["flac", "-t", "-s", path], capture_output=True, timeout=timeout).returncode == 0:
+            return True, "ok"
+        info = _flac_streaminfo(path)
+        if not info or info[2] % 8:
+            return False, "flac test failed"
+        total, channels, bps = info
+        frame_bytes = channels * (bps // 8)
+        clean = _without_leading_junk(path)
+        with tempfile.NamedTemporaryFile(suffix=".flac") as tmp, tempfile.TemporaryFile() as err:
+            if clean is None:
+                src = path
+            else:
+                tmp.write(clean)
+                tmp.flush()
+                src = tmp.name
+            proc = subprocess.Popen(["flac", "-d", "-F", "-s", "--force-raw-format", "--endian=little",
+                                     "--sign=signed", "-o", "-", src], stdout=subprocess.PIPE, stderr=err)
+            n = 0
+            while True:
+                chunk = proc.stdout.read(1 << 20)
+                if not chunk:
+                    break
+                n += len(chunk)
+            proc.stdout.close()
+            proc.wait(timeout=timeout)
+            err.seek(0)
+            text = err.read().decode("utf-8", "replace")
+    except (OSError, subprocess.SubprocessError) as e:
+        return False, f"cannot run flac: {e}"
+    got = n // frame_bytes
+    if total and got < total:
+        return False, f"only {got} of {total} samples decode"
+    positions = [int(m) for m in re.findall(r"after processing (\d+) samples", text)]
+    inside = [x for x in positions if 0 < x < got]
+    if inside:
+        return False, f"decode error inside the audio (at sample {inside[0]})"
+    return True, "ok (junk bytes around a complete stream)"

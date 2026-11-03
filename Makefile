@@ -31,7 +31,7 @@ MODE  ?= move
 FILE  ?=
 TIER  ?= desktop
 
-.PHONY: run verify dry-run test legacy-sync help setup check doctor build-ffmpeg sync camera downloads music movies tv photos \
+.PHONY: run ingest verify dry-run test legacy-sync help setup check doctor build-ffmpeg sync camera downloads music movies tv photos \
         playlist backup transfer convert clean-raw stop
 
 # ---------------------------------------------------------------------------
@@ -46,8 +46,11 @@ verify: ## Same as run, but re-check every output deeply (ignores the verificati
 dry-run: ## Show the plan only; change nothing
 	@python3 -m mediasync --dry-run
 
-test: ## Run the Python test-suite (safety, UI layout, end-to-end)
-	@python3 -m unittest tests_py.test_safety tests_py.test_ui_layout tests_py.test_e2e
+ingest: ## Only copy CAMERA + UNSORTED from the router to the local disk (copy only)
+	@python3 -m mediasync --ingest-only
+
+test: ## Run the Python test-suite (safety, UI layout, end-to-end, audio verification)
+	@python3 -m unittest tests_py.test_safety tests_py.test_ui_layout tests_py.test_e2e tests_py.test_audio_verify
 
 legacy-sync: ## The old bash-only pipeline (fallback)
 	@bash "$(ROOT)/sync.sh" $(MP)

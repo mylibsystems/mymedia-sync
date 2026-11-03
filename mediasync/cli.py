@@ -32,6 +32,8 @@ def main(argv=None) -> int:
     ap.add_argument("--plain", action="store_true", help="plain text progress instead of the full-screen UI")
     ap.add_argument("--dry-run", action="store_true", help="scan and verify only; change nothing")
     ap.add_argument("--verify", action="store_true", help="deep-check every output again (ignore the cache)")
+    ap.add_argument("--ingest-only", action="store_true",
+                    help="only copy CAMERA/UNSORTED from the router to the local disk (no library work)")
     ap.add_argument("--version", action="version", version=__version__)
     args = ap.parse_args(argv)
 
@@ -60,6 +62,7 @@ def main(argv=None) -> int:
     stop = threading.Event()
     ctx = Ctx(s, status, log, state, build_guard(s), stop)
     pipe = Pipeline(ctx)
+    pipe.ingest_only = args.ingest_only
     log.info("start", f"mediasync {__version__}  local_root={s.local_root}  router_root={s.router_root}  dry_run={args.dry_run}")
 
     def target():

@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 
 from . import fsutil
-from .probe import ExifPool, capture_date, ffprobe_duration, tail_decodes
+from .probe import ExifPool, capture_date, ffprobe_duration, flac_audio_ok, tail_decodes
 
 SIDECAR_NAMES = {"cover.jpg", "poster.jpg", "folder.jpg"}
 _LABEL_RE = re.compile(r" \[[^\]\[]*\]$")
@@ -77,6 +77,8 @@ class Verifier:
             return hit
         if kind == "photo":
             ok, detail = fsutil.jpeg_check(path)
+        elif kind == "audio" and path.lower().endswith(".flac"):
+            ok, detail = flac_audio_ok(path)
         else:
             ref_dur = self.duration(*ref) if ref else None
             ok, detail = duration_ok(self.duration(path, size, mtime_ns), ref_dur)

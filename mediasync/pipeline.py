@@ -86,6 +86,7 @@ class Pipeline:
         self.ingest_tasks: list[Task] = []
         self.combined_music_ctx: dict[str, str] = {}
         self.music_touched = False
+        self.ingest_only = False
 
     # ======================================================================
     def run(self) -> None:
@@ -96,7 +97,9 @@ class Pipeline:
             os.makedirs(self.s.logs / "engine", exist_ok=True)
             self._make_folders()
             self._import_engine_index()
-            for name in ("scan", "ingest", "backup", "desktop", "portable", "finalize"):
+            names = ("scan", "ingest") if self.ingest_only else \
+                ("scan", "ingest", "backup", "desktop", "portable", "finalize")
+            for name in names:
                 if self.stop.is_set():
                     break
                 getattr(self, f"phase_{name}")()
@@ -167,6 +170,10 @@ class Pipeline:
             if ing_bytes > free:
                 raise RuntimeError(f"not enough free space on the local disk for the ingest: need "
                                    f"{fsutil.human_bytes(ing_bytes)}, free {fsutil.human_bytes(free)}")
+        if self.ingest_only:
+            st.plan_phase("ingest", len(self.ingest_tasks), "files to copy")
+            st.end_phase("scan")
+            return
         # camera: dates + desktop verification
         self.cam_items = self.plan_camera(self.inv, scan_phase=True)
         todo_desktop = [c for c in self.cam_items if c.d_state != "ok"]

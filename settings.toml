@@ -4,15 +4,16 @@
 # FAST LOCAL DISK holding CAMERA, UNSORTED, logs and the staging area.
 # Leave empty until the local disk is ready: the app refuses to run without it
 # (unless [safety] allow_router_inputs = true).
-local_root  = ""
-# Router share holding LIBRARY.DESKTOP and LIBRARY.PORTABLE. Nothing is ever moved or deleted there
-# except the library outputs this app builds.
-router_root = "/mnt/router-smb"
+local_root  = "/mnt/media-local"
+# Router disk (NFS mount) holding LIBRARY.DESKTOP and LIBRARY.PORTABLE. Use NFS, not SMB: SMB cannot represent
+# names ending in a dot and creates twin folders for them.
+# Nothing is ever moved or deleted there except the library outputs this app builds.
+router_root = "/mnt/router-nfs"
 
 [ingest]
 # Copy CAMERA and UNSORTED from the router to the local disk (copy only, checksums logged).
 enabled = true
-from_root = ""        # empty = router_root
+from_root = "/mnt/router-nfs"   # NFS is faster for bulk copy; empty = router_root
 verify  = true
 streams = 3
 
