@@ -155,5 +155,18 @@ class KeepLongEncode(unittest.TestCase):
         self.assertFalse(keep("MUSIC", "end of the file cannot be decoded"))
 
 
+class VerifierCache(unittest.TestCase):
+    def test_saved_failures_are_not_trusted_but_passes_are(self):
+        from mediasync.inventory import Verifier
+
+        class St:
+            def load_verified(self): return {"/a": (10, 5, False, "old wrong verdict"), "/b": (10, 5, True, "ok")}
+            def load_durations(self): return {}
+
+        v = Verifier(St(), None)
+        self.assertIsNone(v.cached("/a", 10, 5))
+        self.assertEqual(v.cached("/b", 10, 5), (True, "ok"))
+
+
 if __name__ == "__main__":
     unittest.main()

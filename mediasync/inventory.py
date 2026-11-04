@@ -65,7 +65,9 @@ class Verifier:
         if self.deep_all:
             return None
         c = self._verified.get(path)
-        if c and c[0] == size and c[1] == mtime_ns:
+        # Only passes are trusted: a saved failure may come from an older, wrong check and would otherwise be
+        # replayed for as long as the file stays unchanged. Failures are cheap to re-test.
+        if c and c[0] == size and c[1] == mtime_ns and c[2]:
             return c[2], c[3]
         return None
 
