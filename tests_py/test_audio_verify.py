@@ -76,3 +76,31 @@ class TailDecodes(unittest.TestCase):
         warn = "[null @ 0x59598c6da140] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 5 >= 5"
         self.assertEqual(_real_error(warn), "")
         self.assertTrue(_real_error("[h264 @ 0x5ece3e20ae80] error while decoding MB 114 49, bytestream -5"))
+
+
+@unittest.skipUnless(shutil.which("ffmpeg"), "ffmpeg not installed")
+class TailDecodesVideo(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.mkdtemp()
+        cls.movie = os.path.join(cls.tmp, "movie.mp4")
+        # audio (8 s) runs well past the last video frame (5 s), keyframes every 2 s, like the real movies
+        subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i", "testsrc=size=320x240:rate=24:duration=5",
+                        "-f", "lavfi", "-i", "sine=frequency=440:duration=8", "-c:v", "libx264", "-g", "48",
+                        "-c:a", "aac", "-pix_fmt", "yuv420p", cls.movie], check=True)
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def test_audio_longer_than_video_is_not_damage(self):
+        from mediasync.probe import tail_decodes
+        self.assertTrue(tail_decodes(self.movie, "video")[0])
+
+    def test_truncated_movie_is_damage(self):
+        from mediasync.probe import tail_decodes
+        p = os.path.join(self.tmp, "cut.mp4")
+        data = open(self.movie, "rb").read()
+        with open(p, "wb") as f:
+            f.write(data[: len(data) * 6 // 10])
+        self.assertFalse(tail_decodes(p, "video")[0])

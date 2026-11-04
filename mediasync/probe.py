@@ -132,29 +132,52 @@ def _real_error(text: str) -> str:
     return ""
 
 
-def tail_decodes(path: str, kind: str = "video", timeout: int = 180) -> tuple[bool, str]:
-    """Decode the last second: a truncated file claims its full duration in the header but fails here.
+def _stream_duration(path: str, kind: str) -> float | None:
+    """Duration of the first video (or audio) stream; may be shorter than the container's."""
+    sel = "a:0" if kind == "audio" else "v:0"
+    try:
+        r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", sel, "-show_entries", "stream=duration",
+                            "-of", "csv=p=0", path], capture_output=True, text=True, timeout=120)
+        return float(r.stdout.strip().splitlines()[0])
+    except (OSError, subprocess.SubprocessError, ValueError, IndexError):
+        return None
 
-    Files shorter than about a second (e.g. a pregap track) are decoded completely instead.
+
+_FRAMES_RE = re.compile(r"frame=\s*(\d+)")
+
+
+def tail_decodes(path: str, kind: str = "video", timeout: int = 180) -> tuple[bool, str]:
+    """Decode the end of the main stream: a truncated file claims its full duration in the header but fails here.
+
+    The seek point is relative to the end of the stream being decoded, not of the container: a movie whose audio
+    runs past the last video frame has no video in the container's last second.  Streams shorter than a few
+    seconds (e.g. a pregap track) are decoded completely.
     """
-    dur = ffprobe_duration(path)
-    short = dur is not None and dur < 1.5
+    sd = _stream_duration(path, kind)
+    if sd is None:
+        sd = ffprobe_duration(path)
+    short = sd is not None and sd < 3.0
     try:
         # Only the real streams: an embedded cover picture would make the progress time read N/A.
         maps = ["-map", "0:a:0"] if kind == "audio" else ["-map", "0:v:0", "-map", "0:a:0?"]
-        seek = [] if short else ["-sseof", "-1"]
+        if short:
+            seek = []
+        elif sd is None:
+            seek = ["-sseof", "-3"]
+        else:
+            seek = ["-ss", f"{sd - 2.0:.3f}"]
         r = subprocess.run(["ffmpeg", "-hide_banner", "-nostdin", "-v", "error", "-stats", *seek,
                             "-i", path, *maps, "-f", "null", "-"], capture_output=True, text=True, timeout=timeout)
     except (OSError, subprocess.SubprocessError) as e:
         return False, f"cannot run ffmpeg: {e}"
     text = (r.stderr + r.stdout).replace("\r", "\n")
     times = _TIME_RE.findall(text)
+    frames = [int(x) for x in _FRAMES_RE.findall(text)]
     first_err = _real_error(text)
-    if not times:
+    t = (int(times[-1][0]) * 3600 + int(times[-1][1]) * 60 + float(times[-1][2])) if times else 0.0
+    decoded = (frames and frames[-1] > 0 and kind != "audio") or t >= (sd * 0.5 if short else 0.2)
+    if not decoded:
         return False, "end of the file cannot be decoded" + (f" ({first_err[:60]})" if first_err else "")
-    t = int(times[-1][0]) * 3600 + int(times[-1][1]) * 60 + float(times[-1][2])
-    if t < (dur * 0.5 if short else 0.2):
-        return False, "end of the file cannot be decoded (nothing readable in the last second)"
     if first_err:
         return False, f"decode error near the end ({first_err[:60]})"
     return True, "ok"

@@ -664,6 +664,35 @@ _load_album_ctx_for_file() {
     fi
 }
 
+# Spell a library-relative path the way it already exists on disk, ignoring letter case
+# ("Ghosts Of Paraguay" vs "Ghosts of Paraguay"). Without this a source whose folder or tag is
+# spelled differently misses the "already in library" check and is imported a second time.
+# Only the first case-insensitive match is used; components that do not exist yet stay as given.
+canonical_path_ci() {
+    local root="$1" rel="$2"
+    command -v python3 >/dev/null 2>&1 || { printf '%s' "$rel"; return 0; }
+    python3 - "$root" "$rel" <<'PY'
+import os, sys, unicodedata
+root, rel = sys.argv[1], sys.argv[2]
+def key(s):
+    return unicodedata.normalize("NFC", s).casefold()
+cur, out = root, []
+for part in rel.split("/"):
+    name = part
+    if not os.path.lexists(os.path.join(cur, part)):
+        try:
+            for d in sorted(os.listdir(cur)):
+                if key(d) == key(part):
+                    name = d
+                    break
+        except OSError:
+            pass
+    out.append(name)
+    cur = os.path.join(cur, name)
+sys.stdout.write("/".join(out))
+PY
+}
+
 orginizeByTags() {
     trace_log "orginizeByTags called with file: $1"
     local file="$1"
@@ -765,6 +794,13 @@ orginizeByTags() {
             local _p_desktop_root _p_portable_root
             _p_desktop_root="${MEDIA_ROOT/LIBRARY.PORTABLE/LIBRARY.DESKTOP}"
             _p_portable_root="${MEDIA_ROOT/LIBRARY.DESKTOP/LIBRARY.PORTABLE}"
+            if [[ ! -e "${_p_desktop_root}/${_p_album_folder}/${_p_track_name}.flac" ]]; then
+                local _p_canon
+                _p_canon="$(canonical_path_ci "$_p_desktop_root" "${_p_album_folder}/${_p_track_name}.flac")"
+                _p_album_folder="${_p_canon%/*}"
+                _p_track_name="${_p_canon##*/}"
+                _p_track_name="${_p_track_name%.flac}"
+            fi
             local _p_desktop_dest="${_p_desktop_root}/${_p_album_folder}/${_p_track_name}.flac"
             local _p_portable_dest="${_p_portable_root}/${_p_album_folder}/${_p_track_name}.m4a"
             _p_portable_dest="$(walkman_sanitize_path "$_p_portable_root" "$_p_portable_dest")"
@@ -932,6 +968,13 @@ orginizeByTags() {
     desktop_root="${MEDIA_ROOT/LIBRARY.PORTABLE/LIBRARY.DESKTOP}"
     portable_root="${MEDIA_ROOT/LIBRARY.DESKTOP/LIBRARY.PORTABLE}"
 
+    if [[ ! -e "${desktop_root}/${album_folder}/${track_name}.flac" ]]; then
+        local _canon
+        _canon="$(canonical_path_ci "$desktop_root" "${album_folder}/${track_name}.flac")"
+        album_folder="${_canon%/*}"
+        track_name="${_canon##*/}"
+        track_name="${track_name%.flac}"
+    fi
     local desktop_dir="${desktop_root}/${album_folder}"
     local portable_dir="${portable_root}/${album_folder}"
     mkdir -p "$desktop_dir" "$portable_dir"
