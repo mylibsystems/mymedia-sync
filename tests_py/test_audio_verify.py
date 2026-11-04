@@ -57,10 +57,6 @@ class FlacAudioOk(unittest.TestCase):
         self.assertFalse(flac_audio_ok(p)[0])
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 @unittest.skipUnless(shutil.which("ffmpeg"), "ffmpeg not installed")
 class TailDecodes(unittest.TestCase):
     def test_very_short_track_is_not_damage(self):
@@ -104,3 +100,49 @@ class TailDecodesVideo(unittest.TestCase):
         with open(p, "wb") as f:
             f.write(data[: len(data) * 6 // 10])
         self.assertFalse(tail_decodes(p, "video")[0])
+
+
+@unittest.skipUnless(shutil.which("ffmpeg"), "ffmpeg not installed")
+class DamagedSourceVideo(unittest.TestCase):
+    def test_output_as_long_as_a_cut_off_source_passes_but_a_short_output_of_a_good_source_fails(self):
+        from mediasync.inventory import Verifier
+
+        class FakeState:
+            def load_verified(self): return {}
+            def load_durations(self): return {}
+            def set_verified(self, rows): pass
+            def set_durations(self, rows): pass
+
+        class FakeLog:
+            def __init__(self): self.rows = []
+            def record(self, *a): self.rows.append(a)
+
+        with tempfile.TemporaryDirectory() as d:
+            good = os.path.join(d, "good.mp4")
+            subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i", "testsrc=size=320x240:rate=24:duration=20",
+                            "-c:v", "libx264", "-g", "24", "-pix_fmt", "yuv420p", "-movflags", "+faststart", good],
+                           check=True)
+            data = open(good, "rb").read()
+            cut = os.path.join(d, "cut.mp4")           # header still says 20 s, data stops part way
+            with open(cut, "wb") as f:
+                f.write(data[: len(data) // 3])
+            out = os.path.join(d, "out.m4v")           # remux of whatever is readable
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", cut, "-c", "copy", "-f", "mp4", out])
+            log = FakeLog()
+            v = Verifier(FakeState(), log, deep_all=True)
+
+            def chk(path, ref):
+                st = os.stat(path)
+                return v.check(path, st.st_size, st.st_mtime_ns, "video", (ref, os.stat(ref).st_size, os.stat(ref).st_mtime_ns))
+
+            if os.path.exists(out) and os.path.getsize(out) > 0:
+                self.assertTrue(chk(out, cut)[0])
+                self.assertTrue(log.rows)
+            short = os.path.join(d, "short.m4v")       # truncated copy of a perfectly good source
+            with open(short, "wb") as f:
+                f.write(data[: len(data) // 3])
+            self.assertFalse(chk(short, good)[0])
+
+
+if __name__ == "__main__":
+    unittest.main()

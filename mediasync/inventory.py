@@ -4,6 +4,7 @@ from __future__ import annotations
 import os
 import re
 import threading
+import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 
@@ -86,10 +87,31 @@ class Verifier:
                 ok, why = tail_decodes(path, kind)
                 if not ok:
                     detail = why
+            if not ok and kind == "video" and ref and self._source_damaged(ref[0], path, detail):
+                ok, detail = True, "source is damaged; output is as complete as the source allows"
         with self._lock:
             self._verified[path] = (size, mtime_ns, ok, detail)
             self._new_verified.append((path, size, mtime_ns, ok, detail))
         return ok, detail
+
+    def _source_damaged(self, source: str, output: str, reason: str) -> bool:
+        """True when the file this output was made from cannot be read to its end either.
+
+        A camera original cut off mid-recording still claims its full length in the header, so an output that
+        stops where the readable data stops would otherwise fail verification (and be rebuilt) on every run.
+        """
+        if not (reason.startswith("shorter than its source") or reason.startswith("decode error near the end")
+                or reason.startswith("end of the file cannot be decoded")):
+            return False
+        ok, why = tail_decodes(source, "video")
+        if ok:
+            return False
+        try:
+            self.log.record("source-damaged.csv", ["time", "source", "output", "source_problem", "output_check"],
+                            [time.strftime("%F %T"), source, output, why, reason])
+        except Exception:
+            pass
+        return True
 
     def flush(self) -> None:
         with self._lock:
