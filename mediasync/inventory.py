@@ -47,6 +47,9 @@ class Verifier:
         self._new_verified: list = []
         self._new_durations: list = []
         self._lock = threading.Lock()
+        # this run only: failures seen so far, and passes that were decided without a source reference
+        self._failed: dict = {}
+        self._noref: set = set()
 
     # ---- durations ------------------------------------------------------
     def duration(self, path: str, size: int, mtime_ns: int) -> float | None:
@@ -76,6 +79,12 @@ class Verifier:
         if size <= 0:
             return False, "empty file"
         hit = self.cached(path, size, mtime_ns)
+        if hit is not None and ref is not None and path in self._noref:
+            hit = None   # a pass that never looked at the source does not answer a check against the source
+        if hit is None and ref is None:
+            f = self._failed.get(path)
+            if f and f[0] == size and f[1] == mtime_ns:
+                return False, f[2]   # already failed against its source in this run; do not undo that
         if hit is not None:
             return hit
         if kind == "photo":
@@ -92,6 +101,11 @@ class Verifier:
             if not ok and kind == "video" and ref and self._source_damaged(ref[0], path, detail):
                 ok, detail = True, "source is damaged; output is as complete as the source allows"
         with self._lock:
+            if ok:
+                self._failed.pop(path, None)
+                (self._noref.add if ref is None else self._noref.discard)(path)
+            else:
+                self._failed[path] = (size, mtime_ns, detail)
             self._verified[path] = (size, mtime_ns, ok, detail)
             self._new_verified.append((path, size, mtime_ns, ok, detail))
         return ok, detail

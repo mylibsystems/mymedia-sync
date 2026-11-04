@@ -168,5 +168,29 @@ class VerifierCache(unittest.TestCase):
         self.assertEqual(v.cached("/b", 10, 5), (True, "ok"))
 
 
+@unittest.skipUnless(shutil.which("ffmpeg"), "ffmpeg not installed")
+class VerifierRefOrder(unittest.TestCase):
+    def test_a_check_without_the_source_does_not_cancel_a_failure_against_the_source(self):
+        from mediasync.inventory import Verifier
+
+        class St:
+            def load_verified(self): return {}
+            def load_durations(self): return {}
+
+        with tempfile.TemporaryDirectory() as d:
+            src, out = os.path.join(d, "src.mp4"), os.path.join(d, "out.m4v")
+            for path, secs in ((src, 3), (out, 0.5)):
+                subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", f"testsrc=size=160x120:rate=15:duration={secs}",
+                                "-pix_fmt", "yuv420p", path], check=True)
+            so, ss = os.stat(out), os.stat(src)
+            ref = (src, ss.st_size, ss.st_mtime_ns)
+            v = Verifier(St(), None)
+            self.assertFalse(v.check(out, so.st_size, so.st_mtime_ns, "video", ref)[0])
+            self.assertFalse(v.check(out, so.st_size, so.st_mtime_ns, "video", None)[0])
+            v2 = Verifier(St(), None)                      # opposite order
+            self.assertTrue(v2.check(out, so.st_size, so.st_mtime_ns, "video", None)[0])
+            self.assertFalse(v2.check(out, so.st_size, so.st_mtime_ns, "video", ref)[0])
+
+
 if __name__ == "__main__":
     unittest.main()
