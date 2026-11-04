@@ -59,3 +59,20 @@ class FlacAudioOk(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+@unittest.skipUnless(shutil.which("ffmpeg"), "ffmpeg not installed")
+class TailDecodes(unittest.TestCase):
+    def test_very_short_track_is_not_damage(self):
+        from mediasync.probe import tail_decodes
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "pregap.m4a")
+            subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i", "sine=frequency=440:duration=0.04",
+                            "-c:a", "aac", p], check=True)
+            self.assertTrue(tail_decodes(p, "audio")[0])
+
+    def test_timestamp_warnings_are_not_decode_errors(self):
+        from mediasync.probe import _real_error
+        warn = "[null @ 0x59598c6da140] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 5 >= 5"
+        self.assertEqual(_real_error(warn), "")
+        self.assertTrue(_real_error("[h264 @ 0x5ece3e20ae80] error while decoding MB 114 49, bytestream -5"))

@@ -119,22 +119,41 @@ def capture_date(path, pool: ExifPool) -> tuple[str, str, str, str] | None:
 _TIME_RE = re.compile(r"time=(\d+):(\d+):(\d+(?:\.\d+)?)")
 
 
+# ffmpeg lines that mention "invalid"/"error" but are muxer/timestamp chatter, not a decode failure.
+_BENIGN = ("non monotonically increasing dts", "Application provided invalid", "Queue input is backward in time",
+           "Non-monotonous DTS", "timestamps are unset")
+
+
+def _real_error(text: str) -> str:
+    for ln in text.split("\n"):
+        ln = ln.strip()
+        if ("rror" in ln or "nvalid" in ln) and not any(b in ln for b in _BENIGN):
+            return ln
+    return ""
+
+
 def tail_decodes(path: str, kind: str = "video", timeout: int = 180) -> tuple[bool, str]:
-    """Decode the last second: a truncated file claims its full duration in the header but fails here."""
+    """Decode the last second: a truncated file claims its full duration in the header but fails here.
+
+    Files shorter than about a second (e.g. a pregap track) are decoded completely instead.
+    """
+    dur = ffprobe_duration(path)
+    short = dur is not None and dur < 1.5
     try:
         # Only the real streams: an embedded cover picture would make the progress time read N/A.
         maps = ["-map", "0:a:0"] if kind == "audio" else ["-map", "0:v:0", "-map", "0:a:0?"]
-        r = subprocess.run(["ffmpeg", "-hide_banner", "-nostdin", "-v", "error", "-stats", "-sseof", "-1",
+        seek = [] if short else ["-sseof", "-1"]
+        r = subprocess.run(["ffmpeg", "-hide_banner", "-nostdin", "-v", "error", "-stats", *seek,
                             "-i", path, *maps, "-f", "null", "-"], capture_output=True, text=True, timeout=timeout)
     except (OSError, subprocess.SubprocessError) as e:
         return False, f"cannot run ffmpeg: {e}"
     text = (r.stderr + r.stdout).replace("\r", "\n")
     times = _TIME_RE.findall(text)
-    first_err = next((ln.strip() for ln in text.split("\n") if "rror" in ln or "nvalid" in ln), "")
+    first_err = _real_error(text)
     if not times:
         return False, "end of the file cannot be decoded" + (f" ({first_err[:60]})" if first_err else "")
     t = int(times[-1][0]) * 3600 + int(times[-1][1]) * 60 + float(times[-1][2])
-    if t < 0.2:
+    if t < (dur * 0.5 if short else 0.2):
         return False, "end of the file cannot be decoded (nothing readable in the last second)"
     if first_err:
         return False, f"decode error near the end ({first_err[:60]})"
