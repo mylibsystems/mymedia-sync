@@ -31,6 +31,12 @@ def script(name: str) -> str:
     return str(REPO / name)
 
 
+
+def keep_long_encode(lib: str, detail: str) -> bool:
+    """A movie/TV output that fails only the end-of-file decode check is kept, not deleted and re-encoded."""
+    return lib in ("MOVIES", "TV") and detail.startswith(("end of the file cannot be decoded",
+                                                         "decode error near the end"))
+
 class Ctx:
     """Everything the phases share."""
 
@@ -327,6 +333,13 @@ class Pipeline:
                 if r is not None and r[0]:
                     ok_count += 1
                     continue
+                if r is not None and keep_long_encode(lib, r[1]):
+                    # Hours of encoding must not be thrown away over an end-of-file decode complaint
+                    # (length already matches the desktop file): keep it and say so.
+                    self.log.warn("portable", f"kept, not rebuilt ({r[1]}); check this file if it misbehaves",
+                                  str(self.s.portable(lib) / prel))
+                    ok_count += 1
+                    continue
                 need_desktop_check.append((rel, str(self.s.desktop(lib) / rel), size, mt, kind, None))
                 if r is not None:
                     todo_reason = f"damaged portable: {r[1]}"
@@ -587,6 +600,9 @@ class Pipeline:
                 ref = (t.src, ds.st_size, ds.st_mtime_ns)
             ok, detail = v.check(path, stt.st_size, stt.st_mtime_ns, t.kind, ref)
             v.flush()
+            if not ok and keep_long_encode(t.meta.get("lib", ""), detail):
+                self.log.warn("portable", f"kept, not re-encoded ({detail}); check this file if it misbehaves", path)
+                return True
             if not ok:
                 self.log.error("portable", f"output failed verification ({detail}); kept for inspection, "
                                            f"it is rebuilt on the next run", path)

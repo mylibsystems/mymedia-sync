@@ -144,5 +144,16 @@ class DamagedSourceVideo(unittest.TestCase):
             self.assertFalse(chk(short, good)[0])
 
 
+class KeepLongEncode(unittest.TestCase):
+    def test_only_end_of_file_complaints_on_movies_and_tv_are_kept(self):
+        from mediasync.pipeline import keep_long_encode as keep
+        self.assertTrue(keep("MOVIES", "end of the file cannot be decoded (nothing readable in the last second)"))
+        self.assertTrue(keep("TV", "decode error near the end ([h264] error)"))
+        self.assertFalse(keep("MOVIES", "shorter than its source (1.0s vs 2.0s)"))
+        self.assertFalse(keep("MOVIES", "empty file"))
+        self.assertFalse(keep("PHOTOS", "end of the file cannot be decoded"))
+        self.assertFalse(keep("MUSIC", "end of the file cannot be decoded"))
+
+
 if __name__ == "__main__":
     unittest.main()
