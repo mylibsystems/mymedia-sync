@@ -44,6 +44,7 @@ class Ctx:
 
     def __init__(self, settings, status: Status, log: RunLog, state: State, guard: Guard, stop: threading.Event):
         self.settings, self.status, self.log, self.state, self.guard, self.stop = settings, status, log, state, guard, stop
+        log.status = status                    # the UI counters follow what is logged
         self.engine = Engine(status, log, stop)
         self.verifier = Verifier(state, log, deep_all=settings.deep_verify, threads=16)
         self.camera_lock = threading.Lock()

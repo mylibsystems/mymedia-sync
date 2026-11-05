@@ -50,7 +50,7 @@ ingest: ## Only copy CAMERA + UNSORTED from the router to the local disk (copy o
 	@python3 -m mediasync --ingest-only
 
 test: ## Run the Python test-suite (safety, UI layout, end-to-end, audio verification)
-	@python3 -m unittest tests_py.test_safety tests_py.test_ui_layout tests_py.test_e2e tests_py.test_audio_verify tests_py.test_repair
+	@python3 -m unittest tests_py.test_safety tests_py.test_ui_layout tests_py.test_e2e tests_py.test_audio_verify tests_py.test_repair tests_py.test_counters
 
 legacy-sync: ## The old bash-only pipeline (fallback)
 	@bash "$(ROOT)/sync.sh" $(MP)

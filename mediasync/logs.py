@@ -25,6 +25,7 @@ class RunLog:
         self._lock = threading.Lock()
         self.counts = {"INFO": 0, "WARN": 0, "ERROR": 0}
         self.recent_issues: deque = deque(maxlen=200)
+        self.status = None          # set by the pipeline: the UI's warning/error/collision counters live there
         self.collisions = 0
         self._csv_files: dict = {}
 
@@ -44,6 +45,18 @@ class RunLog:
                 self.recent_issues.append((now, level, phase, message, file))
                 self._append_csv("issues.csv", ["time", "level", "phase", "file", "message"],
                                  [time.strftime("%F %T", time.localtime(now)), level, phase, file, message])
+        self._bump(level)
+
+    def _bump(self, level: str) -> None:
+        """Keep the UI counters in step with what is logged (outside the log lock: no lock-order trouble)."""
+        st = self.status
+        if st is None or level not in ("WARN", "ERROR"):
+            return
+        with st.lock:
+            if level == "WARN":
+                st.warnings += 1
+            else:
+                st.errors += 1
 
     def info(self, phase, message, file="", **x):
         self.event("INFO", phase, message, file, **x)
@@ -73,6 +86,9 @@ class RunLog:
         """A name was already taken by a different file: nothing is overwritten."""
         with self._lock:
             self.collisions += 1
+        if self.status is not None:
+            with self.status.lock:
+                self.status.collisions += 1
         self.record("collisions.csv",
                     ["time", "phase", "wanted", "existing", "stored_as", "existing_size", "existing_sha256",
                      "new_size", "new_sha256"],
