@@ -113,7 +113,11 @@ def _sha(path: str) -> str:
 class Repairer:
     def __init__(self, settings, log, guard, verifier, stop=None):
         self.s, self.log, self.guard, self.verifier, self.stop = settings, log, guard, verifier, stop
-        self.sources = [Path(p) for p in getattr(settings, "repair_music_sources", ()) if Path(p).is_dir()]
+        srcs = [Path(p) for p in getattr(settings, "repair_music_sources", ())]
+        inbox = getattr(settings, "unsorted", None)         # good copies dropped into UNSORTED/MUSIC count too
+        if inbox is not None and (Path(inbox) / "MUSIC").is_dir():
+            srcs.append(Path(inbox) / "MUSIC")
+        self.sources = [p for p in srcs if p.is_dir()]
         self._by_md5: dict[str, list[str]] = {}
         self._good: dict[str, bool] = {}
         self._dirs: dict[str, list[tuple[str, str]]] = {}

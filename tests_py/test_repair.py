@@ -109,6 +109,19 @@ class RepairMusic(unittest.TestCase):
         self.assertEqual(counts, {})
         self.assertEqual(open(os.path.join(self.desk, "01.01 - Song.flac"), "rb").read(), self.damaged)
 
+    def test_a_good_copy_in_unsorted_music_is_used_as_a_source(self):
+        inbox = os.path.join(self.t, "local/UNSORTED/MUSIC/Artist/2020 - Album")
+        os.makedirs(inbox)
+        shutil.copy(os.path.join(self.src, "1.01 - Song.flac"), inbox)
+        self.settings.repair_music_sources = ()
+        self.settings.unsorted = os.path.join(self.t, "local/UNSORTED")
+        counts = Repairer(self.settings, self.log, FakeGuard(), Verifier(FakeState(), self.log, deep_all=True),
+                          threading.Event()).run()
+        self.assertEqual(counts.get("repaired"), 1, counts)
+        fixed = os.path.join(self.desk, "01.01 - Song.flac")
+        self.assertEqual(subprocess.run(["flac", "-t", "-s", fixed]).returncode, 0)
+        self.assertTrue(os.path.exists(os.path.join(inbox, "1.01 - Song.flac")))      # the copy is left for the importer
+
     def test_rebuild_uses_source_tags_when_library_header_is_unreadable(self):
         out = rebuild(b"garbage" * 100, self.good_bytes)
         self.assertIsNotNone(out)

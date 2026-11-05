@@ -111,7 +111,7 @@ class Pipeline:
             self._make_folders()
             self._import_engine_index()
             names = ("scan", "ingest") if self.ingest_only else \
-                ("scan", "ingest", "backup", "desktop", "portable", "finalize")
+                ("scan", "ingest", "backup", "repair", "desktop", "portable", "finalize")
             for name in names:
                 if self.stop.is_set():
                     break
@@ -698,10 +698,13 @@ class Pipeline:
             if any(k.startswith("repaired") for k in counts):
                 self.music_touched = True
 
+    def phase_repair(self):
+        """Before anything is imported: an UNSORTED copy of a damaged library track must be used, not discarded."""
+        self.repair_music()
+
     def phase_portable(self):
         st = self.st
         inv = self.inv
-        self.repair_music()
         for lib in ("PHOTOS", "MUSIC", "MOVIES", "TV"):
             inv.desktop[lib] = {r: (sz, mt) for r, sz, mt in fsutil.scan_tree(self.s.desktop(lib))}
             inv.portable[lib] = {r: (sz, mt) for r, sz, mt in fsutil.scan_tree(self.s.portable(lib))}
