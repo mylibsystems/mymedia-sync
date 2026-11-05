@@ -266,3 +266,13 @@ LIBRARY.PORTABLE/PHOTOS/2024/06/15/P1040321.jpg
 ## License
 
 Released under the [MIT License](LICENSE). © 2026 MyLib Systems.
+
+## Repairing damaged music
+
+Before the portable step, the app decodes every desktop FLAC (passes are remembered, so only new or changed files
+cost time). A damaged file is replaced from a good copy found in the folders listed under `[repair] music_sources`
+in `settings.toml` (for example the SD card the music came from). The copy must pass the strict FLAC test; the library
+file keeps its own tags and cover art, and only the audio is taken from the source. The damaged original is saved to
+`<local_root>/repair-backup/` first, its portable copy is removed so the portable step rebuilds it from the healthy
+file, and every action is logged in `logs/repair-music.csv`. Files with no (or a damaged) source copy are left as they
+are and reported.

@@ -16,6 +16,7 @@ from . import fsutil, native
 from .config import REPO, SOURCE_TYPES
 from .engine import Engine
 from .guard import Guard, ProtectedPathError
+from .repair import Repairer
 from .inventory import Verifier, is_output_media, portable_rel, scan_inventory, Inventory
 from .logs import RunLog
 from .model import Status, Task
@@ -630,9 +631,21 @@ class Pipeline:
     # ======================================================================
     # PHASE — portable
     # ======================================================================
+    def repair_music(self) -> None:
+        """Fix damaged desktop FLACs from the configured source folders before portable copies are derived."""
+        if not self.s.repair_enabled or self.stop.is_set():
+            return
+        self.st.message = "Checking desktop music and repairing damaged files from the repair sources…"
+        counts = Repairer(self.s, self.log, self.ctx.guard, self.ctx.verifier, self.stop).run()
+        if counts:
+            self.log.info("repair", "result: " + ", ".join(f"{v} {k}" for k, v in sorted(counts.items())))
+            if any(k.startswith("repaired") for k in counts):
+                self.music_touched = True
+
     def phase_portable(self):
         st = self.st
         inv = self.inv
+        self.repair_music()
         for lib in ("PHOTOS", "MUSIC", "MOVIES", "TV"):
             inv.desktop[lib] = {r: (sz, mt) for r, sz, mt in fsutil.scan_tree(self.s.desktop(lib))}
             inv.portable[lib] = {r: (sz, mt) for r, sz, mt in fsutil.scan_tree(self.s.portable(lib))}

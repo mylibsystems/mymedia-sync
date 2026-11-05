@@ -25,3 +25,10 @@ deep_verify   = false # true = always re-decode every output
 
 [safety]
 allow_router_inputs = false
+
+
+[repair]
+# Damaged desktop FLACs are replaced from a good copy found in these folders (read only). The library file keeps
+# its own tags and cover art; the damaged original is saved to <local_root>/repair-backup first.
+enabled = true
+music_sources = ["/run/media/roman/MEDIA-SD/MUSIC"]

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import os
+import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -20,6 +21,7 @@ DEFAULTS = {
     "ingest": {"enabled": True, "from_root": "", "verify": True, "streams": 3},
     "run": {"workers": 0, "video_workers": 2, "retry": 1, "deep_verify": False},
     "safety": {"allow_router_inputs": False},
+    "repair": {"enabled": True, "music_sources": []},
 }
 
 
@@ -37,7 +39,9 @@ def _parse_flat_toml(text: str) -> dict:
         if "=" not in line:
             continue
         key, val = (x.strip() for x in line.split("=", 1))
-        if val.startswith('"'):
+        if val.startswith("["):
+            val = re.findall(r'"([^"]*)"', val)
+        elif val.startswith('"'):
             val = val[1: val.rfind('"')]
         elif val.lower() in ("true", "false"):
             val = val.lower() == "true"
@@ -70,6 +74,8 @@ class Settings:
     retry: int
     deep_verify: bool
     allow_router_inputs: bool
+    repair_enabled: bool = True
+    repair_music_sources: tuple = ()
     repo: Path = REPO
     settings_file: Path | None = None
 
@@ -162,6 +168,10 @@ def load(path: str | os.PathLike | None = None) -> Settings:
                 cfg.setdefault(sec, {}).update(vals)
         used = sf
     p, ing, run, saf = cfg["paths"], cfg["ingest"], cfg["run"], cfg["safety"]
+    rep = cfg.get("repair", {})
+    srcs = rep.get("music_sources") or []
+    if isinstance(srcs, str):
+        srcs = [srcs]
     local = str(p.get("local_root") or "").strip()
     router = Path(str(p.get("router_root") or "/mnt/router-smb"))
     from_root = str(ing.get("from_root") or "").strip()
@@ -177,6 +187,8 @@ def load(path: str | os.PathLike | None = None) -> Settings:
         retry=max(0, int(run.get("retry", 1))),
         deep_verify=bool(run.get("deep_verify", False)),
         allow_router_inputs=bool(saf.get("allow_router_inputs", False)),
+        repair_enabled=bool(rep.get("enabled", True)),
+        repair_music_sources=tuple(str(x) for x in srcs if str(x).strip()),
         settings_file=used,
     )
 
