@@ -241,7 +241,7 @@ class Repairer:
         return f"repaired ({how}; {note})", src
 
     # ---- whole library -------------------------------------------------------------------------
-    def run(self, progress=None) -> dict:
+    def run(self, progress=None, on_total=None, on_status=None) -> dict:
         counts: dict[str, int] = {}
         if not self.sources:
             self.log.info("repair", "no repair source folder is available; damaged music is only reported")
@@ -257,6 +257,8 @@ class Repairer:
                     rels.append(os.path.relpath(p, desk))
                     items.append((rels[-1], p, st.st_size, st.st_mtime_ns, "audio", None))
         self.log.info("repair", f"verifying {len(items):,} desktop FLAC files")
+        if on_total:
+            on_total(len(items))
         res = self.verifier.check_many(items, progress=progress, stop=self.stop)
         self.verifier.flush()
         bad = [r for r in rels if r in res and not res[r][0]]
@@ -264,9 +266,11 @@ class Repairer:
         if not bad:
             return counts
         self._index()
-        for rel in bad:
+        for n, rel in enumerate(bad, 1):
             if self.stop is not None and self.stop.is_set():
                 break
+            if on_status:
+                on_status(f"Repairing damaged music {n}/{len(bad)}: {os.path.basename(rel)}")
             try:
                 status, src = self.repair_file(rel)
             except Exception as e:                  # one bad file must not stop the rest

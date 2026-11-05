@@ -1,6 +1,7 @@
 """The pipeline: plan -> ingest -> backup -> desktop -> portable -> finalize (+ confirmation)."""
 from __future__ import annotations
 
+import csv
 import itertools
 import os
 import shutil
@@ -80,6 +81,9 @@ class CamItem:
     note: str = ""
 
 
+UNRECOVERABLE_FILE = "unrecoverable-originals.csv"
+
+
 class Pipeline:
     def __init__(self, ctx: Ctx):
         self.ctx = ctx
@@ -89,6 +93,7 @@ class Pipeline:
         self.stop = ctx.stop
         self.runner = TaskRunner(self.st, self.stop, workers=self.s.n_workers, video_workers=self.s.video_workers)
         self.inv: Inventory | None = None
+        self.unrecoverable = self._load_unrecoverable()
         self.cam_items: list[CamItem] = []
         self.ingest_tasks: list[Task] = []
         self.combined_music_ctx: dict[str, str] = {}
@@ -183,7 +188,7 @@ class Pipeline:
             return
         # camera: dates + desktop verification
         self.cam_items = self.plan_camera(self.inv, scan_phase=True)
-        todo_desktop = [c for c in self.cam_items if c.d_state != "ok"]
+        todo_desktop = [c for c in self.cam_items if c.d_state not in ("ok", "unrecoverable")]
         # portable (all libraries)
         port = self.plan_portable(self.inv, scan_phase=True)
         backup_tasks = native.plan_backup(ctx, self.inv)
@@ -301,6 +306,10 @@ class Pipeline:
                 it = by_rel[key]
                 it.d_state = "ok" if ok else "bad"
                 it.d_detail = detail
+        for it in items:
+            u = self.unrecoverable.get(it.rel)
+            if it.d_state != "ok" and u and u == (it.size, it.mtime):
+                it.d_state, it.d_detail = "unrecoverable", "original is empty or damaged"
         return items
 
     # -------------------------------------------------------------- portable
@@ -465,7 +474,7 @@ class Pipeline:
         st = self.st
         # fresh plan: archive may have grown, desktop listing may have changed
         self.inv.desktop["PHOTOS"] = {r: (sz, mt) for r, sz, mt in fsutil.scan_tree(self.s.desktop("PHOTOS"))}
-        items = [c for c in self.plan_camera(self.inv) if c.d_state != "ok"]
+        items = [c for c in self.plan_camera(self.inv) if c.d_state not in ("ok", "unrecoverable")]
         tasks: list[Task] = []
         for c in items:
             src = str(self.s.camera / c.rel)
@@ -539,11 +548,42 @@ class Pipeline:
                 self.st.active.pop(t.id, None)
 
     # ---------------------------------------------------------- engine tasks
+    def _load_unrecoverable(self) -> dict:
+        """Camera originals that can never be imported (empty or not an image): rel -> (size, mtime_ns)."""
+        out: dict = {}
+        f = self.s.logs / UNRECOVERABLE_FILE
+        try:
+            with open(f, newline="") as fh:
+                for r in csv.DictReader(fh):
+                    out[r["file"]] = (int(r["size"]), int(r["mtime_ns"]))
+        except (OSError, ValueError, KeyError):
+            pass
+        return out
+
+    def _mark_unrecoverable(self, t: Task) -> bool:
+        """A camera original that cannot be read at all is recorded once and no longer reported as an error."""
+        try:
+            st_ = os.stat(t.src)
+        except OSError:
+            return False
+        why = "original is empty (0 bytes)" if st_.st_size == 0 else "original is damaged (not a readable image)"
+        rel = t.meta.get("rel", t.src)
+        self.log.record(UNRECOVERABLE_FILE, ["time", "file", "size", "mtime_ns", "reason"],
+                        [time.strftime("%F %T"), rel, st_.st_size, st_.st_mtime_ns, why])
+        self.unrecoverable[rel] = (st_.st_size, st_.st_mtime_ns)
+        self.log.warn("desktop", f"cannot be imported: {why}; listed in logs/{UNRECOVERABLE_FILE}", t.src)
+        t.note = "unrecoverable original"
+        return True
+
     def _engine_task(self, t: Task) -> bool:
         ctx, log = self.ctx, self.log
         for path in t.meta.get("remove_first", []):
             self._remove_damaged(path, t.meta.get("reason", "damaged"))
         res = ctx.engine.run(t)
+        if res.rc != 0 and t.meta.get("camera") and t.kind == "photo":
+            blob = " ".join(list(res.tail) + [m for _, m in res.problems])
+            if "Broken/unreadable SOURCE file" in blob and self._mark_unrecoverable(t):
+                return True
         for lvl, msg in res.problems:
             (log.error if lvl == "ERROR" else log.warn)(t.phase, msg[:300], t.src)
         if res.rc != 0:
@@ -635,8 +675,23 @@ class Pipeline:
         """Fix damaged desktop FLACs from the configured source folders before portable copies are derived."""
         if not self.s.repair_enabled or self.stop.is_set():
             return
-        self.st.message = "Checking desktop music and repairing damaged files from the repair sources…"
-        counts = Repairer(self.s, self.log, self.ctx.guard, self.ctx.verifier, self.stop).run()
+        st = self.st
+        st.message = "Checking desktop music and repairing damaged files from the repair sources…"
+        last = [0]
+
+        def total(n: int) -> None:
+            st.begin_phase("scan", n, f"verifying {n:,} desktop music files (repair step; passes are remembered)")
+
+        def prog(done: int) -> None:
+            st.advance("scan", done=done - last[0])
+            last[0] = done
+            st.message = f"Verifying desktop music: {done:,} files checked"
+
+        def status(msg: str) -> None:
+            st.message = msg
+
+        counts = Repairer(self.s, self.log, self.ctx.guard, self.ctx.verifier, self.stop).run(prog, total, status)
+        st.end_phase("scan")
         if counts:
             self.log.info("repair", "result: " + ", ".join(f"{v} {k}" for k, v in sorted(counts.items())))
             if any(k.startswith("repaired") for k in counts):
@@ -762,12 +817,14 @@ class Pipeline:
         inv = scan_inventory(self.s, st, self.log, self.stop)
         self.inv = inv
         items = self.plan_camera(inv)
-        bad = [c for c in items if c.d_state != "ok"]
+        bad = [c for c in items if c.d_state not in ("ok", "unrecoverable")]
+        unrec = [c for c in items if c.d_state == "unrecoverable"]
         port = self.plan_portable(inv)
         undated = 0
         lines = [
             f"camera archive: {len(items):,} media files",
-            f"desktop confirmed: {len(items) - len(bad):,}   not complete: {len(bad):,}",
+            f"desktop confirmed: {len(items) - len(bad) - len(unrec):,}   not complete: {len(bad):,}"
+            + (f"   unrecoverable originals: {len(unrec):,}" if unrec else ""),
             f"portable confirmed: {port['ok']:,}   not complete: {len(port['todo']) + len(port['blocked']):,}",
         ]
         left = sum(len(v) for k, v in inv.unsorted.items() if k != "CAMERA")
@@ -782,5 +839,7 @@ class Pipeline:
         for ln in lines:
             self.log.info("confirm", ln)
         if not bad and not port["todo"] and not port["blocked"]:
-            st.summary.append("EVERYTHING CONFIRMED COMPLETE")
+            st.summary.append("EVERYTHING CONFIRMED COMPLETE" if not unrec else
+                              f"EVERYTHING CONFIRMED COMPLETE except {len(unrec)} unrecoverable original(s) "
+                              f"(logs/{UNRECOVERABLE_FILE})")
             self.log.info("confirm", "everything confirmed complete")

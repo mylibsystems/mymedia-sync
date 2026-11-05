@@ -163,8 +163,10 @@ class Verifier:
             for key, r in ex.map(one, items):
                 results[key] = r
                 done += 1
-                if progress and (done % 200 == 0 or done == len(items)):
+                if progress and (done % 25 == 0 or done == len(items)):
                     progress(done)
+                if done % 200 == 0:
+                    self.flush()    # keep what is verified so far if the run is stopped
         self.flush()
         return results
 

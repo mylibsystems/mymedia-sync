@@ -117,5 +117,20 @@ class EndToEnd(unittest.TestCase):
         self.assertEqual(files(self.t, skip=("local/logs", "local/.mediasync")), snap)
 
 
+    def test_5_an_empty_camera_original_is_recorded_once_and_is_not_an_error(self):
+        empty = self.local / "CAMERA/2026/10/22/EMPTY.JPG"
+        empty.parent.mkdir(parents=True, exist_ok=True)
+        empty.write_bytes(b"")
+        os.utime(empty, (1792000000, 1792000000))
+        r = self.run_app()
+        log = (self.local / "logs/unrecoverable-originals.csv")
+        self.assertTrue(log.is_file(), r.stdout[-1500:])
+        self.assertIn("EMPTY.JPG", log.read_text())
+        self.assertIn("EVERYTHING CONFIRMED COMPLETE except 1 unrecoverable", r.stdout, r.stdout[-1500:])
+        r2 = self.run_app()                                  # second run: nothing to do, nothing reported as failed
+        self.assertNotIn("Broken/unreadable SOURCE file", r2.stdout)
+        self.assertIn("unrecoverable originals: 1", r2.stdout, r2.stdout[-1500:])
+        self.assertEqual(len(log.read_text().strip().splitlines()), 2)   # header + one entry, not repeated
+
 if __name__ == "__main__":
     unittest.main()
